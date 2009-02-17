@@ -63,44 +63,44 @@
  *  - Test function for each module
  *  
  *  @par Feedback:
- *  Please send an e-mail to the mailing list (piconomic-developers@lists.berlios.de)
- *  and tell me what you think of the library. All criticism, patches, bug reports,
+ *  Please send feedback to the mailing list (piconomic-developers@lists.berlios.de)
+ *  to improve the quality of the library. All criticism, patches, bug reports,
  *  praise, etc. are welcome!
  *  
- * @par Collaboration:
- * This library started as an attempt to share and teach, but creating and 
- * maintaining embedded firmware is not part of my job description as an 
- * electronic hardware engineer and my free time is limited. My vision is 
- * to plant the seed and for one or more embedded firmware experts to take over 
- * the project and steer it for the good of the community.
+ *  @par Collaboration:
+ *  This library started as an attempt to share and teach, but creating and 
+ *  maintaining embedded firmware is not part of my job description as an 
+ *  electronic hardware engineer and my free time is limited. My vision is 
+ *  to plant the seed and for one or more embedded firmware experts to take over 
+ *  the project and steer it for the good of the community.
  *
- * @par Home page:
- * - http://piconomic.berlios.de 
+ *  @par Home page:
+ *  - http://piconomic.berlios.de 
  *  
- * @par berliOS hosting page:
- * - http://developer.berlios.de/projects/piconomic/ 
+ *  @par berliOS hosting page:
+ *  - http://developer.berlios.de/projects/piconomic/ 
  *  
- * @par Download page for file releases of the library:
- * - http://developer.berlios.de/project/showfiles.php?group_id=10550  
+ *  @par Download page for file releases of the library:
+ *  - http://developer.berlios.de/project/showfiles.php?group_id=10550  
  *
- * @par Mailing list:
- * - piconomic-developers@lists.berlios.de
- * - https://lists.berlios.de/mailman/listinfo/piconomic-developers
+ *  @par Mailing list:
+ *  - piconomic-developers@lists.berlios.de
+ *  - https://lists.berlios.de/mailman/listinfo/piconomic-developers
  *
- * @par Subversion repository:
- * - svn://svn.berlios.de/piconomic/
- * - http://svn.berlios.de/wsvn/piconomic
+ *  @par Subversion repository:
+ *  - svn://svn.berlios.de/piconomic/
+ *  - http://svn.berlios.de/wsvn/piconomic
  *  
- * @par Wish list:
- * - Unified initialisation code and linker scripts for ARM7/9 and Cortex microcontrollers
- * - Support for more microcontrollers: MSP430, Cortex-M3, ...
+ *  @par Wish list:
+ *  - Unified initialisation code and linker scripts for ARM7/9 and Cortex microcontrollers
+ *  - Support for more microcontrollers: MSP430, Cortex-M3, ...
  *
- * @par Author(s):
- * @htmlonly 
- * <ul>
- * <li> <img src="SouthAfrica.png" alt="South Africa - "> Pieter Conradie
- * </ul>
- * @endhtmlonly
+ *  @par Author(s):
+ *  @htmlonly 
+ *  <ul>
+ *  <li> <img src="SouthAfrica.png" alt="South Africa - "> Pieter Conradie
+ *  </ul>
+ *  @endhtmlonly
  */
   
 /** 
