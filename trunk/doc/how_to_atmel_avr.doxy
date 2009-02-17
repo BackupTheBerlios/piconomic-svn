@@ -55,7 +55,6 @@
  * - @ref AVR_STUDIO_NEW_PROJECT
  * - @ref AVR_STUDIO_SIMULATE
  * - @ref AVR_MAKEFILE
- * - @ref AVR_XMODEM
  * 
  * @par Tutorials:
  * @ref AVR_TUTORIALS
@@ -71,7 +70,10 @@
  * - @ref AVR_TUT10_RTC
  * - @ref AVR_TUT11_ASSEMBLER
  * - @ref AVR_TUT12_POWER_MANAGEMENT
- * - @ref AVR_TUT13_XMEM
+ * - @ref AVR_TUT13_XMEM 
+ *  
+ * @par Examples: 
+ * @ref AVR_XMODEM_BOOTLOADER 
  *  
  * <hr>
  * @section AVR_INSTRUCTION_SET Short introduction to AVR instruction set
@@ -250,50 +252,6 @@
  * existing Makefile.
  * 
  * @image html avr_mfile.jpg "MFile"
- * 
- * <hr>
- * @section AVR_XMODEM How to use the XMODEM-CRC bootloader
- * 
- * 1. Compile and link the firmware application and generate a @b binary programming
- * file (not Intel HEX!)
- * 
- * <em>Use "tutorials\01 PortIO\PortIO.bin" distributed with the set of tutorials
- * as a first test.</em>
- * 
- * 2. Create a new HyperTerminal serial port session, configured to 115200 BAUD,
- * 8 Data Bits, No Parity, 1 Stop Bit, No Flow Control.
- * 
- * <em>At this stage you should verify that the communication between HyperTerminal
- * and the board is OK, by powering and/or resetting the board and verifying that
- * HyperTerminal displays at least one received "C" character.</em>
- * 
- * 3. Select "Transfer > Send File ... ". Select "Protocol > Xmodem". Select your
- * application file. The screen should look similar to image:
- * 
- * @image html avr_hyperterminal.jpg "HyperTerminal"
- * 
- * 3. Select "Send".
- * 
- * <em>HyperTerminal will now wait for a 'C' character from the board to start the
- * transfer.</em>
- * 
- * 5. Power and/or reset the board to start the transfer.
- * 
- * <em>If the transfer is successful, the HyperTerminal dialog window will disappear.
- * The bootloader automatically jumps to the start of the application at address
- * 0x0000.</em>
- * 
- * @par Final Note:
- * 
- * The AVR fuse bits have been set so that execution starts from the boot vector
- * address. This means that the bootloader will always be executed first. 
- * The bootloader sends a 'C' character to start a transfer and waits for 1 
- * second for a valid XMODEM-CRC data packet. If the transfer is not successful,
- * it will jump to address 0x0000 and execute the application.
- * 
- * <em>A DOS batch file "AVRISP_ProgBoot.bat" has been included to automate the 
- * programming of the board with the bootloader using an AVRISP. It also sets 
- * the fuse bits to the correct values.</em>
  * 
  */
 

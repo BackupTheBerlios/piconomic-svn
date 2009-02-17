@@ -34,28 +34,26 @@
 
 /** 
  *  @mainpage
- * 
+ *  
  *  This is a collection of firmware and documentation for 8-bit and 16/32-bit 
  *  microcontrollers. <br>
- *  
- *  DEVELOPMENT STATUS - ALPHA
  *
- *  The aim is to:
+ *  @par The aim is to:
  *  - Share source code, knowledge and expertise between the community of engineers, scientists and enthusiasts.
  *  - Provide quick start guides and tutorials to shorten the learning curve of new microcontrollers.
  *  - Provide Board Support Packages (BSPs) for rapid code development.
  *  - Create unified peripheral driver APIs so that code can be re-used on different microcontrollers.
  *  - Recommend good firmware development practices.
  *
- *  Supported microcontrollers:
+ *  @par Supported microcontrollers:
  *  - Atmel AVR
  *  - Atmel SAM (ARM7TDMI and ARM926EJ-S)
  *  - ST STR91x (ARM966E-S)
  *  
- *  Quick start guides (with tutorials):
+ *  @par Quick start guides (with tutorials and examples):
  *  - @ref AVR_QUICK_START_GUIDE "Atmel AVR"
  *
- *  Recommended best practices:
+ *  @par Recommended best practices:
  *  - C coding style: 
  *      - @ref CODING_STYLE "The Piconomic C coding style"
  *  - Doxygen as source documention tool:
@@ -63,36 +61,41 @@
  *  - Subversion for revision control:
  *      - @ref SUBVERSION "Using Subversion version control system"
  *  - Test function for each module
- * 
- * Collaboration: <br> <br>
+ *  
+ *  @par Feedback:
+ *  Please send an e-mail to the mailing list (piconomic-developers@lists.berlios.de)
+ *  and tell me what you think of the library. All criticism, patches, bug reports,
+ *  praise, etc. are welcome!
+ *  
+ * @par Collaboration:
  * This library started as an attempt to share and teach, but creating and 
  * maintaining embedded firmware is not part of my job description as an 
  * electronic hardware engineer and my free time is limited. My vision is 
  * to plant the seed and for one or more embedded firmware experts to take over 
  * the project and steer it for the good of the community.
  *
- * Home page: <br> <br>
- * http://piconomic.berlios.de <br>
+ * @par Home page:
+ * - http://piconomic.berlios.de 
+ *  
+ * @par berliOS hosting page:
+ * - http://developer.berlios.de/projects/piconomic/ 
+ *  
+ * @par Download page for file releases of the library:
+ * - http://developer.berlios.de/project/showfiles.php?group_id=10550  
  *
- * Mailing list: <br> <br>
- * mailto:piconomic-developers@lists.berlios.de <br>
- * https://lists.berlios.de/mailman/listinfo/piconomic-developers <br>
+ * @par Mailing list:
+ * - piconomic-developers@lists.berlios.de
+ * - https://lists.berlios.de/mailman/listinfo/piconomic-developers
  *
- * Subversion repository: <br> <br>
- * svn://svn.berlios.de/piconomic/ <br>
- * http://svn.berlios.de/svnroot/repos/piconomic/ <br> 
+ * @par Subversion repository:
+ * - svn://svn.berlios.de/piconomic/
+ * - http://svn.berlios.de/wsvn/piconomic
  *  
- * berliOS hosting page: <br><br> 
- * http://developer.berlios.de/projects/piconomic/ <br> 
- *  
- * Downloads: <br> <br> 
- * http://developer.berlios.de/project/showfiles.php?group_id=10550 
- *  
- * Wish list:
+ * @par Wish list:
  * - Unified initialisation code and linker scripts for ARM7/9 and Cortex microcontrollers
  * - Support for more microcontrollers: MSP430, Cortex-M3, ...
  *
- * Author(s):
+ * @par Author(s):
  * @htmlonly 
  * <ul>
  * <li> <img src="SouthAfrica.png" alt="South Africa - "> Pieter Conradie
