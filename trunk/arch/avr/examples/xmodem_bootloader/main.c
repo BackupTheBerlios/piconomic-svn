@@ -43,16 +43,15 @@
  * 
  * This is an example of how to implement a bootloader on the Atmel AVR. 
  *  
- * This is a simple bootloader that accepts a new binary application file 
- * that is transferred over the serial port using the XMODEM-CRC protocol. 
+ * It is a simple bootloader that accepts a new binary application file 
+ * transferred over the serial port using the XMODEM-CRC protocol. 
  * 
  * @par How to use the XMODEM-CRC bootloader
  * 
  * 1. Compile and link the firmware application and generate a @b binary programming
  * file (not Intel HEX!)
  * 
- * <em>Use "arch/avr/tutorials/01_Port_IO/PortIO.bin" distributed with the set of tutorials
- * as a first test.</em>
+ * <em>Use "arch/avr/examples/led_blink/led_blink.bin" as a first test.</em>
  * 
  * 2. Create a new HyperTerminal serial port session, configured to 115200 BAUD,
  * 8 Data Bits, No Parity, 1 Stop Bit, No Flow Control.
@@ -85,7 +84,7 @@
  * second for a valid XMODEM-CRC data packet. If the transfer is not successful,
  * it will jump to address 0x0000 and execute the application. 
  *  
- * @image html avr_fuse_bits.png "AVR Fuse Bits in AVr Studio" 
+ * @image html avr_fuse_bits.png "AVR Fuse Bits in AVR Studio" 
  * 
  */
 
