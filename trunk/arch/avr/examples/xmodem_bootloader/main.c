@@ -37,9 +37,56 @@
  
 ============================================================================= */
 
-/**
- *  This is a simple bootloader that accepts a new binary application file 
- *  that is transferred over the serial port using the XMODEM-CRC protocol.
+/** 
+ * @ingroup AVR_EXAMPLES
+ * @defgroup AVR_XMODEM_BOOTLOADER /xmodem_bootloader
+ * 
+ * This is an example of how to implement a bootloader on the Atmel AVR. 
+ *  
+ * This is a simple bootloader that accepts a new binary application file 
+ * that is transferred over the serial port using the XMODEM-CRC protocol. 
+ * 
+ * @par How to use the XMODEM-CRC bootloader
+ * 
+ * 1. Compile and link the firmware application and generate a @b binary programming
+ * file (not Intel HEX!)
+ * 
+ * <em>Use "arch/avr/tutorials/01_Port_IO/PortIO.bin" distributed with the set of tutorials
+ * as a first test.</em>
+ * 
+ * 2. Create a new HyperTerminal serial port session, configured to 115200 BAUD,
+ * 8 Data Bits, No Parity, 1 Stop Bit, No Flow Control.
+ * 
+ * <em>At this stage you should verify that the communication between HyperTerminal
+ * and the board is OK, by powering and/or resetting the board and verifying that
+ * HyperTerminal displays at least one received "C" character.</em>
+ * 
+ * 3. Select "Transfer > Send File ... ". Select "Protocol > Xmodem". Select your
+ * application file. The screen should look similar to image:
+ * 
+ * @image html avr_hyperterminal.jpg "HyperTerminal"
+ * 
+ * 3. Select "Send".
+ * 
+ * <em>HyperTerminal will now wait for a 'C' character from the board to start the
+ * transfer.</em>
+ * 
+ * 5. Power and/or reset the board to start the transfer.
+ * 
+ * <em>If the transfer is successful, the HyperTerminal dialog window will disappear.
+ * The bootloader automatically jumps to the start of the application at address
+ * 0x0000.</em>
+ * 
+ * @par Final Note:
+ * 
+ * The AVR fuse bits must be set so that execution starts from the boot vector
+ * address. This means that the bootloader will always be executed first. 
+ * The bootloader sends a 'C' character to start a transfer and waits for 1 
+ * second for a valid XMODEM-CRC data packet. If the transfer is not successful,
+ * it will jump to address 0x0000 and execute the application. 
+ *  
+ * @image html avr_fuse_bits.png "AVR Fuse Bits in AVr Studio" 
+ * 
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
@@ -49,7 +96,6 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
-#include "board.h"
 #include "tmr_poll.h"
 #include "uart_poll.h"
 #include "xmodem.h"
@@ -107,25 +153,11 @@ static void on_rx_data(u8_t* data, u8_t bytes_received)
     LED_OFF();
 }
 
-// Initialise Programmable IO pins
-static void pio_init(void)
-{
-    PORTB =  (1<<BIT_SFLASH_CS_O)|(1<<BIT_SW_IP)
-            |(0<<BIT_LED_O)|(1<<BIT_BUZZER_O);
-    DDRB  =  (1<<BIT_SFLASH_CS_O)|(0<<BIT_SW_IP)
-            |(1<<BIT_LED_O)|(1<<BIT_BUZZER_O);
-
-    PORTD =  (0<<BIT_RS485_TX_EN_O)|(1<<BIT_RS485_RX_EN_O)
-            |(0<<BIT_RTS_I)|(0<<BIT_CTS_O);
-    DDRD  =  (1<<BIT_RS485_TX_EN_O)|(1<<BIT_RS485_RX_EN_O)
-            |(0<<BIT_RTS_I)|(1<<BIT_CTS_O);
-}
-
 /* _____PUBLIC FUNCTIONS_____________________________________________________ */
 int main(void)
 {
-    // Initialise IO pins
-    pio_init();
+    // Initialise board
+    board_lowlevel_init();
 
     // Enable LED
     LED_ON();

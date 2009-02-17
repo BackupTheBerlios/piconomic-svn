@@ -43,29 +43,9 @@
 # MCU name
 MCU = atmega128
 
+
 # Bootloader start address
-FLASH_BOOT_START = 0x1F800
-
-
-# Processor frequency.
-#     This will define a symbol, F_CPU, in all source code files equal to the 
-#     processor frequency. You can then use this symbol in your source code to 
-#     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
-#     automatically to create a 32-bit value in your source code.
-#     Typical values are:
-#         F_CPU =  1000000
-#         F_CPU =  1843200
-#         F_CPU =  2000000
-#         F_CPU =  3686400
-#         F_CPU =  4000000
-#         F_CPU =  7372800
-#         F_CPU =  8000000
-#         F_CPU = 11059200
-#         F_CPU = 14745600
-#         F_CPU = 16000000
-#         F_CPU = 18432000
-#         F_CPU = 20000000
-F_CPU = 7372800
+FLASH_BOOT_START = 0x1E000
 
 
 # Output format. (can be srec, ihex, binary)
@@ -75,8 +55,9 @@ FORMAT = ihex
 # Target file name (without extension).
 TARGET = xmodem_bootloader
 
+
 # Directories where source files can be found
-PICLIB = ../../../../../piconomic_fwlib
+PICLIB = ../../../../../../piconomic_fwlib/trunk
 BSP    = piconomic_ab111-4
 
 VPATH += $(PICLIB)/general
@@ -93,7 +74,7 @@ OBJDIR = DEBUG
 # List C source files here. (C dependencies are automatically generated.)
 SRC  =  main.c xmodem.c
 
-SRC += flash.c tmr_poll.c uart_poll.c
+SRC += flash.c tmr_poll.c uart_poll.c board.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -139,15 +120,15 @@ CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here for C sources
-CDEFS = -DF_CPU=$(F_CPU)UL -DFLASH_BOOT_START=$(FLASH_BOOT_START) -D__AVR__
+CDEFS = -DFLASH_BOOT_START=$(FLASH_BOOT_START) -D__AVR__
 
 
 # Place -D or -U options here for ASM sources
-ADEFS = -DF_CPU=$(F_CPU)UL -DFLASH_BOOT_START=$(FLASH_BOOT_START) -D__AVR__
+ADEFS = -DFLASH_BOOT_START=$(FLASH_BOOT_START) -D__AVR__
 
 
 # Place -D or -U options here for C++ sources
-CPPDEFS = -DF_CPU=$(F_CPU)UL
+CPPDEFS = 
 #CPPDEFS += -D__STDC_LIMIT_MACROS
 #CPPDEFS += -D__STDC_CONSTANT_MACROS
 
@@ -169,7 +150,7 @@ CFLAGS += -fpack-struct
 CFLAGS += -fshort-enums
 CFLAGS += -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -mshort-calls
+#CFLAGS += -mshort-calls
 #CFLAGS += -fno-unit-at-a-time
 #CFLAGS += -Wundef
 #CFLAGS += -Wunreachable-code
@@ -274,7 +255,7 @@ EXTMEMOPTS =
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(TARGET).map,--cref,--gc-sections,--print-gc-sections
+LDFLAGS = -Wl,-Map=$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
