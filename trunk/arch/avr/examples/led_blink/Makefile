@@ -51,7 +51,7 @@ FORMAT = ihex
 TARGET = led_blink
 
 # Directories where source files can be found
-PICLIB = ../../../../../../piconomic_fwlib/trunk
+PICLIB = ../../../../../piconomic_fwlib
 BSP    = piconomic_ab111-4
 
 VPATH += $(PICLIB)/general
