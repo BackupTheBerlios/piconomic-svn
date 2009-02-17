@@ -1,0 +1,6 @@
+jtag_speed 1800
+halt
+wait_halt
+mww 0xfffffd08 0xa5000501         # RSTC_MR : enable user reset
+mww 0xfffffd44 0x00008000         # WDT_MR : disable watchdog
+

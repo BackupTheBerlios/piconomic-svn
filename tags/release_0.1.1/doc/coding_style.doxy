@@ -1,0 +1,154 @@
+/* =============================================================================
+
+   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+ *  @page CODING_STYLE The Piconomic C coding style guide
+ * 
+ *  @section STYLE_INTRODUCTION Introduction
+ *  A clear, consistent coding style improves readibility, reduces errors and
+ *  improves maintainability. This page provides a concise guide to the C coding
+ *  style used.
+ *
+ *  @section STYLE_MODULES Modules
+ *  An object-like programming approach is recommended. This means that the data
+ *  and functionality of an object is encapsulated in an H and C file. A module
+ *  name must be chosen that is the same or consistent with the filename.
+ *  This module name must be prefixed to all function names, structures, defines,
+ *  enumerations, etc.
+ *  
+ *  For example, see @ref TMR
+ *  
+ *  @code
+ *  // Create a timer object
+ *  tmr_t tmr;
+ *  
+ *  // Start timer with a 1s timeout
+ *  tmr_start(&tmr, TMR_MS_TO_TICKS(1000));
+ *  @endcode
+ *
+ *  @section STYLE_TEMPLATES Templates
+ *  Template files have been created for consistent organisation of each C module.
+ *  See template.h, template.c & template.S
+ *
+ *  @section STYLE_COMMENTS Comments
+ *  @code
+ *  // Single line comment
+ *  @endcode
+ *  
+ *  Doxygen is used to document each module. See @ref DOXYGEN "Using Doxygen source documentation system".
+ *
+ *  @section STYLE_INDENTATION_AND_BRACE Indentation and Brace style
+ *  The ANSI C style is followed. 4 spaces must be used for each indentation level,
+ *  not tabs. Braces must be used, even for single lines.
+ *
+ *  @code
+ *  for(i=0; i<10; i++)
+ *  {
+ *      for(j=0; j<10; j++)
+ *      {
+ *          buffer[i][j] = 0;
+ *      }
+ *  }
+ *  @endcode
+ *  
+ *  @section STYLE_NAMING Naming convention
+ *  
+ *  @par Functions
+ *  Lower case letters with underscores separating words. The name must have the
+ *  module name prefixed.
+ *  
+ *  @code
+ *  extern bool_t tmr_has_expired(tmr_t *tmr);
+ *  @endcode
+ *  
+ *  @par Preprocessor #defines and Macros
+ *  Capital letters with underscores separating words. The name must have the
+ *  module name prefixed.
+ *  
+ *  @code
+ *  #define CRC16_CCITT_POLYNOMIAL  0x8408
+ *  
+ *  #define ARRAY_LENGTH(array)     (sizeof(array)/sizeof((array)[0]))
+ *  @endcode
+ *  
+ *  @par Variables
+ *  Lower case letters with underscores separating words. If the variable is
+ *  declared outside function or structure scope, then it must have the module
+ *  name prefixed.
+ *  
+ *  @code
+ *  int nr_of_items;
+ *  @endcode
+ *  
+ *  @par Typedef
+ *  Lower case letters with underscores separating words. The name must have the
+ *  module name prefixed. An "_t" suffix must be added to indicate that it is a
+ *  typedef.
+ *  
+ *  @code
+ *  /// Size definition of the tick counter
+ *  typedef u16_t pit_ticks_t;
+ *  @endcode
+ *  
+ *  @par Structures
+ *  Lower case letters with underscores separating words. The name must have the
+ *  module name prefixed. An "_s" suffix must be added to indicate that it is a
+ *  struct.
+ *  
+ *  @code
+ *  struct list_item_s
+ *  {
+ *      struct list_item_s *next_item;
+ *      struct list_item_s *previous_item;
+ *  };
+ *  @endcode
+ *  
+ *  @section STYLE_TYPES Standard Types
+ *  Standard types have been defined and should be used to keep code portable.
+ *  
+ *  See @ref COMMON "common.h : Common definitions"
+ *  
+ *  @code
+ *  #include "common.h"
+ *  
+ *  typedef struct
+ *  {
+ *      u8_t  msg_type;
+ *      u8_t  data[13];
+ *      u16_t crc;
+ *  } msg_t;
+ *  @endcode
+ *  
+ */
+

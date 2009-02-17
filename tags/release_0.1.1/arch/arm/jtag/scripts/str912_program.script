@@ -1,0 +1,11 @@
+reset run_and_init
+#arm7_9 dcc_downloads enable
+str9x flash_config 0 4 2 0 0x80000
+flash probe 0
+flash protect 0 0 7 off
+flash erase_address 0x0 0x80000
+flash write_image ../../../../DEBUG/PROJECT.bin 0x00000000 bin
+verify_image ../../../../DEBUG/PROJECT.bin 0x00000000 bin
+sleep 10
+#resume
+

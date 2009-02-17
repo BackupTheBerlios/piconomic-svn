@@ -1,0 +1,10 @@
+reset run_and_init
+arm7_9 dcc_downloads enable
+flash probe 0
+flash write_image ../../../../DEBUG/PROJECT.bin 0x00100000 bin
+verify_image ../../../../DEBUG/PROJECT.bin 0x00100000 bin
+sleep 10
+#at91sam7 gpnvm 0 0 set # Enable BOD
+#at91sam7 gpnvm 0 1 set # Allow BOD to reset CPU
+resume
+
