@@ -65,7 +65,6 @@
 #include <avr/pgmspace.h>
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
-#include "global.h"
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 

@@ -82,7 +82,7 @@ void pit_init(void)
     // Calculate and set maximum 16-bit TMR1 counter value.
     // When TCNT1 reaches this value, an interrupt is generated
     // and TCNT1 is reset to 0.
-    OCR1A  = DIV(F_CPU/8, PIT_TICKS_PER_SEC)-1;
+    OCR1A  = DIV_ROUND(F_CPU/8, PIT_TICKS_PER_SEC)-1;
 
     // Enable Timer compare match interrupt
     BIT_SET_HI(TIMSK, OCIE1A);

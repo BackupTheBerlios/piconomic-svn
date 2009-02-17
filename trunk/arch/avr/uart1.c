@@ -215,7 +215,7 @@ void  uart1_init(u32_t          baud,
         break;
     case 8:
         // Fall through...
-    default
+    default:
         // 8 data bits
         ucsrc |= (0<<UCSZ12) | (1<<UCSZ11) | (1<<UCSZ10);
         break;

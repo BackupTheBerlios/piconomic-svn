@@ -1,5 +1,4 @@
 #include "tmr_poll.h"
-#include "board.h"
 
 void tmr_poll_test(void)
 {

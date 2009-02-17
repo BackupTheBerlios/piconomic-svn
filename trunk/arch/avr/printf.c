@@ -72,7 +72,7 @@ static int printf_put_char(char data, FILE *stream)
     }
 
     // Send character over UART0 and make sure it is buffered
-    while(!uart0_tx_byte((uint8)data))
+    while(!uart0_tx_byte((u8_t)data))
     {
         ;
     }   

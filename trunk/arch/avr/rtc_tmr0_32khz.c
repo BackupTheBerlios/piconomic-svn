@@ -45,7 +45,6 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "rtc_tmr0_32khz.h"
-#include "board.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 #define RTC_PERIOD_MS 1000
@@ -164,7 +163,7 @@ void rtc_get_time(rtc_time_t* time)
     BIT_SET_LO(TIMSK, OCIE0);
 
     // Copy time into structure
-    memcpy(rtc_time, &time, sizeof(*rtc_time));
+    memcpy(time, &rtc_time, sizeof(*time));
 
     // Enable interrupt
     BIT_SET_HI(TIMSK, OCIE0);

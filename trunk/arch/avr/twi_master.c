@@ -62,7 +62,7 @@
 #endif
 
 /// Calculate TWI Baud rate value according to selected frequency and prescaler
-#define TWI_BR_VALUE ((DIV(F_CPU,TWI_FREQUENCY_HZ)-16ul)/(2ul*TWI_PRESCALER_VALUE))
+#define TWI_BR_VALUE ((DIV_ROUND(F_CPU,TWI_FREQUENCY_HZ)-16ul)/(2ul*TWI_PRESCALER_VALUE))
 
 /// Make sure that TWI Baud rate value is an 8-bit value
 #ifndef __DOXYGEN__

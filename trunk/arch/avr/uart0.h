@@ -95,7 +95,7 @@ typedef enum
 extern void  uart0_init(u32_t          baud, 
                         u8_t           data_bits, 
                         uart0_parity_t parity, 
-                        u8_t           stop_bits)
+                        u8_t           stop_bits);
 
 /**
  *  Change to new BAUD rate.

@@ -41,7 +41,6 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "spi_master.h"
-#include "board.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 
@@ -82,7 +81,7 @@ void spi_tx_byte(u8_t tx_data)
     u8_t rx_data;
 
     // Buffer transmit data
-    SPDR = data;
+    SPDR = tx_data;
 
     // Wait until data has been transfered
     LOOP_UNTIL_BIT_IS_HI(SPSR,SPIF);
