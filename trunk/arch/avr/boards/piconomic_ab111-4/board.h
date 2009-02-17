@@ -80,6 +80,13 @@
 
 /* _____DEFINITIONS _________________________________________________________ */
 /** 
+ *  @name Processor frequency in Hz
+ */
+//@{
+#define F_CPU                   7372800ul
+//@}
+
+/** 
  *  @name External crystal frequency definition for "rtc_tmr0_32khz.h"
  *  See @ref RTC_TMR0_32KHZ
  */
@@ -172,6 +179,10 @@
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
+/**
+ *  Initialise the board hardware
+ */
+extern void board_lowlevel_init(void);
 
 /* _____MACROS_______________________________________________________________ */
 
