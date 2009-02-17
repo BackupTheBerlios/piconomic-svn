@@ -4,7 +4,6 @@
 #include "printf.h"
 #include "uart0.h"
 #include "uart1.h"
-#include "board.h"
 
 void hdlc_on_rx_frame(u8_t* buffer, u16_t bytes_received)
 {

@@ -54,6 +54,8 @@
 #include <stdint.h>
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
+// Include board specific definitions, e.g. processor frequency
+#include "board.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
 #ifndef NULL

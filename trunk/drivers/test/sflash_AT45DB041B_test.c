@@ -1,7 +1,5 @@
 #include <avr/interrupt.h>
 
-#include "board.h"
-
 #include "uart0.h"
 #include "printf.h"
 #include "spi_master.h"

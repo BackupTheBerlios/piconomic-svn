@@ -2,7 +2,6 @@
 
 #include "pit_tmr1.h"
 #include "tmr.h"
-#include "board.h"
 
 void tmr_test(void)
 {

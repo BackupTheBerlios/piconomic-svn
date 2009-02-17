@@ -60,7 +60,6 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
-#include "board.h"
 
 /* __DEFINITIONS ________________________________________________________ */
 /// Serial Flash number of pages
