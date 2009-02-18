@@ -39,12 +39,12 @@
  * brilliant 8-bit Atmel AVR microcontroller and learns by example.
  * 
  * @par The following free software tools are needed:
- * - <a href="http://winavr.sourceforge.net">WinAVR</a> : a suite of executable, open source software development tools for Atmel AVR microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
- * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=2725">Atmel AVR Studio</a> : the Integrated Development Environment (IDE) for writing and debugging AVR applications on Windows.
+ * - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : a suite of executable, open source software development tools for Atmel AVR microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=2725">Atmel AVR Studio 4.16 (build 628)</a> : the Integrated Development Environment (IDE) for writing and debugging AVR applications on Windows.
  * - <a href="avr_hyperterminal.jpg">HyperTerminal</a> : communication software packaged with Windows.
  * 
  * @par Reference documentation:
- * - Atmel <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=2018">ATmega128</a> datasheet
+ * - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=2018">Atmel ATmega128 datasheet</a>
  * - <a href="http://www.atmel.com/dyn/resources/prod_documents/doc0856.pdf">8-bit AVR Instruction set</a>
  * - <a href="file:///D:/WinAVR/doc/avr-libc/avr-libc-user-manual/index.html">AVR Libc Reference Manual</a>
  *
@@ -72,7 +72,8 @@
  * - @ref AVR_TUT12_POWER_MANAGEMENT
  * - @ref AVR_TUT13_XMEM 
  *  
- * @par Examples: 
+ * @par Examples:
+ * @ref AVR_EXAMPLES 
  * - @ref AVR_LED_BLINK 
  * - @ref AVR_XMODEM_BOOTLOADER 
  *  

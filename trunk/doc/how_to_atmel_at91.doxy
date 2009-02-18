@@ -1,0 +1,75 @@
+/* =============================================================================
+
+   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+ * @page ARM_AT91_QUICK_START_GUIDE Atmel AT91SAM quick start guide
+ * 
+ * This is a quick start guide for the person who wants to switch to the 
+ * Atmel AT91SAM series microcontroller and learns by example.
+ * 
+ * @par The following free software tools are needed:
+ * - <a href="http://www.yagarto.de">YAGARTO GNU ARM toolchain 28.09.2008</a> : a suite of executable, open source software development tools for ARM microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
+ * - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : packaged with many native Win32 GNU programs and utilities including make and bash.
+ * - <a href="http://openocd.berlios.de/web/">OpenOCD 0.1.0</a> : JTAG software to program and debug 32-bit microcontrollers.
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities.
+ * 
+ * @par Reference documentation:
+ * - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=3524">Atmel AT91SAM7S256 datasheet</a>
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3784">Atmel AT91SAM7S-EK evaluation kit documents</a>
+ * - <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a>
+ *
+ * @par Other resources:
+ * - <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">Using Open Source Tools for AT91SAM7 Cross Development</a> : a guide for using open source tools such as Cygwin, GNU/GCC ARM Compiler, Eclipse IDE, Zylin CDT and OpenOCD for low-cost development of AT91SAM7 applications.
+ * - <a href="http://www.state-machine.com/arm/">Building Bare-Metal ARM Systems with GNU</a> : detailed article on how to use the GNU toolchain for ARM to build real-life embedded systems based on ARM microcontrollers.
+ *
+ * @par Sections:
+ * - @ref ARM_AT91_INTRODUCTION
+ * - @ref ARM_AT91_MAKEFILE
+ * 
+ * @par Tutorials:
+ * @ref ARM_AT91_TUTORIALS
+ * - @ref AVR_TUT01_PORTIO
+ *  
+ * @par Examples: 
+ * @ref ARM_AT91_EXAMPLES 
+ * - @ref ARM_AT91_LED_BLINK
+ *  
+ * <hr>
+ * @section ARM_AT91_INTRODUCTION Introduction
+ * <hr>
+ * @section ARM_AT91_MAKEFILE Makefile
+ * @include arm_at91_ex_make.txt
+ * 
+ */
+

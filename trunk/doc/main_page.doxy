@@ -47,11 +47,12 @@
  *
  *  @par Supported microcontrollers:
  *  - Atmel AVR
- *  - Atmel SAM (ARM7TDMI and ARM926EJ-S)
+ *  - Atmel AT91SAM (ARM7TDMI and ARM926EJ-S)
  *  - ST STR91x (ARM966E-S)
  *  
  *  @par Quick start guides (with tutorials and examples):
  *  - @ref AVR_QUICK_START_GUIDE "Atmel AVR"
+ *  - @ref ARM_AT91_QUICK_START_GUIDE "Atmel AT91SAM"
  *
  *  @par Recommended best practices:
  *  - C coding style: 
