@@ -213,8 +213,7 @@ EXTRALIBDIRS =
 #  --cref:        add cross reference to  map file
 LDFLAGS  = -nostartfiles 
 LDFLAGS += -nodefaultlibs
-LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections,--defsym
-LDFLAGS += -Wl,arm_low_level_init=LowLevelInit
+LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 #LDFLAGS += -lc -lm -lgcc
 LDFLAGS += -lnosys -lm -lgcc
