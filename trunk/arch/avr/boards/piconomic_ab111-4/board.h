@@ -46,7 +46,7 @@
  * 
  *  @image html piconomic_ab111-4.jpg
  * 
- *  Design documents:
+ *  Design documents and files located in /arch/avr/boards/piconomic_ab111-4:
  *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_sch.pdf">Schematic</a>
  *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_bom.pdf">Bill Of Materials</a>
  *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_layout.pdf">Board Layout</a>
@@ -68,7 +68,9 @@
  *  - <a href="http://www.atmel.com/dyn/resources/prod_documents/doc0856.pdf">8-bit AVR Instruction set</a>
  *  - <a href="file:///D:/WinAVR/doc/avr-libc/avr-libc-user-manual/index.html">AVR Libc Reference Manual</a> 
  *
- *  Files: arch/avr/boards/piconomic_ab111-4/board.h
+ *  Files:
+ *  - arch/avr/boards/piconomic_ab111-4/board.h
+ *  - arch/avr/boards/piconomic_ab111-4/board.c
  *
  *  @{
  */
@@ -180,7 +182,7 @@
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
 /**
- *  Initialise the board hardware
+ *  Initialise the board hardware.
  */
 extern void board_lowlevel_init(void);
 
