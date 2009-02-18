@@ -94,7 +94,7 @@ void defaultIrqHandler(void)
 /// Performs the low-level initialization of the chip. This includes EFC, master
 /// clock, AIC & watchdog configuration, as well as memory remapping.
 //------------------------------------------------------------------------------
-void LowLevelInit(void)
+void board_lowlevel_init(void)
 {
     unsigned char i;
 
