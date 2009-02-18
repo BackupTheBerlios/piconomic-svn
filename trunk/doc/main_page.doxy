@@ -115,6 +115,12 @@
  *  @defgroup AT91 /AT91 : Atmel AT91SAM series
  *  @ingroup ARM
  *  
+ *  @defgroup ARM_AT91_TUTORIALS /tutorials : Atmel AT91SAM tutorials
+ *  @ingroup AT91
+ *  
+ *  @defgroup ARM_AT91_EXAMPLES /examples : Atmel AT91SAM examples
+ *  @ingroup AT91
+ *  
  *  @defgroup STR91x /STR91x : ST STR91x series
  *  @ingroup ARM
  *  

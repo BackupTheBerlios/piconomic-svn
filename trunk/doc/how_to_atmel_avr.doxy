@@ -73,8 +73,8 @@
  * - @ref AVR_TUT13_XMEM 
  *  
  * @par Examples: 
- * @ref AVR_LED_BLINK 
- * @ref AVR_XMODEM_BOOTLOADER 
+ * - @ref AVR_LED_BLINK 
+ * - @ref AVR_XMODEM_BOOTLOADER 
  *  
  * <hr>
  * @section AVR_INSTRUCTION_SET Short introduction to AVR instruction set
