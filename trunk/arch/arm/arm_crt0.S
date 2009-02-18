@@ -172,16 +172,16 @@ arm_crt0_rst:
 #endif
 
         /*
-         * Initialise low level hardware by calling BSP_vLowLevelInit().
+         * Initialise low level hardware by calling board_lowlevel_init().
          * 
          * ARM-Thumb Procedure calling standard (ATPCS) is followed for 
-         * ARM/Thumb interworking code, to support case where BSP_vLowLevelInit() 
+         * ARM/Thumb interworking code, to support case where board_lowlevel_init() 
          * is compiled in thumb mode WITH interworking.
          *
          * The return address (arm_crt0_init) is explicitely hard-coded ("mov lr,pc" not used)
          * to keep code position independant.
          */
-        ldr     r0, =arm_low_level_init
+        ldr     r0, =board_lowlevel_init
         ldr     lr, =arm_crt0_init
         bx      r0
 
