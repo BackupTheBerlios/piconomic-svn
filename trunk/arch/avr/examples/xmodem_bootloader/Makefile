@@ -367,6 +367,7 @@ MSG_COMPILING_CPP = Compiling C++:
 MSG_ASSEMBLING = Assembling:
 MSG_CLEANING = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
+MSG_COMPILING_AND_LINKING = Compiling and Linking:
 
 
 
@@ -504,7 +505,7 @@ extcoff: $(TARGET).elf
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
-	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock $< $@
+	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 %.eep: %.elf
 	@echo
@@ -542,6 +543,13 @@ extcoff: $(TARGET).elf
 	@echo
 	@echo $(MSG_LINKING) $@
 	$(CC) $(ALL_CFLAGS) $^ --output $@ $(LDFLAGS)
+
+
+# Compile and link: whole program optimization.
+#%.elf: $(SRC)
+#	@echo
+#	@echo $(MSG_COMPILING_AND_LINKING) $@
+#	$(CC) -combine -fwhole-program $(ALL_CFLAGS) $(LDFLAGS) $^ --output $@ 
 
 
 # Compile: create object files from C source files.
@@ -613,5 +621,3 @@ $(shell mkdir $(OBJDIR) 2>/dev/null)
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
 clean clean_list program debug gdb-config
-
-

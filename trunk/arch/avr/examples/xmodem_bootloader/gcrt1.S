@@ -29,7 +29,7 @@
    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
    POSSIBILITY OF SUCH DAMAGE. */
 
-/* $Id: gcrt1.S,v 1.12.2.1 2008/03/24 17:11:06 arcanum Exp $ */
+/* $Id: gcrt1.S,v 1.12.2.2 2008/10/07 20:34:58 arcanum Exp $ */
 
 #if (__GNUC__ < 3) || (__GNUC__ == 3 && __GNUC_MINOR__ < 3)
 #error "GCC version >= 3.3 required"
@@ -109,6 +109,7 @@ __do_copy_data:
 	cpi	r26, lo8(__data_end)
 	cpc	r27, r17
 	brne	.L__do_copy_data_loop
+    out	AVR_RAMPZ_ADDR, __zero_reg__
 #endif /* BIG_CODE */
 
 	.set	__stack, RAMEND
@@ -116,7 +117,7 @@ __do_copy_data:
 
 	.section .init9,"ax",@progbits
 
-	rjmp	main
+	XJMP	main
 
 ;	.endfunc
 
