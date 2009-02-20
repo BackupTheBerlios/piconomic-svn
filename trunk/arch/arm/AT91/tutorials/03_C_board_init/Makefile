@@ -15,7 +15,7 @@ all: $(TARGET).elf $(TARGET).bin $(TARGET).sym $(TARGET).lss size
 
 # Link *.o file(s) and create ELF file
 %.elf: arm_crt0.S board.c
-	arm-elf-gcc -T at91sam7s256-rom.lds -mcpu=arm7tdmi -nostartfiles -Wl,-Map=$(TARGET).map,--cref $^ -o $@
+	arm-elf-gcc -T at91sam7s256-rom_tut03.lds -mcpu=arm7tdmi -nostartfiles -Wl,-Map=$(TARGET).map,--cref $^ -o $@
 
 # Create binary from ELF file
 %.bin: %.elf
