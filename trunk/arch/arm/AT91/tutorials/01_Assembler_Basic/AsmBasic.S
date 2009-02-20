@@ -6,16 +6,16 @@ _start:
 
 /* Exception handling vector table */
 
-        b   handler_rst     /* Reset */
-        b   handler_und     /* Undefined Instruction */
-        b   handler_swi     /* Software Interrupt */
-        b   handler_pref    /* Prefetch Abort */
-        b   handler_data    /* Data Abort */
-        nop                 /* Reserved */
-        b   handler_irq     /* Interrupt Request */
-        b   handler_fiq     /* Fast Interrupt Request */
+        b   arm_handler_rst     /* 0x00 : Reset */
+        b   arm_handler_und     /* 0x04 : Undefined Instruction */
+        b   arm_handler_swi     /* 0x08 : Software Interrupt (SWI) */
+        b   arm_handler_pref    /* 0x0C : Prefetch Abort (instruction fetch memory abort) */
+        b   arm_handler_data    /* 0x10 : Data Abort (data access memory abort) */
+        nop                     /* 0x14 : Reserved */
+        b   arm_handler_irq     /* 0x18 : IRQ (interrupt request) */
+        b   arm_handler_fiq     /* 0x1C : FIQ (fast interrupt request) */
 
-handler_rst:
+arm_handler_rst:
         /* Enable PA0 as a PIO pin */
         ldr     r0, AT91C_PIOA_PER
         mov     r1, #1
@@ -34,18 +34,18 @@ loop:
         b       loop            
 
 /* Unhandled exeption vectors */
-handler_und:
-        b       handler_und
-handler_swi:
-        b       handler_swi
-handler_pref:
-        b       handler_pref
-handler_data:
-        b       handler_data
-handler_irq:
-        b       handler_irq
-handler_fiq:
-        b       handler_fiq
+arm_handler_und:
+        b       arm_handler_und
+arm_handler_swi:
+        b       arm_handler_swi
+arm_handler_pref:
+        b       arm_handler_pref
+arm_handler_data:
+        b       arm_handler_data
+arm_handler_irq:
+        b       arm_handler_irq
+arm_handler_fiq:
+        b       arm_handler_fiq
 
 /* Constants */
 AT91C_PIOA_PER:   .word 0xFFFFF400

@@ -61,6 +61,7 @@
  * @ref ARM_AT91_TUTORIALS
  * - @ref ARM_AT91_TUT01_ASM_BASIC 
  * - @ref ARM_AT91_TUT02_ASM_ADVANCED 
+ * - @ref ARM_AT91_TUT03_C_BOARD_INIT 
  *  
  * @par Examples: 
  * @ref ARM_AT91_EXAMPLES 

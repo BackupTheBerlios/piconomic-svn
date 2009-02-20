@@ -100,15 +100,15 @@ vect_data: ldr pc, =arm_handler_data    /* 0x10 : Data Abort (data access memory
 vect_rsvd: nop                          /* 0x14 : Reserved */
 
 #ifdef ARM_AUTO_VECTORING_IRQ
-vect_irq:  ldr pc, [pc,#-0xF20]         /* 0x18 : IRQ (interrupt) */
+vect_irq:  ldr pc, [pc,#-0xF20]         /* 0x18 : IRQ (interrupt request) */
 #else
-vect_irq:  ldr pc, =arm_handler_irq     /* 0x18 : IRQ (interrupt) */
+vect_irq:  ldr pc, =arm_handler_irq     /* 0x18 : IRQ (interrupt request) */
 #endif
 
-vect_fiq:  ldr pc, =arm_handler_fiq     /* 0x1C : FIQ (fast interrupt) */
+vect_fiq:  ldr pc, =arm_handler_fiq     /* 0x1C : FIQ (fast interrupt request) */
 
-        /* Literal pool (constants) */
-        .ltorg
+/* Literal pool (constants) */
+.ltorg
 
 /* _____SECTION______________________________________________________________ */
 
@@ -245,8 +245,8 @@ arm_crt0_init:
         ldr     lr, =_fini
         bx      r0
 
-        /* Literal pool (constants) */
-        .ltorg
+/* Literal pool (constants) */
+.ltorg
 
 /* _____SECTION______________________________________________________________ */
 
