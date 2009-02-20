@@ -38,20 +38,23 @@ USE_THUMB_MODE = YES
 
 
 # Directories where source files can be found
-AT91LIB  = ../../../../../../atmel_at91lib
-PICLIB   = ../../../../../../piconomic_fwlib
-PERIPH   = $(AT91LIB)/peripherals
+AT91LIB = ../../../../../../atmel_at91lib
+PICLIB  = ../../../../../../piconomic_fwlib
+PERIPH  = $(AT91LIB)/peripherals
+BOARDS  = $(AT91LIB)/boards
 
 VPATH += $(PERIPH)/aic $(PERIPH)/pit
+VPATH += $(BOARDS)/$(BOARD) $(BOARDS)/$(BOARD)/$(CHIP)
+#VPATH += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 VPATH += $(PICLIB)/general
 VPATH += $(PICLIB)/arch/arm
 VPATH += $(PICLIB)/arch/arm/AT91
-VPATH += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
+#VPATH += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 
 # List C source files here. (C dependencies are automatically generated)
-SRC  = main.c
+SRC  = main.c board.c
 
 # Piconomic LIB
 SRC += pitd.c tmr.c
@@ -120,12 +123,14 @@ endif
 #     For a directory that has spaces, enclose it in quotes.
 EXTRAINCDIRS  = $(AT91LIB)
 EXTRAINCDIRS += $(AT91LIB)/peripherals
+EXTRAINCDIRS += $(AT91LIB)/boards/$(BOARD)
+EXTRAINCDIRS += $(AT91LIB)/boards/$(BOARD)/$(CHIP)
 
 EXTRAINCDIRS += $(PICLIB)
 EXTRAINCDIRS += $(PICLIB)/general
 EXTRAINCDIRS += $(PICLIB)/arch/arm
 EXTRAINCDIRS += $(PICLIB)/arch/arm/AT91
-EXTRAINCDIRS += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
+#EXTRAINCDIRS += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 # Compiler flag to set the C Standard level.
 #     c89   = "ANSI" C

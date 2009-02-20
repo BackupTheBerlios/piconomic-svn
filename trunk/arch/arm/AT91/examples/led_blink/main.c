@@ -43,10 +43,51 @@
  * 
  * This example toggles the LED once a second.
  *  
- * The following modules are exercised: 
+ * It indirectly demonstrates the ARM startup assembly code, board 
+ * specific low level initialisation and nested IRQ exception handler. 
+ *  
+ * The following modules are exercised:
  * - @ref AT91_PITD 
- * - @ref TMR
- * 
+ * - @ref TMR 
+ *  
+ * The <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343"> 
+ * AT91 Library Software Package 1.5</a> is needed to compile this example. The 
+ * location of the library is specified in the Makefile and must be updated if 
+ * neccesary: 
+ * @code
+ * AT91LIB = ../../../../../../atmel_at91lib
+ * @endcode 
+ *  
+ * The suggested directory structure is the following:
+ * @code 
+ * |--atmel_at91lib
+ * | |--boards
+ * | |--components
+ * | |--drivers
+ * | |--memories
+ * | |--peripherals
+ * | |--usb
+ * | |--utility
+ * |--piconomic_fwlib 
+ * | |--arch 
+ * | | |--arm
+ * | | | |--AT91
+ * | | | | |--examples
+ * | | | | | |--led_blink
+ * @endcode 
+ *  
+ * C Files: 
+ * - /piconomic_fwlib/arch/arm/AT91/examples/led_blink/main.c 
+ * - /piconomic_fwlib/arch/arm/AT91/examples/led_blink/board.c
+ * - /piconomic_fwlib/arch/arm/arm_crt0.S
+ * - /piconomic_fwlib/arch/arm/arm.c
+ * - /piconomic_fwlib/arch/arm/AT91/arm_irq.S
+ * - /piconomic_fwlib/arch/arm/AT91/pitd.c
+ * - /piconomic_fwlib/general/tmr.c
+ * - /atmel_at91lib/boards/at91sam7s-ek/board_lowlevel.c
+ * - /atmel_at91lib/boards/at91sam7s-ek/board_memories.c
+ * - /atmel_at91lib/peripherals/aic/aic.c
+ * - /atmel_at91lib/peripherals/pit/pit.c
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
@@ -58,8 +99,8 @@
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 // LED is on PIOA, pin 0
-#define BASE_LED_PIO    AT91C_BASE_PIOA
-#define PIN_LED_O       0
+#define LED_BASE_PIO    AT91C_BASE_PIOA
+#define LED_PIN_O       0
 
 /* _____MACROS_______________________________________________________________ */
 
@@ -77,10 +118,10 @@ static void led_toggle(void);
 static void led_init(void)
 {
     // Enable the PIO to control the corresponding pin
-    BASE_LED_PIO->PIO_PER  = (1<<PIN_LED_O);
+    LED_BASE_PIO->PIO_PER  = (1<<LED_PIN_O);
 
     // Enable the output on the I/O line
-    BASE_LED_PIO->PIO_OER  = (1<<PIN_LED_O);
+    LED_BASE_PIO->PIO_OER  = (1<<LED_PIN_O);
 
     // Set initial state of LED to on
     led_on();    
@@ -89,19 +130,19 @@ static void led_init(void)
 static void led_on(void)
 {
     // Set the data to be driven on the I/O line
-    BASE_LED_PIO->PIO_SODR = (1<<PIN_LED_O);
+    LED_BASE_PIO->PIO_SODR = (1<<LED_PIN_O);
 }
 
 static void led_off(void)
 {
     // Clear the data to be driven on the I/O line
-    BASE_LED_PIO->PIO_CODR = (1<<PIN_LED_O);
+    LED_BASE_PIO->PIO_CODR = (1<<LED_PIN_O);
 }
 
 static void led_toggle(void)
 {
     // See if LED is on
-    if(BASE_LED_PIO->PIO_ODSR & (1<<PIN_LED_O))
+    if(LED_BASE_PIO->PIO_ODSR & (1<<LED_PIN_O))
     {
         led_off();
     }
@@ -114,6 +155,7 @@ static void led_toggle(void)
 /* _____PUBLIC FUNCTIONS_____________________________________________________ */
 int main(void)
 {
+    // Create a timer object
     tmr_t tmr;
 
     // Initialise modules
