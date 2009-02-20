@@ -47,17 +47,6 @@
  *     http://www.arm.com/documentation/books.html
  *     http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html
  *
- * [3] "ARM System Developer's Guide", Sloss, Symes & Wright
- *     http://www.arm.com/documentation/books.html
- *
- * [4] "Procedure Call Standard for the ARM Architecture ARM IHI 0042B", ARM
- *     infocenter.arm.com/help/topic/com.arm.doc.ihi0042a/IHI0042A_aapcs.pdf
- *
- * [5] "Debugging with GDB, The GNU Source-Level Debugger" 
- *     http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html
- *
- * [6] "Using the GNU Compiler Collection (GCC)"
- *     http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/ 
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
@@ -125,24 +114,15 @@ arm_crt0_rst:
         /* Initialise stack pointer temporarily to the top of the stack */
         ldr     sp, =_stack
 
-        /*
-         * Initialise low level hardware by calling board_lowlevel_init().
-         * 
-         * ARM-Thumb Procedure calling standard (ATPCS) is followed for 
-         * ARM/Thumb interworking code, to support case where board_lowlevel_init() 
-         * is compiled in thumb mode WITH interworking.
-         *
-         * The return address (arm_crt0_init) is explicitely hard-coded ("mov lr,pc" not used)
-         * to keep code position independant.
-         */
+        /* Initialise low level hardware by calling board_lowlevel_init() */
         ldr     r0, =board_lowlevel_init
-        ldr     lr, =arm_crt0_init
+        mov     lr, pc
         bx      r0
 
-arm_crt0_init:
+1:
         /* Loop forever */
         nop
-        b       arm_crt0_init
+        b       1b
 
 /* Literal pool (constants) */
 .ltorg

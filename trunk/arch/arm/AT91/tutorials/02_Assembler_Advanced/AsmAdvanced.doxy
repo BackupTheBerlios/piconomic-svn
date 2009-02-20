@@ -40,7 +40,7 @@
  * 
  *  The DS1 LED output pin on PA0 is toggled close to the maximum IO rate. This
  *  tutorial builds on @ref ARM_AT91_TUT01_ASM_BASIC. It demonstrates how
- *  an H file (AT91SAM7S256.h) can be included and used to define amd access
+ *  an H file (AT91SAM7S256.h) can be included and used to define and access
  *  hardware specific registers.
  *  
  *  The literal pool (constants) is collected at the end using the statement
