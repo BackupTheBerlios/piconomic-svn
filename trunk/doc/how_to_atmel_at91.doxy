@@ -59,7 +59,7 @@
  * 
  * @par Tutorials:
  * @ref ARM_AT91_TUTORIALS
- * - @ref AVR_TUT01_PORTIO
+ * - @ref ARM_AT91_TUT01_ASM_BASIC
  *  
  * @par Examples: 
  * @ref ARM_AT91_EXAMPLES 

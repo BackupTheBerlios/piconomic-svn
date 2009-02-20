@@ -65,7 +65,7 @@
  *  
  *  @par Feedback:
  *  Please send feedback to the mailing list (piconomic-developers@lists.berlios.de)
- *  to improve the quality of the library. All criticism, patches, bug reports,
+ *  to improve the quality of the library. All criticism, bug reports, patches, 
  *  praise, etc. are welcome!
  *  
  *  @par Collaboration:
@@ -82,18 +82,21 @@
  *  - http://developer.berlios.de/projects/piconomic/ 
  *  
  *  @par Download page for file releases of the library:
- *  - http://developer.berlios.de/project/showfiles.php?group_id=10550  
+ *  - http://developer.berlios.de/project/showfiles.php?group_id=10550
+ *  
+ *  @par Changelog / History:
+ *  - http://svn.berlios.de/wsvn/piconomic/?op=log&rev=0&sc=0&isdir=1
  *
  *  @par Mailing list:
  *  - piconomic-developers@lists.berlios.de
  *  - https://lists.berlios.de/mailman/listinfo/piconomic-developers
  *
  *  @par Subversion repository:
- *  - svn://svn.berlios.de/piconomic/
- *  - http://svn.berlios.de/wsvn/piconomic
+ *  - svn://svn.berlios.de/piconomic/trunk
+ *  - http://svn.berlios.de/wsvn/piconomic/trunk/#_trunk_
  *  
  *  @par Wish list:
- *  - Unified initialisation code and linker scripts for ARM7/9 and Cortex microcontrollers
+ *  - Unified initialisation code, BSPs and linker scripts for ARM7/9 and Cortex microcontrollers
  *  - Support for more microcontrollers: MSP430, Cortex-M3, ...
  *
  *  @par Author(s):

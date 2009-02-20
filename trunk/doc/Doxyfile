@@ -628,7 +628,8 @@ EXAMPLE_PATH           = ../arch/avr/test \
                          ../doc/examples \
                          ../drivers \
                          ../drivers/test \
-                         ../general/test
+                         ../general/test \
+                         ../arch/arm/AT91/tutorials/01_Assembler_Basic
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 

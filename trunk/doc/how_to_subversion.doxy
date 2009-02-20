@@ -74,42 +74,46 @@
  *  *.h = svn:eol-style=native; svn:keywords=Id
  *  ...
  *  @endcode
- * 
+ *  
+ *  <hr>
  *  @section SVN_COOKBOOK Subversion cheat sheet:
+ *  
  *  @par 1. Create repository
  *  For this example, lets say that the repository location should be:
  *  @code
- *  C:\PICONOMIC\Repository\AVRLIB>
+ *  C:\Repositories\piconomic_fwlib>
  *  @endcode
  *  Change directory to the root of the repository and issue the command to
  *  create a new repository:
  *  @code
- *  C:\PICONOMIC\Repository>svnadmin create AVRLIB
+ *  C:\Repositories>svnadmin create piconomic_fwlib
  *  @endcode
+ *  
  *  @par 2. Import project
  *  For this example, lets say that a copy of the directories and files to be 
  *  imported is located at (without extra or temporary files!):
  *  @code
- *  C:\Temp\AVRLIB>
+ *  C:\Temp\piconomic_fwlib>
  *  @endcode
  *  To import the project, issue the following command:
  *  @code
- *  C:\Temp\Repository>svn import c:/Temp/AVRLIB file:///c:/PICONOMIC/Repository/AVRLIB -m "Initial import"
+ *  C:\Temp\piconomic_fwlib>svn import c:/Temp/piconomic_fwlib file:///c:/Repositories/piconomic_fwlib -m "Initial import"
  *  @endcode
- *  @par 3. Get a working copy
- *  For this example, lets say that a your personal working copy of the project
+ *  
+ *  @par 3. Checkout a working copy
+ *  For this example, lets say that your personal working copy of the project
  *  should reside in:
  *  @code
- *  C:\PICONOMIC\AVRLIB>
+ *  C:\Projects\piconomic_fwlib>
  *  @endcode
  *  To checkout the project to your working folder, issue the following command:
  *  @code
- *  C:\PICONOMIC>svn checkout file:///c:/PICONOMIC/Repository/AVRLIB AVRLIB
+ *  C:\Projects>svn checkout file:///c:/Repositories/piconomic_fwlib piconomic_fwlib
  *  @endcode
  * 
- *  @section TORTOISE_SVN TortoiseSVN screenshot:
+ *  @par TortoiseSVN screenshot:
  *  
- *  Of course, you do not have to use the command line if you have TortoiseSVN:
+ *  Of course, you do not have to use the command line if you have <a href="http://tortoisesvn.tigris.org/">Tortoise SVN</a>:
  *  
  *  @image html TortoiseSVN.png
  */
