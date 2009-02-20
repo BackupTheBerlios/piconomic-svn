@@ -34,12 +34,23 @@
 
 /**
  *  @page CODING_STYLE The Piconomic C coding style guide
- * 
+ *  
+ *  @par Sections:
+ *  - @ref STYLE_INTRODUCTION
+ *  - @ref STYLE_MODULES
+ *  - @ref STYLE_TEMPLATES
+ *  - @ref STYLE_COMMENTS
+ *  - @ref STYLE_INDENTATION_AND_BRACE
+ *  - @ref STYLE_NAMING
+ *  - @ref STYLE_TYPES
+ *  
+ *  <hr>
  *  @section STYLE_INTRODUCTION Introduction
  *  A clear, consistent coding style improves readibility, reduces errors and
  *  improves maintainability. This page provides a concise guide to the C coding
  *  style used.
- *
+ *  
+ *  <hr>
  *  @section STYLE_MODULES Modules
  *  An object-like programming approach is recommended. This means that the data
  *  and functionality of an object is encapsulated in an H and C file. A module
@@ -56,18 +67,21 @@
  *  // Start timer with a 1s timeout
  *  tmr_start(&tmr, TMR_MS_TO_TICKS(1000));
  *  @endcode
- *
+ *  
+ *  <hr>
  *  @section STYLE_TEMPLATES Templates
  *  Template files have been created for consistent organisation of each C module.
  *  See template.h, template.c & template.S
- *
+ *  
+ *  <hr>
  *  @section STYLE_COMMENTS Comments
  *  @code
  *  // Single line comment
  *  @endcode
  *  
  *  Doxygen is used to document each module. See @ref DOXYGEN "Using Doxygen source documentation system".
- *
+ *  
+ *  <hr>
  *  @section STYLE_INDENTATION_AND_BRACE Indentation and Brace style
  *  The ANSI C style is followed. 4 spaces must be used for each indentation level,
  *  not tabs. Braces must be used, even for single lines.
@@ -82,6 +96,7 @@
  *  }
  *  @endcode
  *  
+ *  <hr>
  *  @section STYLE_NAMING Naming convention
  *  
  *  @par Functions
@@ -134,6 +149,7 @@
  *  };
  *  @endcode
  *  
+ *  <hr>
  *  @section STYLE_TYPES Standard Types
  *  Standard types have been defined and should be used to keep code portable.
  *  
