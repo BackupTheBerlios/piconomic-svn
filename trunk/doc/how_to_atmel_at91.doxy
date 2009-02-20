@@ -59,7 +59,8 @@
  * 
  * @par Tutorials:
  * @ref ARM_AT91_TUTORIALS
- * - @ref ARM_AT91_TUT01_ASM_BASIC
+ * - @ref ARM_AT91_TUT01_ASM_BASIC 
+ * - @ref ARM_AT91_TUT02_ASM_ADVANCED 
  *  
  * @par Examples: 
  * @ref ARM_AT91_EXAMPLES 
