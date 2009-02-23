@@ -31,7 +31,7 @@ PROJECT_NAME           = "Piconomic Firmware Library"
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = 0.1.1
+PROJECT_NUMBER         = 0.2.0
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -114,7 +114,7 @@ FULL_PATH_NAMES        = YES
 # If left blank the directory from which doxygen is run is used as the 
 # path to strip.
 
-STRIP_FROM_PATH        = 
+STRIP_FROM_PATH        = C:\Projects\piconomic_fwlib
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of 
 # the path mentioned in the documentation of a class, which tells 
@@ -597,7 +597,6 @@ RECURSIVE              = YES
 EXCLUDE                = ../arch/arm/AT91/tutorials/02_Assembler_Advanced/AT91SAM7S256.h \
                          ../arch/arm/AT91/tutorials/03_C_board_init/AT91SAM7S256.h
 
-
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 
 # from the input.
@@ -631,9 +630,11 @@ EXAMPLE_PATH           = ../arch/avr/test \
                          ../drivers \
                          ../drivers/test \
                          ../general/test \
+                         ../arch/arm \
+                         ../arch/arm/AT91/boards/linker_scripts \
                          ../arch/arm/AT91/tutorials/01_Assembler_Basic \
                          ../arch/arm/AT91/tutorials/02_Assembler_Advanced \
-                         ../arch/arm/AT91/tutorials/03_C_board_init \
+                         ../arch/arm/AT91/tutorials/03_C_board_init
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -845,7 +846,7 @@ DOCSET_BUNDLE_ID       = org.doxygen.Project
 # Microsoft HTML help workshop to generate a compiled HTML help file (.chm) 
 # of the generated HTML documentation.
 
-GENERATE_HTMLHELP      = YES
+GENERATE_HTMLHELP      = NO
 
 # If the GENERATE_HTMLHELP tag is set to YES, the CHM_FILE tag can 
 # be used to specify the file name of the resulting .chm file. You 
@@ -959,13 +960,13 @@ ENUM_VALUES_PER_LINE   = 4
 # releases of Doxygen, the values YES and NO are equivalent to FRAME and NONE 
 # respectively.
 
-GENERATE_TREEVIEW      = NONE
+GENERATE_TREEVIEW      = ALL
 
 # If the treeview is enabled (see GENERATE_TREEVIEW) then this tag can be 
 # used to set the initial width (in pixels) of the frame in which the tree 
 # is shown.
 
-TREEVIEW_WIDTH         = 250
+TREEVIEW_WIDTH         = 350
 
 # Use this tag to change the font size of Latex formulas included 
 # as images in the HTML documentation. The default is 10. Note that 

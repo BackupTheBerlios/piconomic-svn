@@ -1,5 +1,5 @@
 body, table, div, p, dl {
-	font-family: Verdana, Arial, sans-serif;
+	font-family: verdana, arial, sans-serif;
 	font-size: 12px;
 }
 
@@ -7,15 +7,15 @@ body, table, div, p, dl {
 
 h1 {
 	text-align: center;
-	font-size: 150%;
+	font-size: 180%;
 }
 
 h2 {
-	font-size: 120%;
+	font-size: 150%;
 }
 
 h3 {
-	font-size: 100%;
+	font-size: 120%;
 }
 
 /* @end */
@@ -73,7 +73,7 @@ a.qindexHL {
 }
 
 a.el {
-	font-weight: bold;
+	font-weight: normal;
 }
 
 a.elRef {
@@ -357,21 +357,22 @@ hr {
 /* for the tree view */
 
 .ftvtree {
-	font-family: sans-serif;
+	font-family: verdana;
+    font-size: 10pt;
 	margin: 0.5em;
 }
 
 /* these are for tree view when used as main index */
 
 .directory {
-	font-size: 9pt;
+	font-size: 10pt;
 	font-weight: bold;
 }
 
 .directory h3 {
 	margin: 0px;
 	margin-top: 1em;
-	font-size: 11pt;
+	font-size: 10pt;
 }
 
 /*
@@ -420,7 +421,7 @@ proper pixel height of your image.
 .directory-alt h3 {
 	margin: 0px;
 	margin-top: 1em;
-	font-size: 11pt;
+	font-size: 10pt;
 }
 
 .directory-alt > h3 {

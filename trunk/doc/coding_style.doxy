@@ -75,10 +75,8 @@
  *  
  *  <hr>
  *  @section STYLE_COMMENTS Comments
- *  @code
- *  // Single line comment
- *  @endcode
- *  
+ *  @include coding_ex_1.c
+ *    
  *  Doxygen is used to document each module. See @ref DOXYGEN "Using Doxygen source documentation system".
  *  
  *  <hr>

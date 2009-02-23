@@ -45,9 +45,9 @@
  * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities.
  * 
  * @par Reference documentation:
+ * - <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a> 
  * - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=3524">Atmel AT91SAM7S256 datasheet</a>
  * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3784">Atmel AT91SAM7S-EK evaluation kit documents</a>
- * - <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a>
  *
  * @par Other resources:
  * - <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">Using Open Source Tools for AT91SAM7 Cross Development</a> : a guide for using open source tools such as Cygwin, GNU/GCC ARM Compiler, Eclipse IDE, Zylin CDT and OpenOCD for low-cost development of AT91SAM7 applications.
@@ -76,15 +76,15 @@
  * @section ARM_AT91_INTRODUCTION Introduction 
  *  
  * With increased flexiblity comes increased complexity. The learning curve for 
- * 32-bit ARM microcontrollers is much steeper than for example Atmel AVR 8-bit 
+ * 32-bit ARM microcontrollers is much steeper than for example 8-bit Atmel AVR 
  * microcontrollers. To become really proficient one needs to learn how to use
  * several new tools and syntaxes:
- * - <A href="http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/">Using the GNU Compiler Collection (GCC)</a> 
- * - <A href="http://sourceware.org/binutils/docs-2.18/as/index.html">Using gas, the GNU assembler (GNU Binutils 2.18 documentation)</a> 
- * - <A href="http://sourceware.org/binutils/docs-2.18/ld/index.html">GNU ld (GNU Binutils) 2.18 documentation</a> 
- * - <A href="http://www.gnu.org/software/make/manual/make.html">GNU Make</a> 
- * - <A href="http://sourceware.org/newlib/">Newlib - a C library intended for use on embedded systems</a>
- * - <A href="http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html">Debugging with GDB, The GNU Source-Level Debugger</a> 
+ * - <a href="http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/">Using the GNU Compiler Collection (GCC)</a> 
+ * - <a href="http://sourceware.org/binutils/docs-2.18/as/index.html">Using gas, the GNU assembler (GNU Binutils 2.18 documentation)</a> 
+ * - <a href="http://sourceware.org/binutils/docs-2.18/ld/index.html">GNU ld (GNU Binutils) 2.18 documentation (the GNU linker)</a> 
+ * - <a href="http://www.gnu.org/software/make/manual/make.html">GNU Make</a> 
+ * - <a href="http://sourceware.org/newlib/">Newlib - a C library intended for use on embedded systems</a>
+ * - <a href="http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html">Debugging with GDB, The GNU Source-Level Debugger</a> 
  *  
  * It is advised that if your time equals money and you would rather spend your 
  * time developing and debugging new firmware applications then you should turn 
@@ -95,19 +95,46 @@
  * <hr>
  * @section ARM_AT91_CRT C Run time initialisation (arm_crt0.S) 
  *  
- * File: /arch/arm/arm_crt0.S 
+ * Assembler start up code is provided that: 
+ * - Routes the exception vectors to handlers 
+ * - Copies the exception vector code to internal SRAM in preparation for remapping
+ * - Copies specific code to internal SRAM (with attribute __attribute__ ((section (".text.sram")))) 
+ * - Calls a low level board initialisation routine written in C 
+ * - Initialises the DATA section (C variables with initial values) 
+ * - Clears the BSS section (C variables that should be set to zero) 
+ * - Initialises a stack for each processor mode (FIQ, IRQ, UND, ABT, SVC, SYS) 
+ * - Puts the processor in SYSTEM mode and enables IRQ and FIQ 
+ * - Calls the C function main() 
+ *  
+ * The C file /arch/arm/arm.c contains the default exception handlers. These 
+ * handlers are defined as "weak" so that they can be redefined.
+ *  
+ * @par Other resources:
+ * - <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">AT91 Assembler Code Startup Sequence for C Code Applications Software</a> 
+ *  
+ * @par Example (excerpt): /arch/arm/arm_crt0.S 
+ * @dontinclude arch/arm/arm_crt0.S 
+ * @skip .section 
+ * @until .end 
  *  
  * <hr>
  * @section ARM_AT91_LD Linker scripts 
  *  
- * File:/ arch/arm/AT91/boards/linker_scripts 
- *  
+ * Linker scripts defines the address and size of memory sections. It also 
+ * dictates where each section should be placed in memory and defines symbols 
+ * to mark specific memory locations.
+ *   
+ * @par Example (excerpt): /arch/arm/AT91/boards/linker_scripts/at91sam7s256-rom.lds
+ * @dontinclude at91sam7s256-rom.lds 
+ * @skip OUTPUT_FORMAT 
+ * @until .stab 
+ *    
  * <hr>
  * @section ARM_AT91_MAKEFILE Makefile 
  *  
  * A Makefile template has been included that is based on the WinARM and WinAVR 
  * Makefile template. To use it, make a copy to your project directory (renamed 
- * to Makefile) and edit to add the project files.
+ * to "Makefile") and edit to add the project files.
  *  
  * File: /arch/ARM/Makefile.Template 
  *  
@@ -136,16 +163,32 @@
  * @include /arch/arm/AT91/tutorials/03_C_board_init/C_board_init.lss 
  *  
  * <hr>
- * @section ARM_AT91_NEWLIB Newlib - a C library intended for use on embedded systems 
+ * @section ARM_AT91_NEWLIB The Red Hat newlib C Library
+ *  
+ * Most GCC compilers targeted for ARM, including 
+ * <A href="www.yagarto.de">Yagarto</a> is packaged with Newlib as the standard 
+ * C library (libc.a and libm.a)
+ *  
+ * The C library depends on a handful of subroutine calls for operating system 
+ * services. On a "bare board" system, without an operating system, 
+ * do-nothing stubs (or subroutines with minimal functionality) must be 
+ * provided to allow programs to link with the subroutines in libc.a
  *  
  * Documents: 
- * - <a href="http://www.embedded.com/columns/15201376">Embedding with GNU: newlib</a> 
- * - <a href="http://embedded.com/story/OEG20020103S0073">Embedding GNU: Newlib, Part 2</a>
+ * - <a href="http://www.sourceware.org/newlib/libc.html#Syscalls">The Red Hat newlib C Library - 13 System Calls"</a>
+ * - <a href="http://www.embedded.com/story/OEG20011220S0058">Embedding with GNU: Newlib</a> 
+ * - <a href="http://embedded.com/story/OEG20020103S0073">Embedding GNU: Newlib, Part 2</a> 
  *  
- *  
+ * The <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> 
+ * makes provision or provides alternatives with:
+ * - /atmel_at91lib/utility/retarget.c
+ * - /atmel_at91lib/utility/stdio.c
+ * - /atmel_at91lib/utility/string.c
+ *   
  * <hr>
- * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD
+ * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD 
  *  
+ * TBD 
  * 
  */
 
