@@ -32,20 +32,31 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          ARM specific code
+    Title:          ARM helper functions
     Author(s):      Pieter Conradie
     Creation Date:  2008/06/30
     Revision Info:  $Id: arm.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
 
 ============================================================================= */
 
-/* 
- * References:
+/** 
+ *  @ingroup ARM
+ *  @defgroup ARM_HELPER arm.h : ARM helper functions
  *
- * [1] "ARM Architecture Reference Manual ARM DDI 0100E", David Seal
- *     http://www.arm.com/documentation/books.html
- *     http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html
+ *  Defines various ARM helper functions to enable/disable IRQ and FIQ, etc.
+ *  
+ *  Files: arm.h & arm.c
+ *  
+ *  References:
  *
+ *  [1] "ARM Architecture Reference Manual ARM DDI 0100E", David Seal <br>
+ *      http://www.arm.com/documentation/books.html <br>
+ *      http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html <br>
+ *  
+ *  [2] "avr-libc Reference Manual; §9.6 Inline Assembler Cookbook" <br>
+ *      http://www.nongnu.org/avr-libc/user-manual/inline_asm.html <br>
+ *  
+ *  @{
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
@@ -111,15 +122,18 @@ extern u32_t arm_disable_irq_fiq(void);
 extern void arm_restore_irq_fiq(u32_t cpsr);
 
 /* _____MACROS_______________________________________________________________ */
-/*
- * Convenience macro for assembler instruction NOP
+/**
+ * Convenience macro for assembler instruction NOP.
  */
 #define ARM_NOP() \
     __asm__ __volatile__("nop \n\t" : : );
 
-/* 
- * Convenience macro to place a funtion in .text.sram section
+/**
+ * Convenience macro to place a funtion in .text.sram section.
  */
 #define ARM_SECTION_TEXT_SRAM  __attribute__ ((section (".text.sram")))
 
+/**
+ *  @}
+ */
 #endif

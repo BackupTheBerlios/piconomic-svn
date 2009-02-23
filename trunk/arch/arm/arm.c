@@ -37,13 +37,6 @@
 
 ============================================================================= */
 
-/*
- * References:
- *
- * [1] "avr-libc Reference Manual; §9.6 Inline Assembler Cookbook"
- *     http://www.nongnu.org/avr-libc/user-manual/inline_asm.html
- */
-
 /* _____STANDARD INCLUDES____________________________________________________ */
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
@@ -51,7 +44,7 @@
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 #ifdef __thumb__
-#error "This C file must be compiled in ARM mode with interworking enabled"
+#error "This C file must be compiled in ARM mode"
 #endif
 
 /* _____MACROS_______________________________________________________________ */

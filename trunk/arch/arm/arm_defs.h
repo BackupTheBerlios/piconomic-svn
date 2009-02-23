@@ -39,13 +39,21 @@
 
 ============================================================================= */
 
-/* 
- * References:
+/** 
+ *  @ingroup ARM
+ *  @defgroup ARM_DEFS arm_defs.h : ARM Specific definitions
  *
- * [1] "ARM Architecture Reference Manual ARM DDI 0100E", David Seal
- *     http://www.arm.com/documentation/books.html
- *     http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html
+ *  Defines values in the ARM register CPSR/SPSR.
+ *  
+ *  Files: arm_defs.h
+ *  
+ *  References:
  *
+ * [1] "ARM Architecture Reference Manual ARM DDI 0100E", David Seal <br>
+ *     http://www.arm.com/documentation/books.html <br>
+ *     http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html <br>
+ *  
+ *  @{
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
@@ -53,9 +61,8 @@
 /* _____PROJECT INCLUDES_____________________________________________________ */
 
 /* _____DEFINITIONS _________________________________________________________ */
-/*
- * Define processor modes as found in the 
- * current/saved program status register (CPSR/SPSR)
+/**
+ * Define processor modes as found in the current/saved program status register (CPSR/SPSR).
  *
  * See [1], Table 2-2 "The mode bits", page A2-11
  */
@@ -67,8 +74,8 @@
 #define ARM_MODE_UND     0x1B
 #define ARM_MODE_SYS     0x1F
 
-/* 
- * Define interrupt disable flags as found in CPSR/SPSR
+/**
+ * Define interrupt disable flags as found in CPSR/SPSR.
  *
  * See [1], §2.5.2 "The control bits", page A2-10
  */
@@ -82,5 +89,9 @@
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
 
 /* _____MACROS_______________________________________________________________ */
+
+/**
+ *  @}
+ */
 
 #endif
