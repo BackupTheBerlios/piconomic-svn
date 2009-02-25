@@ -98,8 +98,8 @@
  * Assembler start up code is provided that: 
  * - Routes the exception vectors to handlers 
  * - Copies the exception vector code to internal SRAM in preparation for remapping
- * - Copies specific code to internal SRAM (with attribute __attribute__ ((section (".text.sram")))) 
- * - Calls a low level board initialisation routine written in C 
+ * - Copies specific C functions or global variables to internal SRAM (with __attribute__ ((section (".text.sram")))) 
+ * - Calls a low level board initialisation routine written in C (board_lowlevel_init())
  * - Initialises the DATA section (C variables with initial values) 
  * - Clears the BSS section (C variables that should be set to zero) 
  * - Initialises a stack for each processor mode (FIQ, IRQ, UND, ABT, SVC, SYS) 
