@@ -381,13 +381,13 @@ gccversion :
 # Generate gdb config/init file
 gdb-config: 
 	@$(REMOVE) $(GDBINIT_FILE)
-	@echo file $(OUTDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
 ifeq ($(DEBUG_PIPE),YES)
 	@echo target remote \| openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) --pipe  >> $(GDBINIT_FILE)
 else 
 	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
 endif
 	@echo monitor reset init >> $(GDBINIT_FILE)
+	@echo file $(OUTDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
 	@echo load  >> $(GDBINIT_FILE)
 	@echo compare-sections  >> $(GDBINIT_FILE)
 	@echo thbreak main >> $(GDBINIT_FILE)
