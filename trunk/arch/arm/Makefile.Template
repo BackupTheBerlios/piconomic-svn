@@ -258,7 +258,7 @@ DEBUG_PIPE = NO
 DEBUG_INTERFACE = interface/olimex-jtag-tiny-a.cfg
 
 # Specify the board or target
-DEBUG_TARGET = board/atmel_at91sam7sek.cfg
+DEBUG_TARGET = board/atmel_at91sam7s-ek.cfg
 
 #============================================================================
 
