@@ -147,7 +147,12 @@
  *      - Intel HEX File that can be used for programming (*.hex)
  *      - Binary file that can be used for programming (*.bin)
  *      - Extended assembly listing file that can be used to verify that code has been correctly generated (*.lss)
- *      - Symbol file that can be used to verify the location (address) of functions and variables (*.sym) 
+ *      - Symbol file that can be used to verify the location (address) of functions and variables (*.sym)
+ * - GDB debugging support: 
+ *      - make gdb (Create a GDB init file, launch OpenOCD and GDB/Insight)
+ *      - make openocd (Launch OpenOCD)
+ *      - make telnet (Start telnet session with OpenOCD)
+ *      - Allows OpenOCD to be launched within GDB/Insight or separately as a GDB server (DEBUG_PIPE = YES | NO)
  * - Produces human readable output; see below
  * 
  * @par Build example (/arch/arm/AT91/examples/led_blink):
@@ -188,7 +193,79 @@
  * <hr>
  * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD 
  *  
- * TBD 
+ * @par Trouble shooting guide - part 1 
+ *  
+ * Verify that OpenOCD can halt, reset, initialise and program a target. 
+ *  
+ * Steps: 
+ * - Make sure the board is powered!
+ * - Start OpenOCD ("make openocd")
+ * - The OpenOCD parameters "-d 3 -l log.txt" can be used to log full debug 
+ *   output to a file for examination and to file a bug report.
+ * - Start a telnet session ("make telnet"):
+ *      - Type "help" to get a list of commands
+ *      - Can the target be halted with "halt"?
+ *      - Reset the target with "reset init"
+ *      - Is the target in the proper initialised reset state (crystal, PLL,
+ *        peripherals,...; Examine TCL script $_TARGETNAME configure -event reset-init)?
+ *      - Is the JTAG frequency 6 times slower than the CPU frequency ("jtag_khz")?
+ *      - Test SRAM ("mdw 0x00200000"; "mww 0x00200000 0xdeadbeef"; "mdw 0x00200000")
+ *      - Is the flash interface working ("flash probe 0"; "flash info 0")?
+ *      - Can the flash be programmed ("flash write_image erase ./DEBUG/PROJECT.bin 0x00100000 bin")?
+ *      - Is the image written to flash correct ("verify_image ./DEBUG/PROJECT.bin 0x00100000 bin")?
+ *      - Stop telnet and OpenOCD ("shutdown")
+ *  
+ *  @par Trouble shooting guide - part 2
+ *  
+ *  Verify that C Run time initialisation (arm_crt0.S) works correctly.
+ *  
+ *  Steps:
+ *  - Create a GDB init script ("make gdb-config")
+ *  - Edit "init.gdb" to stop at at 0x00000000 (global symbol "_start"):
+ *    @code
+ *    target remote localhost:3333
+ *    monitor reset init
+ *    file DEBUG/PROJECT.elf
+ *    load
+ *    compare-sections
+ *    thbreak *0x00000000 # or thbreak _start
+ *    continue
+ *    @endcode
+ *  - Launch OpenOCD ("make openocd")
+ *  - Launch GDB/Insight manually ("arm-elf-insight --command=init.gdb")
+ *  - Slow down the JTAG communication speed ("monitor jtag_khz 8"). This is to
+ *    ensure that the JTAG communication is always 6 times slower than the CPU,
+ *    which probably starts at 32kHz, and changes frequency during the low
+ *    level C initialisation routine board_lowlevel_init().
+ *  - Single step once using "s". You should now be in "arm_crt0.S"
+ *  - Verify that you can single step up to the call to "board_lowlevel_init()"
+ *  - Place a breakpoint after the call, e.g. "b arm_crt0_init"
+ *  - Continue ("c") and see if the breakpoint is reached
+ *  
+ *  @par Trouble shooting guide - part 3
+ *  
+ *  Sometimes the code programmed on to the target may put it in an unknown or
+ *  bad state before it can be halted by OpenOCD. To stop code execution at
+ *  start up, the following steps must be followed:
+ *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"), e.g. change Makefile:
+ *    @code
+ *    # Place -D or -U options here for ASM sources
+ *    ADEFS  = -D$(CHIP) -D__ASSEMBLY__ -DARM_DEBUG_WAIT
+ *    @endcode
+ *  - Rebuid project ("make clean"; "make")
+ *  - Launch GDB/Insight with the following modified GDB init script:
+ *    @code
+ *    target remote localhost:3333
+ *    monitor reset init
+ *    file DEBUG/PROJECT.elf
+ *    load
+ *    compare-sections
+ *    thbreak arm_crt0_rst
+ *    jump arm_crt0_rst
+ *    @endcode
+ *  
+ *  
+ *  
  * 
  */
 
