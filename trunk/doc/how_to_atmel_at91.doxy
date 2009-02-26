@@ -199,29 +199,94 @@
  *  
  * Steps: 
  * - Make sure the board is powered!
- * - Start OpenOCD ("make openocd")
- * - The OpenOCD parameters "-d 3 -l log.txt" can be used to log full debug 
- *   output to a file for examination and to file a bug report.
- * - Start a telnet session ("make telnet"):
- *      - Type "help" to get a list of commands
- *      - Can the target be halted with "halt"?
- *      - Reset the target with "reset init"
- *      - Is the target in the proper initialised reset state (crystal, PLL,
- *        peripherals,...; Examine TCL script $_TARGETNAME configure -event reset-init)?
- *      - Is the JTAG frequency 6 times slower than the CPU frequency ("jtag_khz")?
- *      - Test SRAM ("mdw 0x00200000"; "mww 0x00200000 0xdeadbeef"; "mdw 0x00200000")
- *      - Is the flash interface working ("flash probe 0"; "flash info 0")?
- *      - Can the flash be programmed ("flash write_image erase ./DEBUG/PROJECT.bin 0x00100000 bin")?
- *      - Is the image written to flash correct ("verify_image ./DEBUG/PROJECT.bin 0x00100000 bin")?
- *      - Stop telnet and OpenOCD ("shutdown")
+ * - Start OpenOCD 
+ *   @code
+ *   > make openocd
+ *   @endcode
+ * - OpenOCD can be configured to write debug output to a file for later
+ *   examination and to file a bug report. Edit the Makefile:
+ *   @code
+ *   openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) -d 3 -l log.txt
+ *   @endcode
+ * - Start a telnet session
+ *   @code
+ *   > make telnet
+ *   @endcode
+ *      - Get a list of commands
+ *        @code
+ *        > help
+ *        @endcode
+ *      - Can the target be halted?
+ *        @code
+ *        > halt
+ *        @endcode
+ *      - Reset the target
+ *        @code
+ *        > reset init
+ *        @endcode
+ *      - Is the target in the proper initialised reset state? Check crystal, PLL,
+ *        peripherals,...Examine TCL script, e.g. target/at91sam7s.cfg:
+ *        @code
+ *        $_TARGETNAME configure -event reset-init { 
+ *              soft_reset_halt
+ *              # RSTC_CR : Reset peripherals
+ *              mww 0xfffffd00 0xa5000004
+ *              # disable watchdog
+ *          	mww 0xfffffd44 0x00008000	
+ *          	# enable user reset
+ *          	mww 0xfffffd08 0xa5000001	
+ *          	# CKGR_MOR : enable the main oscillator
+ *          	mww 0xfffffc20 0x00000601	
+ *          	sleep 10
+ *          	# CKGR_PLLR: 96.1097 MHz
+ *          	mww 0xfffffc2c 0x00481c0e 	
+ *          	sleep 10
+ *          	# PMC_MCKR : MCK = PLL / 2 ~= 48 MHz
+ *          	mww 0xfffffc30 0x00000007	
+ *          	sleep 10
+ *          	# MC_FMR: flash mode (FWS=1,FMCN=73)
+ *          	mww 0xffffff60 0x00490100	
+ *          	sleep 100
+ *        }
+ *        @endcode
+ *      - Is the JTAG frequency 6 times slower than the CPU frequency?
+ *        @code
+ *        > jtag_khz
+ *        @endcode
+ *      - Test SRAM
+ *        @code
+ *        > mdw 0x00200000
+ *        > mww 0x00200000 0xdeadbeef
+ *        > mdw 0x00200000
+ *        @endcode
+ *      - Is the flash interface working?
+ *        @code
+ *        > flash probe 0
+ *        > flash info 0
+ *        @endcode
+ *      - Can the flash be programmed?
+ *        @code
+ *        > flash write_image erase ./DEBUG/PROJECT.bin 0x00100000 bin
+ *        @endcode
+ *      - Is the image written to flash correct?
+ *        @code
+ *        > verify_image ./DEBUG/PROJECT.bin 0x00100000 bin
+ *        @endcode
+ *      - Stop telnet and OpenOCD
+ *        @code
+ *        > shutdown
+ *        @endcode
  *  
  *  @par Trouble shooting guide - part 2
  *  
  *  Verify that C Run time initialisation (arm_crt0.S) works correctly.
  *  
  *  Steps:
- *  - Create a GDB init script ("make gdb-config")
- *  - Edit "init.gdb" to stop at at 0x00000000 (global symbol "_start"):
+ *  - Create a GDB init script ("init.gdb")
+ *    @code
+ *    > make gdb-config
+ *    @endcode
+ *  - Edit GDB init script to stop at at 0x00000000 (global symbol "_start"):
  *    @code
  *    target remote localhost:3333
  *    monitor reset init
@@ -231,29 +296,52 @@
  *    thbreak *0x00000000 # or thbreak _start
  *    continue
  *    @endcode
- *  - Launch OpenOCD ("make openocd")
- *  - Launch GDB/Insight manually ("arm-elf-insight --command=init.gdb")
- *  - Slow down the JTAG communication speed ("monitor jtag_khz 8"). This is to
- *    ensure that the JTAG communication is always 6 times slower than the CPU,
- *    which probably starts at 32kHz, and changes frequency during the low
- *    level C initialisation routine board_lowlevel_init().
- *  - Single step once using "s". You should now be in "arm_crt0.S"
- *  - Verify that you can single step up to the call to "board_lowlevel_init()"
- *  - Place a breakpoint after the call, e.g. "b arm_crt0_init"
- *  - Continue ("c") and see if the breakpoint is reached
+ *  - Launch OpenOCD
+ *    @code
+ *    > make openocd
+ *    @endcode
+ *  - Launch GDB/Insight manually
+ *    @code
+ *    > arm-elf-insight --command=init.gdb
+ *    @endcode
+ *      - To be safe, slow down the JTAG communication speed. This is to
+ *        ensure that the JTAG communication is always 6 times slower than the
+ *        CPU, which probably starts at 32kHz, and changes frequency during the
+ *        low level C initialisation routine board_lowlevel_init().
+ *        @code
+ *        > monitor jtag_khz 8
+ *        @endcode
+ *      - You should now be in "arm_crt0.S". Single step through start up code
+ *        @code
+ *        > s
+ *        @endcode
+ *      - Step to just before the call to "board_lowlevel_init()"
+ *      - Place a breakpoint after the call
+ *        @code
+ *        > b arm_crt0_init
+ *        @endcode
+ *      - Continue and see if the breakpoint is reached
+ *        @code
+ *        > c
+ *        @endcode
  *  
  *  @par Trouble shooting guide - part 3
  *  
  *  Sometimes the code programmed on to the target may put it in an unknown or
- *  bad state before it can be halted by OpenOCD. To stop code execution at
- *  start up, the following steps must be followed:
- *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"), e.g. change Makefile:
+ *  bad state before it can be halted by OpenOCD. To make code execution
+ *  wait at the reset vector, the following steps must be followed:
+ *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"). Edit the Makefile:
  *    @code
  *    # Place -D or -U options here for ASM sources
  *    ADEFS  = -D$(CHIP) -D__ASSEMBLY__ -DARM_DEBUG_WAIT
  *    @endcode
- *  - Rebuid project ("make clean"; "make")
- *  - Launch GDB/Insight with the following modified GDB init script:
+ *  - Rebuid project
+ *    @code
+ *    > make clean
+ *    > make
+ *    @endcode
+ *  - Launch GDB/Insight manually as shown in part 2 with the following modified
+ *    GDB init script:
  *    @code
  *    target remote localhost:3333
  *    monitor reset init
@@ -264,8 +352,9 @@
  *    jump arm_crt0_rst
  *    @endcode
  *  
- *  
- *  
- * 
+ *    @note
+ *    The Makefile may be modified so that this becomes the standard way of
+ *    debugging code, i.e. the code will always wait for the debugger to start.
+ *   
  */
 
