@@ -1,9 +1,0 @@
-reset
-arm7_9 dcc_downloads enable       # Enable faster DCC downloads
-flash probe 0
-flash protect 0 0 1 off
-#flash erase_sector 0 0 1
-flash write_image erase ../../../../DEBUG/PROJECT.bin 0x10000000 bin
-verify_image ../../../../DEBUG/PROJECT.bin 0x10000000 bin
-#resume
-#shutdown

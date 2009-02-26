@@ -13,6 +13,9 @@
 # make CFG=debug   = Perform a debug build
 # make CFG=release = Perform a release build
 # make clean       = Delete created project files
+# make gdb         = Create a GDB init file, launch OpenOCD and GDB/Insight
+# make telnet      = Start telnet session with OpenOCD
+# make openocd     = Launch OpenOCD
 #
 # ---------------------------------------------------------------------------
 # Creation Date:  2008/06/30
@@ -38,20 +41,19 @@ USE_THUMB_MODE = YES
 
 
 # Directories where source files can be found
-AT91LIB  = ./atmel_at91lib
-PICLIB   = ./piconomic_fwlib
-UTILITY  = $(AT91LIB)/utility
-PERIPH   = $(AT91LIB)/peripherals
-DRV      = $(AT91LIB)/drivers
+AT91LIB = ../../../../../../atmel_at91lib
+PICLIB  = ../../../../../../piconomic_fwlib
+PERIPH  = $(AT91LIB)/peripherals
+BOARDS  = $(AT91LIB)/boards
 
-VPATH += $(DRV)/async $(DRV)/twi
-VPATH += $(UTILITY)
-VPATH += $(PERIPH)/dbgu $(PERIPH)/aic $(PERIPH)/pio $(PERIPH)/pit $(PERIPH)/twi $(PERIPH)/tc $(PERIPH)/usart
+VPATH += $(PERIPH)/aic $(PERIPH)/pit
+VPATH += $(BOARDS)/$(BOARD) $(BOARDS)/$(BOARD)/$(CHIP)
+#VPATH += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 VPATH += $(PICLIB)/general
 VPATH += $(PICLIB)/arch/arm
 VPATH += $(PICLIB)/arch/arm/AT91
-VPATH += $(PICLIB)/arch/arm/boards/$(BOARD)
+#VPATH += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 
 # List C source files here. (C dependencies are automatically generated)
@@ -61,10 +63,10 @@ SRC  = main.c
 SRC += pitd.c tmr.c
 
 # Atmel AT91LIB
-SRC += dbgu.c pio.c aic.c pio_it.c
-SRC += math.c stdio.c string.c
-SRC += pit.c board_memories.c board_lowlevel.c
+SRC += aic.c pit.c
 
+# Board support package
+SRC += board_lowlevel.c board_memories.c
 
 # List C source files here which must be compiled in ARM-Mode.
 SRCARM  = arm.c
@@ -124,12 +126,14 @@ endif
 #     For a directory that has spaces, enclose it in quotes.
 EXTRAINCDIRS  = $(AT91LIB)
 EXTRAINCDIRS += $(AT91LIB)/peripherals
+EXTRAINCDIRS += $(AT91LIB)/boards/$(BOARD)
+EXTRAINCDIRS += $(AT91LIB)/boards/$(BOARD)/$(CHIP)
 
 EXTRAINCDIRS += $(PICLIB)
 EXTRAINCDIRS += $(PICLIB)/general
 EXTRAINCDIRS += $(PICLIB)/arch/arm
 EXTRAINCDIRS += $(PICLIB)/arch/arm/AT91
-EXTRAINCDIRS += $(PICLIB)/arch/arm/boards/$(BOARD)
+#EXTRAINCDIRS += $(PICLIB)/arch/arm/AT91/boards/$(BOARD)
 
 # Compiler flag to set the C Standard level.
 #     c89   = "ANSI" C
@@ -217,13 +221,44 @@ EXTRALIBDIRS =
 #  --cref:        add cross reference to  map file
 LDFLAGS  = -nostartfiles 
 LDFLAGS += -nodefaultlibs
-LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections,--defsym
-LDFLAGS += -Wl,arm_low_level_init=LowLevelInit
+LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 #LDFLAGS += -lc -lm -lgcc
 LDFLAGS += -lnosys -lm -lgcc
-LDFLAGS += -T $(PICLIB)/arch/arm/boards/linker_scripts/$(CHIP)-rom.lds
+LDFLAGS += -T $(PICLIB)/arch/arm/AT91/boards/linker_scripts/$(CHIP)-rom.lds
 
+
+#---------------- Debugging Options ----------------
+
+# Set the DEBUG_UI to either gdb or insight.
+# DEBUG_UI = gdb
+DEBUG_UI = insight
+
+# Set the debugging back-end
+DEBUG_BACKEND = openocd
+
+# GDB Init Filename.
+GDBINIT_FILE = init.gdb
+
+# Debugging port used to communicate between GDB / OpenOCD
+DEBUG_PORT = 3333
+
+# Debugging host used to communicate between GDB / OpenOCD, normally
+# just set to localhost unless doing some sort of crazy debugging when 
+# OpenOCD is running on a different computer.
+DEBUG_HOST = localhost
+
+# This option controls whether OpenOCD is launched via GDB/Insight and use
+# pipe communication (stdin, stdout), or if OpenOCD is launched as a separate
+# GDB Server
+#DEBUG_PIPE = YES
+DEBUG_PIPE = NO
+
+# Specify the interface that OpenOCD should use
+DEBUG_INTERFACE = interface/olimex-jtag-tiny-a.cfg
+
+# Specify the board or target
+DEBUG_TARGET = board/atmel_at91sam7sek.cfg
 
 #============================================================================
 
@@ -267,6 +302,9 @@ MSG_ASSEMBLING       = $(MSG_ASSEMBLING_ARM)
 endif
 MSG_CLEANING         = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
+MSG_DEBUG_GDB_SERVER = Launching GDB Server:
+MSG_DEBUG_GDB        = Launching $(CPREFIX)-$(DEBUG_UI):
+MSG_TELNET           = Starting TELNET session with OpenOCD:
 
 
 # Define all object files.
@@ -338,6 +376,49 @@ sizeafter:
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
+
+
+# Generate gdb config/init file
+gdb-config: 
+	@$(REMOVE) $(GDBINIT_FILE)
+	@echo file $(OUTDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
+ifeq ($(DEBUG_PIPE),YES)
+	@echo target remote \| openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) --pipe  >> $(GDBINIT_FILE)
+else 
+	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
+endif
+	@echo monitor reset init >> $(GDBINIT_FILE)
+	@echo load  >> $(GDBINIT_FILE)
+	@echo compare-sections  >> $(GDBINIT_FILE)
+	@echo thbreak main >> $(GDBINIT_FILE)
+	@echo continue >> $(GDBINIT_FILE)
+
+# Start OpenOCD
+openocd:
+	@echo
+	@echo $(MSG_DEBUG_GDB_SERVER)
+	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	
+# Start gdb debugging
+gdb: gdb-config elf
+ifeq ($(DEBUG_PIPE),YES)
+	@echo
+	@echo $(MSG_DEBUG_GDB)
+	@$(WINSHELL) /c start $(CPREFIX)-$(DEBUG_UI) --command=$(GDBINIT_FILE)
+else
+	@echo
+	@echo $(MSG_DEBUG_GDB_SERVER)
+	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	@echo
+	@echo $(MSG_DEBUG_GDB)
+	@$(WINSHELL) /c start $(CPREFIX)-$(DEBUG_UI) --command=$(GDBINIT_FILE)
+endif
+
+# Start telnet session with OpenOCD
+telnet:
+	@echo
+	@echo $(MSG_TELNET)
+	@$(WINSHELL) /c start putty -telnet -P 4444 $(DEBUG_HOST)
 
 
 # Create final output file (.hex) from ELF output file.
@@ -448,7 +529,7 @@ $(shell mkdir $(OUTDIR) 2>/dev/null)
 # Listing of phony targets.
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex lss sym \
-clean clean_list program
+clean clean_list program telnet gdb openocd
 
 # ---------------------------------------------------------------------------
 # LOG
