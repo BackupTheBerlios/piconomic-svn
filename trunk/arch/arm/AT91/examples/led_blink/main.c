@@ -130,25 +130,25 @@ static void led_init(void)
 static void led_on(void)
 {
     // Set the data to be driven on the I/O line
-    LED_BASE_PIO->PIO_SODR = (1<<LED_PIN_O);
+    LED_BASE_PIO->PIO_CODR = (1<<LED_PIN_O);
 }
 
 static void led_off(void)
 {
     // Clear the data to be driven on the I/O line
-    LED_BASE_PIO->PIO_CODR = (1<<LED_PIN_O);
+    LED_BASE_PIO->PIO_SODR = (1<<LED_PIN_O);
 }
 
 static void led_toggle(void)
 {
-    // See if LED is on
+    // See if LED is off
     if(LED_BASE_PIO->PIO_ODSR & (1<<LED_PIN_O))
     {
-        led_off();
+        led_on();
     }
     else
     {
-        led_on();
+        led_off();
     }
 }
 

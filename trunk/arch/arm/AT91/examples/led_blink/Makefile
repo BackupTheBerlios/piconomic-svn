@@ -13,9 +13,12 @@
 # make CFG=debug   = Perform a debug build
 # make CFG=release = Perform a release build
 # make clean       = Delete created project files
+# make gdb         = Create a GDB init file, launch OpenOCD and GDB/Insight
+# make telnet      = Start telnet session with OpenOCD
+# make openocd     = Launch OpenOCD
 #
 # ---------------------------------------------------------------------------
-# Creation Date:  2008/06/30
+# Creation Date:  2009/02/20
 # Revision Info:  $Id$
 # ---------------------------------------------------------------------------
 
@@ -225,6 +228,38 @@ LDFLAGS += -lnosys -lm -lgcc
 LDFLAGS += -T $(PICLIB)/arch/arm/AT91/boards/linker_scripts/$(CHIP)-rom.lds
 
 
+#---------------- Debugging Options ----------------
+
+# Set the DEBUG_UI to either gdb or insight.
+# DEBUG_UI = gdb
+DEBUG_UI = insight
+
+# Set the debugging back-end
+DEBUG_BACKEND = openocd
+
+# GDB Init Filename.
+GDBINIT_FILE = init.gdb
+
+# Debugging port used to communicate between GDB / OpenOCD
+DEBUG_PORT = 3333
+
+# Debugging host used to communicate between GDB / OpenOCD, normally
+# just set to localhost unless doing some sort of crazy debugging when 
+# OpenOCD is running on a different computer.
+DEBUG_HOST = localhost
+
+# This option controls whether OpenOCD is launched via GDB/Insight and use
+# pipe communication (stdin, stdout), or if OpenOCD is launched as a separate
+# GDB Server
+#DEBUG_PIPE = YES
+DEBUG_PIPE = NO
+
+# Specify the interface that OpenOCD should use
+DEBUG_INTERFACE = interface/olimex-jtag-tiny-a.cfg
+
+# Specify the board or target
+DEBUG_TARGET = board/atmel_at91sam7sek.cfg
+
 #============================================================================
 
 
@@ -267,6 +302,9 @@ MSG_ASSEMBLING       = $(MSG_ASSEMBLING_ARM)
 endif
 MSG_CLEANING         = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
+MSG_DEBUG_GDB_SERVER = Launching GDB Server:
+MSG_DEBUG_GDB        = Launching $(CPREFIX)-$(DEBUG_UI):
+MSG_TELNET           = Starting TELNET session with OpenOCD:
 
 
 # Define all object files.
@@ -338,6 +376,49 @@ sizeafter:
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
+
+
+# Generate gdb config/init file
+gdb-config: 
+	@$(REMOVE) $(GDBINIT_FILE)
+	@echo file $(OUTDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
+ifeq ($(DEBUG_PIPE),YES)
+	@echo target remote \| openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) --pipe  >> $(GDBINIT_FILE)
+else 
+	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
+endif
+	@echo monitor reset init >> $(GDBINIT_FILE)
+	@echo load  >> $(GDBINIT_FILE)
+	@echo compare-sections  >> $(GDBINIT_FILE)
+	@echo thbreak main >> $(GDBINIT_FILE)
+	@echo continue >> $(GDBINIT_FILE)
+
+# Start OpenOCD
+openocd:
+	@echo
+	@echo $(MSG_DEBUG_GDB_SERVER)
+	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	
+# Start gdb debugging
+gdb: gdb-config elf
+ifeq ($(DEBUG_PIPE),YES)
+	@echo
+	@echo $(MSG_DEBUG_GDB)
+	@$(WINSHELL) /c start $(CPREFIX)-$(DEBUG_UI) --command=$(GDBINIT_FILE)
+else
+	@echo
+	@echo $(MSG_DEBUG_GDB_SERVER)
+	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	@echo
+	@echo $(MSG_DEBUG_GDB)
+	@$(WINSHELL) /c start $(CPREFIX)-$(DEBUG_UI) --command=$(GDBINIT_FILE)
+endif
+
+# Start telnet session with OpenOCD
+telnet:
+	@echo
+	@echo $(MSG_TELNET)
+	@$(WINSHELL) /c start putty -telnet -P 4444 $(DEBUG_HOST)
 
 
 # Create final output file (.hex) from ELF output file.
@@ -448,10 +529,10 @@ $(shell mkdir $(OUTDIR) 2>/dev/null)
 # Listing of phony targets.
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex lss sym \
-clean clean_list program
+clean clean_list program telnet gdb openocd
 
 # ---------------------------------------------------------------------------
 # LOG
 #
-# 2008/06/30 : Pieter.Conradie
+# 2009/02/20 : Pieter.Conradie
 # - Created
