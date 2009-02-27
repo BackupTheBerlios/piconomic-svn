@@ -631,6 +631,7 @@ EXAMPLE_PATH           = ../arch/avr/test \
                          ../drivers/test \
                          ../general/test \
                          ../arch/arm \
+                         ../arch/arm/AT91 \
                          ../arch/arm/AT91/boards/linker_scripts \
                          ../arch/arm/AT91/tutorials/01_Assembler_Basic \
                          ../arch/arm/AT91/tutorials/02_Assembler_Advanced \

@@ -45,7 +45,7 @@
  * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities.
  * 
  * @par Reference documentation:
- * - <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a> 
+ * - <a href="http://www.arm.com/documentation/books.html">ARM Architecture Reference Manual ARM DDI 0100E</a> 
  * - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=3524">Atmel AT91SAM7S256 datasheet</a>
  * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3784">Atmel AT91SAM7S-EK evaluation kit documents</a>
  *
@@ -54,13 +54,14 @@
  * - <a href="http://www.state-machine.com/arm/">Building Bare-Metal ARM Systems with GNU</a> : detailed article on how to use the GNU toolchain for ARM to build real-life embedded systems based on ARM microcontrollers.
  *
  * @par Sections:
- * - @ref ARM_AT91_INTRODUCTION 
- * - @ref ARM_AT91_CRT 
+ * - @ref ARM_AT91_INTRODUCTION
+ * - @ref ARM_AT91_CRT
+ * - @ref ARM_AT91_IRQ
  * - @ref ARM_AT91_LD
- * - @ref ARM_AT91_MAKEFILE 
- * - @ref ARM_AT91_LSS 
- * - @ref ARM_AT91_NEWLIB 
- * - @ref ARM_AT91_JTAG 
+ * - @ref ARM_AT91_MAKEFILE
+ * - @ref ARM_AT91_LSS
+ * - @ref ARM_AT91_NEWLIB
+ * - @ref ARM_AT91_JTAG
  * 
  * @par Tutorials:
  * @ref ARM_AT91_TUTORIALS
@@ -109,11 +110,41 @@
  * The C file /arch/arm/arm.c contains the default exception handlers. These 
  * handlers are defined as "weak" so that they can be redefined.
  *  
- * @par Other resources:
- * - <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">AT91 Assembler Code Startup Sequence for C Code Applications Software</a> 
+ * @par References: 
+ * - [1] <A href="http://sourceware.org/binutils/docs-2.18/as/index.html">Using gas, the GNU assembler</a> (GNU Binutils 2.18 documentation)
+ * - [2] <A href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a>, David Seal
+ * - [3] <A href="http://www.arm.com/documentation/books.html">ARM System Developer's Guide</A>, Sloss, Symes & Wright
+ * - [4] <A href="infocenter.arm.com/help/topic/com.arm.doc.ihi0042a/IHI0042A_aapcs.pdf">Procedure Call Standard for the ARM Architecture ARM IHI 0042B</A>, ARM
+ * - [5] <A href="http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html">Debugging with GDB, The GNU Source-Level Debugger</A>
+ * - [6] <A href="http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/">Using the GNU Compiler Collection (GCC)</A>
+ * - [7] <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">AT91 Assembler Code Startup Sequence for C Code Applications Software</a> 
  *  
- * @par Example (excerpt): /arch/arm/arm_crt0.S 
+ * @par File (extract): /arch/arm/arm_crt0.S 
  * @dontinclude arch/arm/arm_crt0.S 
+ * @skip .section 
+ * @until .end 
+ *  
+ * <hr> 
+ * @section ARM_AT91_IRQ IRQ Handler (arm_irq.S) 
+ *  
+ * A handler is provided that allows nested interrupts. This means that while an 
+ * interrupt handler is executing, it may be interrupted by a higher priority 
+ * interrupt and resumed after the higher priority interrupt has finished.
+ *  
+ * The IRQ exception handler will change to SYSTEM mode with IRQ and FIQ enabled 
+ * before calling an ordinary C function handler. The SYSTEM stack will be used, 
+ * not the IRQ stack.
+ *  
+ * @par Example of writing an interrupt handler:
+ * - @ref AT91_PITD 
+ *  
+ * References:
+ * - [1] <a href="http://www.arm.com/support/faqdev/1456.html">Writing interrupt handlers</a>, Technical Support FAQs, ARM
+ * - [2] <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/3682.html">What happens if an interrupt occurs as it is being disabled?</a>, ARM
+ * - [3] <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/3682.html">What happens if an interrupt occurs and the interrupt handler does not remove the interrupt?</a>, ARM
+ *   
+ * @par File (extract): /arch/arm/AT91/arm_irq.S 
+ * @dontinclude /arch/arm/AT91/arm_irq.S 
  * @skip .section 
  * @until .end 
  *  
@@ -124,7 +155,7 @@
  * dictates where each section should be placed in memory and defines symbols 
  * to mark specific memory locations.
  *   
- * @par Example (excerpt): /arch/arm/AT91/boards/linker_scripts/at91sam7s256-rom.lds
+ * @par File (extract): /arch/arm/AT91/boards/linker_scripts/at91sam7s256-rom.lds
  * @dontinclude at91sam7s256-rom.lds 
  * @skip OUTPUT_FORMAT 
  * @until .stab 
@@ -192,6 +223,21 @@
  *   
  * <hr>
  * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD 
+ *  
+ * A word of warning first. The learning curve of OpenOCD is extremely steep. 
+ * It is still a work in progress and the documentation is not mature. It also 
+ * uses TCL scripting which is an acquired taste. If one is lucky, OpenOCD will 
+ * work "out of the box", which it does for well supported targets.
+ *  
+ * Support for OpenOCD is built in to the Makefile template 
+ * /arch/arm/Makefile.Template. 
+ *  
+ *  
+ * To start the OpenOCD server and launch GDB/Insight use the following build 
+ * target:
+ * @code 
+ * > make gdb 
+ * @endcode 
  *  
  * @par Trouble shooting guide - part 1 
  *  
@@ -328,8 +374,8 @@
  *  @par Trouble shooting guide - part 3
  *  
  *  Sometimes the code programmed on to the target may put it in an unknown or
- *  bad state before it can be halted by OpenOCD. To make code execution
- *  wait at the reset vector, the following steps must be followed:
+ *  bad state before it can be halted by OpenOCD. To make code execution wait
+ *  at the reset vector, the following steps must be followed:
  *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"). Edit the Makefile:
  *    @code
  *    # Place -D or -U options here for ASM sources
