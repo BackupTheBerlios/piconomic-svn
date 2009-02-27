@@ -61,7 +61,8 @@
  * - @ref ARM_AT91_MAKEFILE
  * - @ref ARM_AT91_LSS
  * - @ref ARM_AT91_NEWLIB
- * - @ref ARM_AT91_JTAG
+ * - @ref ARM_AT91_JTAG 
+ * - @ref ARM_AT91_OPENOCD_TROUBLESHOOTING 
  * 
  * @par Tutorials:
  * @ref ARM_AT91_TUTORIALS
@@ -222,16 +223,16 @@
  * - /atmel_at91lib/utility/string.c
  *   
  * <hr>
- * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD 
+ * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD
  *  
- * A word of warning first. The learning curve of OpenOCD is extremely steep. 
- * It is still a work in progress and the documentation is not mature. It also 
- * uses TCL scripting which is an acquired taste. If one is lucky, OpenOCD will 
- * work "out of the box", which it does for well supported targets.
+ * A word of warning first. The learning curve to use OpenOCD properly is steep, 
+ * because one needs expert knowledge of the CPU too. If one is lucky, OpenOCD 
+ * will work "out of the box", which it does for well supported targets. If not, 
+ * be prepared to spend a fair bit of time to work out how to get OpenOCD working.
  *  
- * Support for OpenOCD is built in to the Makefile template 
- * /arch/arm/Makefile.Template. 
- *  
+ * Custom OpenOCD configuration scripts is stored in /arch/arm/openocd and 
+ * must be copied to the OpenOCD installation directory. Support for OpenOCD is 
+ * built in to the Makefile template /arch/arm/Makefile.Template
  *  
  * To start the OpenOCD server and launch GDB/Insight use the following build 
  * target:
@@ -239,7 +240,34 @@
  * > make gdb 
  * @endcode 
  *  
- * @par Trouble shooting guide - part 1 
+ * To start the OpenOCD server on it's own:
+ * @code 
+ * > make openocd
+ * @endcode 
+ *  
+ * To start a telnet session (interactive command line client) with the OpenOCD 
+ * server (requires <a href="http://www.putty.org">PuTTY</a>):
+ * @code 
+ * > make telnet
+ * @endcode 
+ *  
+ * The Makefile generates a GDB script ("init.gdb") that: 
+ * - Connects to OpenOCD 
+ * - Resets and initialises the CPU (e.g. enable the crystal and PLL,...) 
+ * - Programs the FLASH with the new image 
+ * - Runs to main() 
+ *  
+ * When GDB/Insight starts it will automatically execute the GDB script and 
+ * halt the CPU at the start of main() 
+ *  
+ * @image html insight_cmd.png "GDB/Insight command line screenshot" 
+ *  
+ * @image html insight_main.png "GDB/Insight halt at main()" 
+ *  
+ * <hr> 
+ * @section ARM_AT91_OPENOCD_TROUBLESHOOTING OpenOCD Trouble shooting guide
+ *  
+ * @par Part 1 
  *  
  * Verify that OpenOCD can halt, reset, initialise and program a target. 
  *  
@@ -323,7 +351,7 @@
  *        > shutdown
  *        @endcode
  *  
- *  @par Trouble shooting guide - part 2
+ *  @par Part 2
  *  
  *  Verify that C Run time initialisation (arm_crt0.S) works correctly.
  *  
@@ -371,7 +399,7 @@
  *        > c
  *        @endcode
  *  
- *  @par Trouble shooting guide - part 3
+ *  @par Part 3
  *  
  *  Sometimes the code programmed on to the target may put it in an unknown or
  *  bad state before it can be halted by OpenOCD. To make code execution wait
