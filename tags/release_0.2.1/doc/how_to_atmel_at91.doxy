@@ -1,0 +1,434 @@
+/* =============================================================================
+
+   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+ * @page ARM_AT91_QUICK_START_GUIDE Atmel AT91SAM quick start guide
+ * 
+ * This is a quick start guide for the person who wants to switch to the 
+ * Atmel AT91SAM series microcontroller and learns by example.
+ * 
+ * @par The following free software tools are needed:
+ * - <a href="http://www.yagarto.de">YAGARTO GNU ARM toolchain 28.09.2008</a> : a suite of executable, open source software development tools for ARM microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
+ * - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : packaged with many native Win32 GNU programs and utilities including make and bash.
+ * - <a href="http://openocd.berlios.de/web/">OpenOCD 0.1.0</a> : JTAG software to program and debug 32-bit microcontrollers.
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities.
+ * 
+ * @par Reference documentation:
+ * - <a href="http://www.arm.com/documentation/books.html">ARM Architecture Reference Manual ARM DDI 0100E</a> 
+ * - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=3524">Atmel AT91SAM7S256 datasheet</a>
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3784">Atmel AT91SAM7S-EK evaluation kit documents</a>
+ *
+ * @par Other resources:
+ * - <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">Using Open Source Tools for AT91SAM7 Cross Development</a> : a guide for using open source tools such as Cygwin, GNU/GCC ARM Compiler, Eclipse IDE, Zylin CDT and OpenOCD for low-cost development of AT91SAM7 applications.
+ * - <a href="http://www.state-machine.com/arm/">Building Bare-Metal ARM Systems with GNU</a> : detailed article on how to use the GNU toolchain for ARM to build real-life embedded systems based on ARM microcontrollers.
+ *
+ * @par Sections:
+ * - @ref ARM_AT91_INTRODUCTION
+ * - @ref ARM_AT91_CRT
+ * - @ref ARM_AT91_IRQ
+ * - @ref ARM_AT91_LD
+ * - @ref ARM_AT91_MAKEFILE
+ * - @ref ARM_AT91_LSS
+ * - @ref ARM_AT91_NEWLIB
+ * - @ref ARM_AT91_JTAG 
+ * - @ref ARM_AT91_OPENOCD_TROUBLESHOOTING 
+ * 
+ * @par Tutorials:
+ * @ref ARM_AT91_TUTORIALS
+ * - @ref ARM_AT91_TUT01_ASM_BASIC 
+ * - @ref ARM_AT91_TUT02_ASM_ADVANCED 
+ * - @ref ARM_AT91_TUT03_C_BOARD_INIT 
+ *  
+ * @par Examples: 
+ * @ref ARM_AT91_EXAMPLES 
+ * - @ref ARM_AT91_LED_BLINK
+ *  
+ * <hr>
+ * @section ARM_AT91_INTRODUCTION Introduction 
+ *  
+ * With increased flexiblity comes increased complexity. The learning curve for 
+ * 32-bit ARM microcontrollers is much steeper than for example 8-bit Atmel AVR 
+ * microcontrollers. To become really proficient one needs to learn how to use
+ * several new tools and syntaxes:
+ * - <a href="http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/">Using the GNU Compiler Collection (GCC)</a> 
+ * - <a href="http://sourceware.org/binutils/docs-2.18/as/index.html">Using gas, the GNU assembler (GNU Binutils 2.18 documentation)</a> 
+ * - <a href="http://sourceware.org/binutils/docs-2.18/ld/index.html">GNU ld (GNU Binutils) 2.18 documentation (the GNU linker)</a> 
+ * - <a href="http://www.gnu.org/software/make/manual/make.html">GNU Make</a> 
+ * - <a href="http://sourceware.org/newlib/">Newlib - a C library intended for use on embedded systems</a>
+ * - <a href="http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html">Debugging with GDB, The GNU Source-Level Debugger</a> 
+ *  
+ * It is advised that if your time equals money and you would rather spend your 
+ * time developing and debugging new firmware applications then you should turn 
+ * to a cost effective toolchain with board support packages from 
+ * <a href="http://www.rowley.co.uk">Rowley Crossworks</a> 
+ * and buy a CrossConnect JTAG debugger.
+ *  
+ * <hr>
+ * @section ARM_AT91_CRT C Run time initialisation (arm_crt0.S) 
+ *  
+ * Assembler start up code is provided that: 
+ * - Routes the exception vectors to handlers 
+ * - Copies the exception vector code to internal SRAM in preparation for remapping
+ * - Copies specific C functions or global variables to internal SRAM (with __attribute__ ((section (".text.sram")))) 
+ * - Calls a low level board initialisation routine written in C (board_lowlevel_init())
+ * - Initialises the DATA section (C variables with initial values) 
+ * - Clears the BSS section (C variables that should be set to zero) 
+ * - Initialises a stack for each processor mode (FIQ, IRQ, UND, ABT, SVC, SYS) 
+ * - Puts the processor in SYSTEM mode and enables IRQ and FIQ 
+ * - Calls the C function main() 
+ *  
+ * The C file /arch/arm/arm.c contains the default exception handlers. These 
+ * handlers are defined as "weak" so that they can be redefined.
+ *  
+ * @par References: 
+ * - [1] <A href="http://sourceware.org/binutils/docs-2.18/as/index.html">Using gas, the GNU assembler</a> (GNU Binutils 2.18 documentation)
+ * - [2] <A href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0100e/index.html">ARM Architecture Reference Manual ARM DDI 0100E</a>, David Seal
+ * - [3] <A href="http://www.arm.com/documentation/books.html">ARM System Developer's Guide</A>, Sloss, Symes & Wright
+ * - [4] <A href="infocenter.arm.com/help/topic/com.arm.doc.ihi0042a/IHI0042A_aapcs.pdf">Procedure Call Standard for the ARM Architecture ARM IHI 0042B</A>, ARM
+ * - [5] <A href="http://sourceware.org/gdb/current/onlinedocs/gdb_toc.html">Debugging with GDB, The GNU Source-Level Debugger</A>
+ * - [6] <A href="http://gcc.gnu.org/onlinedocs/gcc-4.3.0/gcc/">Using the GNU Compiler Collection (GCC)</A>
+ * - [7] <a href="http://www.atmel.com/dyn/products/app_notes.asp?family_id=605">AT91 Assembler Code Startup Sequence for C Code Applications Software</a> 
+ *  
+ * @par File (extract): /arch/arm/arm_crt0.S 
+ * @dontinclude arch/arm/arm_crt0.S 
+ * @skip .section 
+ * @until .end 
+ *  
+ * <hr> 
+ * @section ARM_AT91_IRQ IRQ Handler (arm_irq.S) 
+ *  
+ * A handler is provided that allows nested interrupts. This means that while an 
+ * interrupt handler is executing, it may be interrupted by a higher priority 
+ * interrupt and resumed after the higher priority interrupt has finished.
+ *  
+ * The IRQ exception handler will change to SYSTEM mode with IRQ and FIQ enabled 
+ * before calling an ordinary C function handler. The SYSTEM stack will be used, 
+ * not the IRQ stack.
+ *  
+ * @par Example of writing an interrupt handler:
+ * - @ref AT91_PITD 
+ *  
+ * References:
+ * - [1] <a href="http://www.arm.com/support/faqdev/1456.html">Writing interrupt handlers</a>, Technical Support FAQs, ARM
+ * - [2] <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/3682.html">What happens if an interrupt occurs as it is being disabled?</a>, ARM
+ * - [3] <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/3682.html">What happens if an interrupt occurs and the interrupt handler does not remove the interrupt?</a>, ARM
+ *   
+ * @par File (extract): /arch/arm/AT91/arm_irq.S 
+ * @dontinclude /arch/arm/AT91/arm_irq.S 
+ * @skip .section 
+ * @until .end 
+ *  
+ * <hr>
+ * @section ARM_AT91_LD Linker scripts 
+ *  
+ * Linker scripts defines the address and size of memory sections. It also 
+ * dictates where each section should be placed in memory and defines symbols 
+ * to mark specific memory locations.
+ *   
+ * @par File (extract): /arch/arm/AT91/boards/linker_scripts/at91sam7s256-rom.lds
+ * @dontinclude at91sam7s256-rom.lds 
+ * @skip OUTPUT_FORMAT 
+ * @until .stab 
+ *    
+ * <hr>
+ * @section ARM_AT91_MAKEFILE Makefile 
+ *  
+ * A Makefile template has been included that is based on the WinARM and WinAVR 
+ * Makefile template. To use it, make a copy to your project directory (renamed 
+ * to "Makefile") and edit to add the project files.
+ *  
+ * File: /arch/ARM/Makefile.Template 
+ *  
+ * It has the following features: 
+ * - Allows a debug or release build (make CFG=debug | make CFG=release) 
+ * - Allows an ARM only build, or mixed ARM/Thumb (USE_THUMB_MODE = YES | NO) 
+ * - Allows specification of the MCU (e.g. MCU = arm7tdmi) 
+ * - Generates various output files: 
+ *      - ELF File that can be used for programming and debugging (*.elf) 
+ *      - Intel HEX File that can be used for programming (*.hex)
+ *      - Binary file that can be used for programming (*.bin)
+ *      - Extended assembly listing file that can be used to verify that code has been correctly generated (*.lss)
+ *      - Symbol file that can be used to verify the location (address) of functions and variables (*.sym)
+ * - GDB debugging support: 
+ *      - make gdb (Create a GDB init file, launch OpenOCD and GDB/Insight)
+ *      - make openocd (Launch OpenOCD)
+ *      - make telnet (Start telnet session with OpenOCD)
+ *      - Allows OpenOCD to be launched within GDB/Insight or separately as a GDB server (DEBUG_PIPE = YES | NO)
+ * - Produces human readable output; see below
+ * 
+ * @par Build example (/arch/arm/AT91/examples/led_blink):
+ * @include arm_at91_ex_make.txt 
+ *  
+ * <hr>
+ * @section ARM_AT91_LSS Extended assembly listing file 
+ *  
+ * It is advised that the generated extended assembly listing file must always 
+ * be inspected to verify that the code has been correctly generated.
+ *  
+ * @par Example: 
+ * @include /arch/arm/AT91/tutorials/03_C_board_init/C_board_init.lss 
+ *  
+ * <hr>
+ * @section ARM_AT91_NEWLIB The Red Hat newlib C Library
+ *  
+ * Most GCC compilers targeted for ARM, including 
+ * <A href="www.yagarto.de">Yagarto</a> is packaged with Newlib as the standard 
+ * C library (libc.a and libm.a)
+ *  
+ * The C library depends on a handful of subroutine calls for operating system 
+ * services. On a "bare board" system, without an operating system, 
+ * do-nothing stubs (or subroutines with minimal functionality) must be 
+ * provided to allow programs to link with the subroutines in libc.a
+ *  
+ * Documents: 
+ * - <a href="http://www.sourceware.org/newlib/libc.html#Syscalls">The Red Hat newlib C Library - 13 System Calls"</a>
+ * - <a href="http://www.embedded.com/story/OEG20011220S0058">Embedding with GNU: Newlib</a> 
+ * - <a href="http://embedded.com/story/OEG20020103S0073">Embedding GNU: Newlib, Part 2</a> 
+ *  
+ * The <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> 
+ * makes provision or provides alternatives with:
+ * - /atmel_at91lib/utility/retarget.c
+ * - /atmel_at91lib/utility/stdio.c
+ * - /atmel_at91lib/utility/string.c
+ *   
+ * <hr>
+ * @section ARM_AT91_JTAG JTAG Programming and debugging with OpenOCD
+ *  
+ * A word of warning first. The learning curve to use OpenOCD properly is steep, 
+ * because one needs expert knowledge of the CPU too. If one is lucky, OpenOCD 
+ * will work "out of the box", which it does for well supported targets. If not, 
+ * be prepared to spend a fair bit of time to work out how to get OpenOCD working.
+ *  
+ * Custom OpenOCD configuration scripts is stored in /arch/arm/openocd and 
+ * must be copied to the OpenOCD installation directory. Support for OpenOCD is 
+ * built in to the Makefile template /arch/arm/Makefile.Template
+ *  
+ * To start the OpenOCD server and launch GDB/Insight use the following build 
+ * target:
+ * @code 
+ * > make gdb 
+ * @endcode 
+ *  
+ * To start the OpenOCD server on it's own:
+ * @code 
+ * > make openocd
+ * @endcode 
+ *  
+ * To start a telnet session (interactive command line client) with the OpenOCD 
+ * server (requires <a href="http://www.putty.org">PuTTY</a>):
+ * @code 
+ * > make telnet
+ * @endcode 
+ *  
+ * The Makefile generates a GDB script ("init.gdb") that: 
+ * - Connects to OpenOCD 
+ * - Resets and initialises the CPU (e.g. enable the crystal and PLL,...) 
+ * - Programs the FLASH with the new image 
+ * - Runs to main() 
+ *  
+ * When GDB/Insight starts it will automatically execute the GDB script and 
+ * halt the CPU at the start of main() 
+ *  
+ * @image html insight_cmd.png "GDB/Insight command line screenshot" 
+ *  
+ * @image html insight_main.png "GDB/Insight halt at main()" 
+ *  
+ * <hr> 
+ * @section ARM_AT91_OPENOCD_TROUBLESHOOTING OpenOCD Trouble shooting guide
+ *  
+ * @par Part 1 
+ *  
+ * Verify that OpenOCD can halt, reset, initialise and program a target. 
+ *  
+ * Steps: 
+ * - Make sure the board is powered!
+ * - Start OpenOCD 
+ *   @code
+ *   > make openocd
+ *   @endcode
+ * - OpenOCD can be configured to write debug output to a file for later
+ *   examination and to file a bug report. Edit the Makefile:
+ *   @code
+ *   openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) -d 3 -l log.txt
+ *   @endcode
+ * - Start a telnet session
+ *   @code
+ *   > make telnet
+ *   @endcode
+ *      - Get a list of commands
+ *        @code
+ *        > help
+ *        @endcode
+ *      - Can the target be halted?
+ *        @code
+ *        > halt
+ *        @endcode
+ *      - Reset the target
+ *        @code
+ *        > reset init
+ *        @endcode
+ *      - Is the target in the proper initialised reset state? Check crystal, PLL,
+ *        peripherals,...Examine TCL script, e.g. target/at91sam7s.cfg:
+ *        @code
+ *        $_TARGETNAME configure -event reset-init { 
+ *              soft_reset_halt
+ *              # RSTC_CR : Reset peripherals
+ *              mww 0xfffffd00 0xa5000004
+ *              # disable watchdog
+ *          	mww 0xfffffd44 0x00008000	
+ *          	# enable user reset
+ *          	mww 0xfffffd08 0xa5000001	
+ *          	# CKGR_MOR : enable the main oscillator
+ *          	mww 0xfffffc20 0x00000601	
+ *          	sleep 10
+ *          	# CKGR_PLLR: 96.1097 MHz
+ *          	mww 0xfffffc2c 0x00481c0e 	
+ *          	sleep 10
+ *          	# PMC_MCKR : MCK = PLL / 2 ~= 48 MHz
+ *          	mww 0xfffffc30 0x00000007	
+ *          	sleep 10
+ *          	# MC_FMR: flash mode (FWS=1,FMCN=73)
+ *          	mww 0xffffff60 0x00490100	
+ *          	sleep 100
+ *        }
+ *        @endcode
+ *      - Is the JTAG frequency 6 times slower than the CPU frequency?
+ *        @code
+ *        > jtag_khz
+ *        @endcode
+ *      - Test SRAM
+ *        @code
+ *        > mdw 0x00200000
+ *        > mww 0x00200000 0xdeadbeef
+ *        > mdw 0x00200000
+ *        @endcode
+ *      - Is the flash interface working?
+ *        @code
+ *        > flash probe 0
+ *        > flash info 0
+ *        @endcode
+ *      - Can the flash be programmed?
+ *        @code
+ *        > flash write_image erase ./DEBUG/PROJECT.bin 0x00100000 bin
+ *        @endcode
+ *      - Is the image written to flash correct?
+ *        @code
+ *        > verify_image ./DEBUG/PROJECT.bin 0x00100000 bin
+ *        @endcode
+ *      - Stop telnet and OpenOCD
+ *        @code
+ *        > shutdown
+ *        @endcode
+ *  
+ *  @par Part 2
+ *  
+ *  Verify that C Run time initialisation (arm_crt0.S) works correctly.
+ *  
+ *  Steps:
+ *  - Create a GDB init script ("init.gdb")
+ *    @code
+ *    > make gdb-config
+ *    @endcode
+ *  - Edit GDB init script to stop at at 0x00000000 (global symbol "_start"):
+ *    @code
+ *    target remote localhost:3333
+ *    monitor reset init
+ *    file DEBUG/PROJECT.elf
+ *    load
+ *    compare-sections
+ *    thbreak *0x00000000 # or thbreak _start
+ *    continue
+ *    @endcode
+ *  - Launch OpenOCD
+ *    @code
+ *    > make openocd
+ *    @endcode
+ *  - Launch GDB/Insight manually
+ *    @code
+ *    > arm-elf-insight --command=init.gdb
+ *    @endcode
+ *      - To be safe, slow down the JTAG communication speed. This is to
+ *        ensure that the JTAG communication is always 6 times slower than the
+ *        CPU, which probably starts at 32kHz, and changes frequency during the
+ *        low level C initialisation routine board_lowlevel_init().
+ *        @code
+ *        > monitor jtag_khz 8
+ *        @endcode
+ *      - You should now be in "arm_crt0.S". Single step through start up code
+ *        @code
+ *        > s
+ *        @endcode
+ *      - Step to just before the call to "board_lowlevel_init()"
+ *      - Place a breakpoint after the call
+ *        @code
+ *        > b arm_crt0_init
+ *        @endcode
+ *      - Continue and see if the breakpoint is reached
+ *        @code
+ *        > c
+ *        @endcode
+ *  
+ *  @par Part 3
+ *  
+ *  Sometimes the code programmed on to the target may put it in an unknown or
+ *  bad state before it can be halted by OpenOCD. To make code execution wait
+ *  at the reset vector, the following steps must be followed:
+ *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"). Edit the Makefile:
+ *    @code
+ *    # Place -D or -U options here for ASM sources
+ *    ADEFS  = -D$(CHIP) -D__ASSEMBLY__ -DARM_DEBUG_WAIT
+ *    @endcode
+ *  - Rebuid project
+ *    @code
+ *    > make clean
+ *    > make
+ *    @endcode
+ *  - Launch GDB/Insight manually as shown in part 2 with the following modified
+ *    GDB init script:
+ *    @code
+ *    target remote localhost:3333
+ *    monitor reset init
+ *    file DEBUG/PROJECT.elf
+ *    load
+ *    compare-sections
+ *    thbreak arm_crt0_rst
+ *    jump arm_crt0_rst
+ *    @endcode
+ *  
+ *    @note
+ *    The Makefile may be modified so that this becomes the standard way of
+ *    debugging code, i.e. the code will always wait for the debugger to start.
+ *   
+ */
+
