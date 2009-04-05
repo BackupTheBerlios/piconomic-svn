@@ -46,12 +46,30 @@
  * 
  *  @image html piconomic_ab111-4.jpg
  * 
+ *  You are free to manufacture this board for own use or to sell commercially,
+ *  as long as copyright notice is retained (give credit where credit is due).
+ * 
+ *  THIS HARDWARE DESIGN IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS HARDWARE DESIGN, EVEN IF ADVISED
+ *  OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
  *  Design documents and files located in /arch/avr/boards/piconomic_ab111-4:
- *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_sch.pdf">Schematic</a>
- *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_bom.pdf">Bill Of Materials</a>
- *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_layout.pdf">Board Layout</a>
- *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_errata.pdf">Errata for AB111-4 PCB</a>
- *  - <a href="file:///C:/piconomic_fwlib/arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_gerbers.7z">CAM files to manufacture PCB</a>
+ *  - <a href="file:../../arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_sch.pdf">Schematic</a>
+ *  - <a href="file:../../arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_bom.pdf">Bill Of Materials</a>
+ *  - <a href="file:../../arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_layout.pdf">Board Layout</a>
+ *  - <a href="file:../../arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_errata.pdf">Errata for AB111-4 PCB</a>
+ *  - <a href="file:../../arch/avr/boards/piconomic_ab111-4/piconomic_ab111-4_gerbers.7z">CAM files to manufacture PCB</a>
+ * 
+ *  Note: these documents and files are included with the file releases of the library:
+ *  - http://developer.berlios.de/project/showfiles.php?group_id=10550
  * 
  *  Features:
  *  - ATmega128L-8AU microcontroller with 7.3728 MHz crystal oscillator
