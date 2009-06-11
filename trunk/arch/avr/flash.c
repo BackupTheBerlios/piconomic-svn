@@ -60,7 +60,7 @@
 BOOTLOADER_SECTION void flash_clear_page(const u16_t page)
 {
     // Calculate 32-bit address from specified page
-    u32_t adr = ((u32_t)page)<<8;
+    u32_t adr = ((u32_t)page) * SPM_PAGESIZE;
 
     // Save status of global interrupts
     u8_t sreg = SREG;
@@ -123,7 +123,11 @@ BOOTLOADER_SECTION void flash_write_page(const u16_t page, const u8_t* data)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter.Conradie
  - First release
+ 
+ 2009-06-11 Pieter.Conradie
+ - Fixed bug in flash_clear_page() where address was hardcoded for a
+   page size of 256 bytes.
    
 */
