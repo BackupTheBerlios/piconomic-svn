@@ -53,6 +53,9 @@
  *  @par Quick start guides (with tutorials and examples):
  *  - @ref AVR_QUICK_START_GUIDE "Atmel AVR"
  *  - @ref ARM_AT91_QUICK_START_GUIDE "Atmel AT91SAM"
+ *  
+ *  @par Step by step guides:
+ *  - @ref BUILD_OPENOCD "How to build OpenOCD with FTDI's D2XX driver for Windows"
  *
  *  @par Recommended best practices:
  *  - C coding style: 
@@ -98,7 +101,7 @@
  *  @par Wish list:
  *  - Unified initialisation code, BSPs and linker scripts for ARM7/9 and Cortex microcontrollers
  *  - Support for more microcontrollers: MSP430, Cortex-M3, ...
- *  - Embedded graphic LCD GUI Library with font converter, bitmap/image support, graphics (lines, circles,...), LCD controller drivers, widgets, WYSIWYG
+ *  - Embedded graphic LCD GUI Library with font converter, bitmap/image support, graphics (lines, circles,...), LCD controller drivers, widgets, WYSIWYG Editor
  *
  *  @par Author(s):
  *  @htmlonly 
