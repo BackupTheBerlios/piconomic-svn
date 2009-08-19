@@ -41,8 +41,13 @@
  * @par The following free software tools are needed:
  * - <a href="http://www.yagarto.de">YAGARTO GNU ARM toolchain 28.09.2008</a> : a suite of executable, open source software development tools for ARM microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
  * - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : packaged with many native Win32 GNU programs and utilities including make and bash.
- * - <a href="http://openocd.berlios.de/web/">OpenOCD 0.1.0</a> : JTAG software to program and debug 32-bit microcontrollers.
- * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities.
+ * - <a href="http://www.freddiechopin.info/index.php/en/download/category/4-openocd">OpenOCD 0.2.0</a> : JTAG software to program and debug 32-bit microcontrollers.
+ * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities. 
+ *  
+ * Note! <a href="http://www.freddiechopin.info/index.php/en/download/category/4-openocd">OpenOCD 0.2.0</a> 
+ * is built with the open source libftdi + libusb-win32 libraries. Read 
+ * <a href="http://forum.sparkfun.com/viewtopic.php?t=16422">Sparkfun Forum > OpenOCD 0.2.0 - Windows installer</a>. 
+ * It is recommended that you follow the steps in @ref BUILD_OPENOCD "How to build OpenOCD with FTDI's FTD2XX driver for Windows".
  * 
  * @par Reference documentation:
  * - <a href="http://www.arm.com/documentation/books.html">ARM Architecture Reference Manual ARM DDI 0100E</a> 
@@ -299,7 +304,7 @@
  *        > reset init
  *        @endcode
  *      - Is the target in the proper initialised reset state? Check crystal, PLL,
- *        peripherals,...Examine TCL script, e.g. target/at91sam7s.cfg:
+ *        peripherals,...Examine TCL script, e.g. target/at91sam7sx.cfg:
  *        @code
  *        $_TARGETNAME configure -event reset-init { 
  *              soft_reset_halt
