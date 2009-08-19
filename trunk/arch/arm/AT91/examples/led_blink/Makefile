@@ -255,7 +255,7 @@ DEBUG_HOST = localhost
 DEBUG_PIPE = NO
 
 # Specify the interface that OpenOCD should use
-DEBUG_INTERFACE = interface/olimex-jtag-tiny-a.cfg
+DEBUG_INTERFACE = interface/olimex-jtag-tiny.cfg
 
 # Specify the board or target
 DEBUG_TARGET = board/atmel_at91sam7s-ek.cfg
@@ -397,7 +397,7 @@ endif
 openocd:
 	@echo
 	@echo $(MSG_DEBUG_GDB_SERVER)
-	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET) -d 3 -l log.txt
 	
 # Start gdb debugging
 gdb: gdb-config elf
