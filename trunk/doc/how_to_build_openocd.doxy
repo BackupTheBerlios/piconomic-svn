@@ -39,7 +39,7 @@ _/* ============================================================================
  * I have decided to create a step by step guide to build OpenOCD 0.2.0 for Windows 
  * using Cygwin (a Linux-like environment for Windows). It is linked against FTDI's 
  * proprietary (non-GPL) FTD2XX Driver to support FT2232x based JTAG interfaces. 
- * This is to protest against a 
+ * This is to (respectfully) protest against a 
  * <a href="http://en.wikipedia.org/wiki/Fundamentalism">fundamentalist</a>
  * enforcement of the GPL license (as opposed to being 
  * <a href="http://en.wikipedia.org/wiki/Pragmatism">pragmatic</a>) that has stopped 
@@ -102,7 +102,7 @@ _/* ============================================================================
  * (if required).
  *  
  * @par 
- * The following packages @b must be explicitely selected to build OpenOCD:
+ * The following packages @b must be explicitly selected to build OpenOCD:
  * - All>Archive>@b unzip: Info-ZIP decompression utility; for FTDI driver ZIP file
  * - All>Devel>@b autoconf: Wrapper scripts for autoconf commands
  * - All>Devel>@b automake: Wrapper scripts for automake and aclocals
@@ -176,7 +176,7 @@ _/* ============================================================================
  * @par 3.4 Uninstall old FTDI Driver 
  * FTDI has created a utility to forcibly remove all FTDI drivers. These steps are 
  * optional, but it will ensure that you have the correct/latest driver installed 
- * and therefor it is recommended that you follow it.
+ * and therefore it is recommended that you follow it.
  *  
  * @par 
  * Download and run (with your interface @b not plugged into your PC): 
@@ -263,7 +263,7 @@ _/* ============================================================================
  * - CC="gcc -mno-cygwin" : specify that executable must not be dependant on Cygwin DLLs 
  *  
  * @par 
- * If succesful, the script will create a "Makefile" and a "config.h" file. 
+ * If successful, the script will create a "Makefile" and a "config.h" file. 
  *  
  * @par 4.4 Build the configured OpenOCD source code using the Makefile
  * @code 
