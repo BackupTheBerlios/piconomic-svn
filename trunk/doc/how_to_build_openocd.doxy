@@ -54,6 +54,7 @@ _/* ============================================================================
  * - @ref OPENOCD_DOWNLOAD 
  * - @ref OPENOCD_FTDI 
  * - @ref OPENOCD_BUILD_PROCESS 
+ * - @ref OPENOCD_BUILD_SVN
  *  
  * @par Reference(s): 
  * - [1] <a href="http://forum.sparkfun.com/viewtopic.php?t=11221&sid=93ef057ff3c292635d3f3a452547a0ce">Sparkfun Forum: How to build OpenOCD for windows</a>; Michael Fischer
@@ -234,8 +235,8 @@ _/* ============================================================================
  *  
  * @par 3.6 Install new FTDI Driver 
  * - Insert your JTAG interface 
- * - select "Install from  a list or specific location (Advanced)"
- * - specify "C:\cygwin\tmp\ftd2xx" as the location 
+ * - Select "Install from  a list or specific location (Advanced)"
+ * - Specify "C:\cygwin\tmp\ftd2xx" as the location 
  * - Repeat installation for each USB composite device (3 times for Olimex ARM-USB-TINY).
  *  
  * <hr> 
@@ -286,6 +287,31 @@ _/* ============================================================================
  * @code 
  * $ make html
  * @endcode 
- *   
+ *  
+ * <hr> 
+ * @section OPENOCD_BUILD_SVN 5. How to build latest OpenOCD in SVN 
+ * This section assumes that you are familiar with Cygwin and have followed the 
+ * steps in: 
+ * - @ref OPENOCD_CYGWIN 
+ * - @ref OPENOCD_FTDI 
+ *  
+ * Here is a build script that fetches the latest source code from SVN and 
+ * builds it. Please observe that the "/tmp/openocd/trunk/bootstrap" script is 
+ * executed as part of the build process. 
+ *  
+ * @code 
+ * mkdir /tmp/openocd
+ * cd /tmp/openocd
+ * svn checkout http://svn.berlios.de/svnroot/repos/openocd/trunk
+ * cd trunk
+ * ./bootstrap
+ * ./configure --enable-maintainer-mode --disable-werror --disable-shared --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=/tmp/ftd2xx CC="gcc -mno-cygwin"
+ * make
+ * strip -s src/openocd.exe
+ * make html
+ * svn_rev=`svn info . | grep '^Revision' | cut -f2 -d " "`
+ * cp src/openocd.exe /tmp/openocd_SVN$svn_rev.exe
+ * @endcode 
+ *    
  */
 
