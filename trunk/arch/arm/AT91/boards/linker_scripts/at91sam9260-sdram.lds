@@ -164,7 +164,7 @@ SECTIONS
   .bss.sram (NOLOAD) :
   {
         *(.bss.sram)
-  } > SDRAM
+  } > SRAM0
 
   /*
    * INIT section holds executable instructions that contribute to the process
