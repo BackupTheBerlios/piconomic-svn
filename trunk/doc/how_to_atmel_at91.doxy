@@ -35,12 +35,13 @@
 /**
  * @page ARM_AT91_QUICK_START_GUIDE Atmel AT91SAM quick start guide
  * 
- * This is a quick start guide for the person who wants to switch to the 
- * Atmel AT91SAM series microcontroller and learns by example.
+ * This is a quick start guide for the person with general embedded programming 
+ * experience that wants to switch to the Atmel AT91SAM series microcontroller 
+ * and learns by example.
  * 
  * @par The following free software tools are needed:
- * - <a href="http://www.yagarto.de">YAGARTO GNU ARM toolchain 28.09.2008</a> : a suite of executable, open source software development tools for ARM microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
- * - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : packaged with many native Win32 GNU programs and utilities including make and bash.
+ * - <a href="http://www.yagarto.de">YAGARTO GNU ARM toolchain 17.08.2009</a> : a suite of executable, open source software development tools for ARM microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++. 
+ * - <a href="http://winavr.sourceforge.net">WinAVR 20090313</a> : packaged with many native Win32 GNU programs and utilities including make and bash.
  * - <a href="http://www.freddiechopin.info/index.php/en/download/category/4-openocd">OpenOCD 0.2.0</a> : JTAG software to program and debug 32-bit microcontrollers.
  * - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">AT91 Library Software Package 1.5</a> : contains board and device specific files (C-Startup files, low level initialization, register description files), peripheral APIs, on-board components configuration files, USB Framework and utilities. 
  *  
@@ -102,7 +103,9 @@
  * <hr>
  * @section ARM_AT91_CRT C Run time initialisation (arm_crt0.S) 
  *  
- * Assembler start up code is provided that: 
+ * 99% of the magic happens before your main() function is called. This is the 
+ * place where most things can go wrong and also the hardest to debug. With this 
+ * library assembler start up code is provided that: 
  * - Routes the exception vectors to handlers 
  * - Copies the exception vector code to internal SRAM in preparation for remapping
  * - Copies specific C functions or global variables to internal SRAM (with __attribute__ ((section (".text.sram")))) 
@@ -141,7 +144,7 @@
  * before calling an ordinary C function handler. The SYSTEM stack will be used, 
  * not the IRQ stack.
  *  
- * @par Example of writing an interrupt handler:
+ * @par Example of writing an interrupt handler in C:
  * - @ref AT91_PITD 
  *  
  * References:
@@ -198,8 +201,18 @@
  * <hr>
  * @section ARM_AT91_LSS Extended assembly listing file 
  *  
- * It is advised that the generated extended assembly listing file must always 
- * be inspected to verify that the code has been correctly generated.
+ * The Makefile also generates an extended assembly listing file from the 
+ * generated ELF file: 
+ * @code 
+ * arm-elf-objdump -h -S DEBUG/PROJECT.elf > DEBUG/PROJECT.lss 
+ * @endcode 
+ *  
+ * It is advised that this file must be inspected to verify that the code has 
+ * been correctly generated. Various errors can be detected this way. e.g.: 
+ * - a section has not been placed at the correct address (LMA or VMA)
+ * - sections overlap 
+ * - startup code is not placed at the reset vector, e.g. 0x00000000 
+ * - wrong absolute adresses 
  *  
  * @par Example: 
  * @include /arch/arm/AT91/tutorials/03_C_board_init/C_board_init.lss 
@@ -214,8 +227,14 @@
  * The C library depends on a handful of subroutine calls for operating system 
  * services. On a "bare board" system, without an operating system, 
  * do-nothing stubs (or subroutines with minimal functionality) must be 
- * provided to allow programs to link with the subroutines in libc.a
+ * provided to allow programs to link with the subroutines in libc.a 
  *  
+ * You will know that you have to provide these functions if for example you 
+ * use @b printf and the linker generates the following error: 
+ * @code 
+ * ... undefined reference to 'puts'
+ * @endcode 
+ *   
  * Documents: 
  * - <a href="http://www.sourceware.org/newlib/libc.html#Syscalls">The Red Hat newlib C Library - 13 System Calls"</a>
  * - <a href="http://www.embedded.com/story/OEG20011220S0058">Embedding with GNU: Newlib</a> 
@@ -409,7 +428,7 @@
  *  Sometimes the code programmed on to the target may put it in an unknown or
  *  bad state before it can be halted by OpenOCD. To make code execution wait
  *  at the reset vector, the following steps must be followed:
- *  - #define ARM_DEBUG_WAIT (used in "arm_crt0.S"). Edit the Makefile:
+ *  - @#define ARM_DEBUG_WAIT (used in "arm_crt0.S"). Edit the Makefile:
  *    @code
  *    # Place -D or -U options here for ASM sources
  *    ADEFS  = -D$(CHIP) -D__ASSEMBLY__ -DARM_DEBUG_WAIT
