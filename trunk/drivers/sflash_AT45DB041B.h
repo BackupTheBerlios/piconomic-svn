@@ -68,16 +68,15 @@
 /// Serial Flash page size in bytes
 #define AT45DB041B_PAGE_SIZE    264
 
-// 
-/** 
- *  \name Status register content
- */
-//@{
+/// Status register - Ready flag
 #define AT45DB041B_STATUS_READY 7
+/// Status register - Compare flag
 #define AT45DB041B_STATUS_COMP  6
+/// Status register - Density mask
 #define AT45DB041B_DENSITY_MASK 0x3C
+/// Status register - Density value for AT45DB041B
 #define AT45DB041B_DENSITY      0x1C
-//@}
+
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 
