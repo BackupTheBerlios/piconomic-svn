@@ -236,7 +236,7 @@
  * @endcode 
  *   
  * Documents: 
- * - <a href="http://www.sourceware.org/newlib/libc.html#Syscalls">The Red Hat newlib C Library - 13 System Calls"</a>
+ * - <a href="http://www.sourceware.org/newlib/libc.html#Syscalls">The Red Hat newlib C Library - 13 System Calls</a>
  * - <a href="http://www.embedded.com/story/OEG20011220S0058">Embedding with GNU: Newlib</a> 
  * - <a href="http://embedded.com/story/OEG20020103S0073">Embedding GNU: Newlib, Part 2</a> 
  *  
