@@ -127,7 +127,7 @@ typedef enum
             }
 
 #else
-#define DBG_TRACE(level, format, ...)
+#define DBG_LOG(level, format, ...)
 #define DBG_ASSERT(expression)
 #endif
 
