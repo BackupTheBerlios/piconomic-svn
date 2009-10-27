@@ -132,6 +132,27 @@ typedef enum
 #endif
 
 /**
+ * Shortcut macro to display an error message. 
+ *  
+ * @see DBG_LOG
+ */
+#define DBG_ERR(format, ...)  DBG_LOG(DBG_ERR,  format, ## __VA_ARGS__)
+
+/**
+ * Shortcut macro to display a warning message. 
+ *  
+ * @see DBG_LOG
+ */
+#define DBG_WARN(format, ...) DBG_LOG(DBG_WARN, format, ## __VA_ARGS__)
+
+/**
+ * Shortcut macro to display a progress message. 
+ *  
+ * @see DBG_LOG
+ */
+#define DBG_PROG(format, ...) DBG_LOG(DBG_PROG, format, ## __VA_ARGS__)
+
+/**
  *  @}
  */
 #endif

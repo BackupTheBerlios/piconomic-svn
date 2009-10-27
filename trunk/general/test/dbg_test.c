@@ -17,20 +17,26 @@
 
 #endif
 
-void DBG_vTest(void)
+void dbg_test(void)
 {
     u8_t counter;
  
     // Initialise modules
-    uart0_init();
+    uart0_init(115200,8,UART0_NO_PARITY,1);
     printf_init();
 
     // Enable global interrupts
     sei();
+
+    PRINTF("\nDBG Test\n\n");
   
+    DBG_ERR("This is an error msg\n");
+    DBG_WARN("This is a warning msg\n");
+    DBG_PROG("This is a progress msg\n");
+
     for(counter = 0; counter<16; counter++)
     {
         DBG_ASSERT(counter <= 7); // Counter may not exceed the value 7
-        DBG_TRACE(DBG_PROG, "Counter = %d\n", counter);
+        DBG_LOG(DBG_PROG, "Counter = %d\n", counter);
     }
 }
