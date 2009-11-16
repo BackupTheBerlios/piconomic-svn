@@ -237,6 +237,9 @@ DEBUG_UI = insight
 # Set the debugging back-end
 DEBUG_BACKEND = openocd
 
+# OpenOCD Init Filename.
+OCDINIT_FILE = openocd.cfg
+
 # GDB Init Filename.
 GDBINIT_FILE = init.gdb
 
@@ -393,11 +396,17 @@ endif
 	@echo thbreak main >> $(GDBINIT_FILE)
 	@echo continue >> $(GDBINIT_FILE)
 
+# Generate OpenOCD config file
+ocd-config: 
+	@$(REMOVE) $(OCDINIT_FILE)
+	@echo source [find $(DEBUG_INTERFACE)] >> $(OCDINIT_FILE)
+	@echo source [find $(DEBUG_TARGET)] >> $(OCDINIT_FILE)
+
 # Start OpenOCD
-openocd:
-	@echo
+openocd: ocd-config
 	@echo $(MSG_DEBUG_GDB_SERVER)
-	@$(WINSHELL) /c start openocd -f $(DEBUG_INTERFACE) -f $(DEBUG_TARGET)
+	@openocd --version
+	@$(WINSHELL) /c start openocd -d 3 -l log_openocd.txt
 	
 # Start gdb debugging
 gdb: gdb-config elf
@@ -517,6 +526,8 @@ clean_list :
 	$(REMOVE) $(ASRCARM:%.S=$(OUTDIR)/%.lst)
 	$(REMOVE) $(SRC:%.c=$(OUTDIR)/%.o.d)
 	$(REMOVE) $(SRCARM:%.c=$(OUTDIR)/%.o.d)
+	$(REMOVE) $(OCDINIT_FILE)
+	$(REMOVE) $(GDBINIT_FILE)
 
 # Create directories
 $(shell mkdir $(OUTDIR) 2>/dev/null)
