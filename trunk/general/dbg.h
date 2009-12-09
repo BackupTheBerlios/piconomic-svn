@@ -96,6 +96,19 @@ typedef enum
 #define DBG_NR_TO_STR(number) DBG_STRINGIFY(number)
 
 /**
+ *  Macro that will output debug output if #DBG is defined as 1 (TRUE)
+ *
+ *  @note The format of this macro is specific to the GCC preprocessor.
+ * 
+ *  @param[in] format Format string following by a variable list of arguments.
+ *  
+ */
+#define DBG_TRACE(format, ...) \
+            { \
+                PRINTF(format, ## __VA_ARGS__); \
+            }
+
+/**
  *  Macro that will output debug output if the specified level is equal or less than #DBG_LEVEL.
  *
  *  The file name and line number is prepended to the format string to form one string.
@@ -108,7 +121,7 @@ typedef enum
 #define DBG_LOG(level, format, ...) \
             if(level <= DBG_LEVEL) \
             { \
-                PRINTF(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
+                DBG_TRACE(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
             }
 
 /**
@@ -122,11 +135,12 @@ typedef enum
 #define DBG_ASSERT(expression) \
             if(!(expression)) \
             { \
-                PRINTF(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
+                DBG_TRACE(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
                 for(;;) {;} \
             }
 
 #else
+#define DBG_TRACE(format, ...)
 #define DBG_LOG(level, format, ...)
 #define DBG_ASSERT(expression)
 #endif
