@@ -96,6 +96,24 @@ u16_t adc_get_sample(void)
     return ADC;
 }
 
+u32_t adc_get_samples(const u8_t channel, u8_t nr_of_samples)
+{
+    u32_t value = 0;
+
+    // Select the specified channel
+    adc_sel_channel(channel);
+
+    // Repeat until all the samples have been taken
+    while(nr_of_samples != 0)
+    {
+        value += adc_get_sample();
+        nr_of_samples--;
+    }
+
+    // Return the accumulated value
+    return value;
+}
+
 /**
  *  @}
  */

@@ -101,6 +101,16 @@ extern void adc_sel_channel(const u8_t channel);
  */
 extern u16_t adc_get_sample(void);
 
+/**
+ *  Select ADC channel and accumulate number of specified samples.
+ * 
+ *  It will take 25 + (13 * nr_of_samples) ADC clock cycles to complete.
+ *  
+ *  @param[in] channel  0 to 7 corresponds to ADC0 to ADC7
+ *  @return u32_t       Accumulated ADC value
+ */
+extern u32_t adc_get_samples(const u8_t channel, u8_t nr_of_samples);
+
 /* _____MACROS_______________________________________________________________ */
 /**
  *  @}
