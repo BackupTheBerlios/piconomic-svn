@@ -35,7 +35,7 @@
     Title:          Polled software timers glue functionality
     Author(s):      Pieter.Conradie
     Creation Date:  2008/11/17
-    Revision Info:  $Id: tmr_glue.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

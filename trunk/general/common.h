@@ -35,7 +35,7 @@
     Title:          Common definitions
     Author(s):      Pieter Conradie
     Creation Date:  2008-02-05
-    Revision Info:  $Id: common.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 /** 

@@ -35,7 +35,7 @@
     Title:          Real Time Clock using 32.768 kHz crystal and Timer 0
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
-    Revision Info:  $Id: rtc_tmr0_32khz.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 /** 

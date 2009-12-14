@@ -35,7 +35,7 @@
     Title:          Interrupt-driven, ring buffered UART0 module
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
-    Revision Info:  $Id: uart0.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

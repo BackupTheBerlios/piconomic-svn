@@ -33,7 +33,7 @@
     Title:          Periodic Interval Timer
     Author(s):      Pieter Conradie
     Creation Date:  2008/02/11
-    Revision Info:  $Id: pitd.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

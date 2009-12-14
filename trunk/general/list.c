@@ -33,7 +33,7 @@
     Title:          Link List
     Author(s):      Pieter.Conradie
     Creation Date:  2008/11/27
-    Revision Info:  $Id: list.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

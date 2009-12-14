@@ -35,7 +35,7 @@
     Title:          Command line parser
     Author(s):      Pieter Conradie
     Creation Date:  2008/08/01
-    Revision Info:  $Id: cmd_line.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

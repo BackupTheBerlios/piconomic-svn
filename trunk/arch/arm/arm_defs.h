@@ -35,7 +35,7 @@
     Title:          ARM Specific definitions
     Author(s):      Pieter Conradie
     Creation Date:  2008/06/30
-    Revision Info:  $Id: arm_defs.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

@@ -35,7 +35,7 @@
     Title:          Template for a C module
     Author(s):      Pieter.Conradie
     Creation Date:  2008/11/01
-    Revision Info:  $Id: template.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

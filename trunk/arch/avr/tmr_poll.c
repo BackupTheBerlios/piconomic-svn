@@ -33,7 +33,7 @@
     Title:          Polled timeout functionality using 16-bit TMR1
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
-    Revision Info:  $Id: tmr_poll.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

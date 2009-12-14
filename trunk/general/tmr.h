@@ -35,7 +35,7 @@
     Title:          Polled software timers
     Author(s):      Pieter Conradie
     Creation Date:  2008/02/11
-    Revision Info:  $Id: tmr.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 =========================================================================== */
 

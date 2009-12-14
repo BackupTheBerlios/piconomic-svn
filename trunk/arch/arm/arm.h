@@ -35,7 +35,7 @@
     Title:          ARM helper functions
     Author(s):      Pieter Conradie
     Creation Date:  2008/06/30
-    Revision Info:  $Id: arm.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

@@ -33,7 +33,7 @@
     Title:          Interrupt-driven, ring buffered USART1 module
     Author(s):      Pieter Conradie
     Creation Date:  2008/08/06
-    Revision Info:  $Id: usart1.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

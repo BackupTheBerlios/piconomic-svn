@@ -33,7 +33,7 @@
     Title:          Periodic Interval Timer using Timer 1
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
-    Revision Info:  $Id: pit_tmr1.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

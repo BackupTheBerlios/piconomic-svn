@@ -33,7 +33,7 @@
     Title:          Atmel AT45DB041B 4-megabit DataFlash Driver
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
-    Revision Info:  $Id: sflash_AT45DB041B.c 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

@@ -35,7 +35,7 @@
     Title:          16-bit CRC calculator
     Author(s):      Pieter.Conradie
     Creation Date:  2008/11/06
-    Revision Info:  $Id: crc16_ccitt.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

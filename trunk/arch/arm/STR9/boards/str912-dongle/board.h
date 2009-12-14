@@ -19,7 +19,7 @@
     Title:          Board specific definitions
     Author(s):      Pieter Conradie
     Creation Date:  2008/09/22
-    Revision Info:  $Id: board.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

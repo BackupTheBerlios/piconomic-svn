@@ -35,7 +35,7 @@
     Title:          Atmel AVR Peripheral IO macros
     Author(s):      Pieter.Conradie
     Creation Date:  2008/11/01
-    Revision Info:  $Id: avr_pio.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

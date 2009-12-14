@@ -35,7 +35,7 @@
     Title:          VT100 Terminal Support
     Author(s):      Pieter Conradie
     Creation Date:  2008/08/04
-    Revision Info:  $Id: vt100.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

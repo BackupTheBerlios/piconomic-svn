@@ -35,7 +35,7 @@
     Title:          8-bit ring buffer
     Author(s):      Pieter Conradie
     Creation Date:  2008/08/06
-    Revision Info:  $Id: ring_buffer.h 1 2008-12-02 07:02:22Z Pieter.Conradie $
+    Revision Info:  $Id$
 
 ============================================================================= */
 

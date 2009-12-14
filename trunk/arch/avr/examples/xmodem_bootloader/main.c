@@ -33,7 +33,7 @@
     Title:          Atmel AVR XMODEM bootloader
     Author(s):      Pieter.Conradie
     Creation Date:  2007-04-27
-    Revision Info:  $Id: $
+    Revision Info:  $Id$
  
 ============================================================================= */
 
