@@ -90,10 +90,12 @@ typedef enum
 
 /* _____MACROS_______________________________________________________________ */
 #if DBG
-/// 1st part macro to convert a number to a string (GCC specific)
-#define DBG_STRINGIFY(number) #number
-/// 2nd part macro to convert a number to a string (GCC specific)
-#define DBG_NR_TO_STR(number) DBG_STRINGIFY(number)
+///@cond
+// 1st part macro to convert a number to a string (GCC specific)
+#define _DBG_STRINGIFY(number) #number
+// 2nd part macro to convert a number to a string (GCC specific)
+#define _DBG_NR_TO_STR(number) _DBG_STRINGIFY(number)
+///@endcond
 
 /**
  *  Macro that will output debug output if #DBG is defined as 1 (TRUE)
@@ -121,7 +123,7 @@ typedef enum
 #define DBG_LOG(level, format, ...) \
             if(level <= DBG_LEVEL) \
             { \
-                DBG_TRACE(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
+                DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
             }
 
 /**
@@ -135,7 +137,7 @@ typedef enum
 #define DBG_ASSERT(expression) \
             if(!(expression)) \
             { \
-                DBG_TRACE(__FILE__ " " DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
+                DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
                 for(;;) {;} \
             }
 

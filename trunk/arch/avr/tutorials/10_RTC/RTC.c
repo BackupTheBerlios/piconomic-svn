@@ -45,10 +45,11 @@
  * in an interrupt and the main program flow waits for these flags or variables.
  * 
  * The C keyword @b volatile is used to indicate to the compiler that variables
- * with this prefix are updated asynchronously. The compiler will generate 
- * assembler code that fetches the value of the variable each time it is 
- * referenced, in stead of optimizing the code by fetching once only. Here is 
- * example pseudo code that works correctly:
+ * with this prefix are updated asynchronously, i.e. the variable was updated in 
+ * an interrupt, but the main program flow is unaware when/if it happened. 
+ * The compiler will generate assembler code that fetches the value of the 
+ * variable each time it is referenced, in stead of optimizing the code by 
+ * fetching once only. Here is example pseudo code that works correctly:
  * 
  * @code
  * volatile bool_t flag;

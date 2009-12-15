@@ -44,14 +44,16 @@
  *
  *  Simple polled ADC peripheral driver to sample channels ADC0 to ADC7.
  *
- *  Files: adc.h & adc.c
+ *  Files:
+ *  - avr/adc.h
+ *  - avr/adc.c
  *
- *  The ADC peripheral is initialised in ADC_vInit(). The AVCC pin is selected
+ *  The ADC peripheral is initialised in adc_init(). The AVCC pin is selected
  *  as the full range reference, as well as a gain of 1. This means that if 
  *  AVCC is +3.3V, then the digital range 0 to 1023 (10 bits) will correspond 
  *  to +0V to +3.297V and the resolution will be 3.223 mV:
  *
- *  ADC = (Vin * 1024) / Vref
+ *  ADC = (Vin * 1023) / Vref
  *
  *  The ADC clock frequency is configured to 57.6 kHz (for an external crystal
  *  of @b 7.3728 @b MHz; ADC clock prescaler = 128). When a new channel is 
@@ -102,12 +104,13 @@ extern void adc_sel_channel(const u8_t channel);
 extern u16_t adc_get_sample(void);
 
 /**
- *  Select ADC channel and accumulate number of specified samples.
+ *  Select ADC channel and accumulate (add) number of specified samples.
  * 
  *  It will take 25 + (13 * nr_of_samples) ADC clock cycles to complete.
  *  
- *  @param[in] channel  0 to 7 corresponds to ADC0 to ADC7
- *  @return u32_t       Accumulated ADC value
+ *  @param[in] channel        0 to 7 corresponds to ADC0 to ADC7
+ *  @param[in] nr_of_samples  Number of samples to accumulate
+ *  @return u32_t             Accumulated ADC value
  */
 extern u32_t adc_get_samples(const u8_t channel, u8_t nr_of_samples);
 

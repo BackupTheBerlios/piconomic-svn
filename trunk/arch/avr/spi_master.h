@@ -75,7 +75,7 @@
  *  @par Example: 
  *  Extract from @ref AT45DB041B
  *  @dontinclude sflash_AT45DB041B.c
- *  @skip u8_t AT45DB041B_u8GetStatus(void)
+ *  @skip u8_t at45db041b_get_status(void)
  *  @until } // Doxygen end of example
  *  
  *  @{

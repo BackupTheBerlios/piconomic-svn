@@ -301,7 +301,7 @@ u8_t at45db041b_get_status(void)
     spi_tx_byte(AT45DB041B_CMD_STATUS_REGISTER_READ);
 
     // Read status
-    data = spi_transfer_byte(0x00);
+    data = spi_rx_byte();
 
     // Deselect serial Flash
     AT45DB041B_CS_HI();

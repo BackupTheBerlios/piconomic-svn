@@ -24,5 +24,5 @@ void adc_test(void)
 
     PRINTF("\nADC Value = %d -> Voltage = %2.2f V\n", 
            adc_val,
-           ((float)adc_val)*(3.3/1024.0));
+           ((float)adc_val)*(3.3/1023.0));
 }

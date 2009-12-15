@@ -55,19 +55,16 @@
  *  - Key repetition (typematic)
  *  
  *  @see
- *  http://en.wikipedia.org/wiki/Computer_keyboard
- *  http://en.wikipedia.org/wiki/Rollover_(key)
- *  http://www.dribin.org/dave/keyboard/one_html/
+ *  - http://en.wikipedia.org/wiki/Computer_keyboard
+ *  - http://en.wikipedia.org/wiki/Rollover_(key)
+ *  - http://www.dribin.org/dave/keyboard/one_html/
  *  
- *  @note this module is based on "kbmatrix.h" and "kbmatrix.c" found in the
- *        Atmel AT91 Software package:
- *        (http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343)
- *        See license below:
+ *  @note This module is based on "kbmatrix.h" and "kbmatrix.c" found in the
+ *        <A href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343">Atmel AT91 Software package</a>
  *  
- * @{ 
- */
-
-/* ----------------------------------------------------------------------------
+ * License:
+ * @code
+ * ----------------------------------------------------------------------------
  *         ATMEL Microcontroller Software Support 
  * ----------------------------------------------------------------------------
  * Copyright (c) 2008, Atmel Corporation
@@ -94,7 +91,9 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ----------------------------------------------------------------------------
- */
+ * @endcode
+ * @{ 
+ */ 
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 

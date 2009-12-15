@@ -28,7 +28,7 @@ void dbg_test(void)
     // Enable global interrupts
     sei();
 
-    PRINTF("\nDBG Test\n\n");
+    DBG_TRACE("\nDBG Test\n\n");
   
     DBG_ERR("This is an error msg\n");
     DBG_WARN("This is a warning msg\n");

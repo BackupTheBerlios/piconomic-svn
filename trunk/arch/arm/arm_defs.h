@@ -62,10 +62,13 @@
 
 /* _____DEFINITIONS _________________________________________________________ */
 /**
+ * @name Processor modes
+ * 
  * Define processor modes as found in the current/saved program status register (CPSR/SPSR).
  *
  * See [1], Table 2-2 "The mode bits", page A2-11
  */
+//@{
 #define ARM_MODE_USR     0x10
 #define ARM_MODE_FIQ     0x11
 #define ARM_MODE_IRQ     0x12
@@ -73,14 +76,19 @@
 #define ARM_MODE_ABT     0x17
 #define ARM_MODE_UND     0x1B
 #define ARM_MODE_SYS     0x1F
+//@}
 
 /**
+ * @name IRQ and FIQ flags 
+ *  
  * Define interrupt disable flags as found in CPSR/SPSR.
  *
  * See [1], §2.5.2 "The control bits", page A2-10
  */
+//@{
 #define ARM_F_BIT        0x40
 #define ARM_I_BIT        0x80
+//@}
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 

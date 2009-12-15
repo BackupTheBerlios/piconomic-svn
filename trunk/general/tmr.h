@@ -57,9 +57,9 @@
  *  @par
  *  An architecture specific timer support file must be provided (tmr_glue.h)
  *  that defines a macro to return the current counter value
- *  (TMR_GLUE_GET_COUNTER) and the type returned (tmr_glue_t). In addition
+ *  (#TMR_GLUE_GET_COUNTER) and the type returned (tmr_glue_t). In addition
  *  the number of ticks per second must also be defined
- *  (TMR_GLUE_TICKS_PER_SEC).
+ *  (#TMR_GLUE_TICKS_PER_SEC).
  * 
  *  @see TMR_GLUE
  *  

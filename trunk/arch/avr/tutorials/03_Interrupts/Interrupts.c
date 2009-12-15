@@ -36,7 +36,9 @@
  * @ingroup AVR_TUTORIALS 
  * @defgroup AVR_TUT03_INTERRUPTS /03_Interrupts
  *  
- * How to implement a simple interrupt handler.
+ * How to implement a simple interrupt handler. 
+ *  
+ * Files: Interrupts.c 
  * 
  * A timer is configured to generate an interrupt every 250 ms. The LED output 
  * pin is toggled every 250 ms in the timer interrupt.

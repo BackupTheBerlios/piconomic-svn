@@ -87,13 +87,14 @@ typedef enum
 /**
  * @name Type size and sign macros
  * 
- * Source: "Catching Integer Overflows in C"
- * @see http://www.fefe.de/intof.html
+ * Source: <a href="http://www.fefe.de/intof.html">"Catching Integer Overflows in C"</a>
  */
 //@{
+///@cond
 #define __HALF_MAX_SIGNED(type) ((type)1 << (sizeof(type)*8-2))
 #define __MAX_SIGNED(type) (__HALF_MAX_SIGNED(type) - 1 + __HALF_MAX_SIGNED(type))
 #define __MIN_SIGNED(type) (-1 - __MAX_SIGNED(type))
+///@endcond
 
 /// Test if a type is signed or unsigned
 #define TYPE_IS_SIGNED(type)((type)-1 < 1)
@@ -110,9 +111,11 @@ typedef enum
 #define MAX_OF_TYPE(type) ((type)~MIN_OF_TYPE(type))
 //@}
 
-/// @name concatenation macros
+/// @name Concatenation macros
 //@{
+///@cond
 #define _CONCAT(x, y) x ## y
+///@endcond
 /** 
  *  Recursive token concatenation macro.
  * 
@@ -131,7 +134,7 @@ typedef enum
 #define CONCAT(x, y) _CONCAT(x, y)
 //@}
 
-/// @name var bit macros
+/// @name Bit manipulation macros useful to manipulate Port IO pins
 //@{
 /// Macro to set a bit (1)
 #define BIT_SET_HI(var,bit)           {var |=(1<<bit);}
@@ -164,7 +167,7 @@ typedef enum
 #define U16_LO8(data) ((u8_t)(data&0xff))
 //@}
 
-/// @name Utility macros
+/// @name General utility macros
 //@{
 /// Macro to calculate division with rounding to nearest integer value
 #define DIV_ROUND(dividend,divisor)     (((dividend+((divisor)>>1))/(divisor)))

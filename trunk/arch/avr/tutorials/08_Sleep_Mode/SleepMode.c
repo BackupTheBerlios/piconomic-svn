@@ -38,6 +38,8 @@
  *  
  * How to use one of the AVR's low power sleep modes.
  * 
+ * Files: SleepMode.c 
+ *  
  * The AVR wakes up every 250 ms, toggles the LED output and returns to sleep mode.
  * 
  * There are various sleep modes, each with increasing levels of power saving. 

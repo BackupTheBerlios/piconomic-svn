@@ -41,11 +41,11 @@
 
 /** 
  *  @ingroup AVR
- *  @defgroup TMR_GLUE tmr_glue.h : Polled software timers glue functionality
+ *  @defgroup AVR_TMR_GLUE tmr_glue.h : Polled software timers glue functionality
  *
  *  Linkage between general/tmr.h and avr/pit_tmr1.h
  *  
- *  Files: tmr_glue.h
+ *  Files: avr/tmr_glue.h
  * 
  *  @see TMR
  * 

@@ -5,31 +5,31 @@
 #include "twi_master.h"
 #include "rtc_M41T00.h"
 
-void M41T00_vTest(void)
+void m41t00_test(void)
 {
-    u8_t u8Sec;
+    u8_t sec;
 
-    m41t00_time_t xTime = 
+    m41t00_time_t time = 
     {
-        .sec        = 0,
-        .min        = 0,
-        .hour       = 12,
+        .sec          = 0,
+        .min          = 0,
+        .hour         = 12,
         .day_of_week  = 1,
         .day_of_month = 1,
-        .month      = 4,
-        .year       = 7
+        .month        = 4,
+        .year         = 7
     };
 
     // Initialise modules
     twi_init();
-    UART0_vInit();
+    uart0_vInit();
     printf_init();
 
     // Enable global interrupts
     sei();
 
     // Set time and date
-    if(!m41t00_set_time(&xTime))
+    if(!m41t00_set_time(&time))
     {
         PRINTF("Unable to set time!\n");
         for(;;)
@@ -41,9 +41,9 @@ void M41T00_vTest(void)
     for(;;)
     {
         // Remember current seconds value
-        u8Sec = xTime.sec;
+        sec = time.sec;
         // Fetch new time
-        if(!m41t00_get_time(&xTime))
+        if(!m41t00_get_time(&time))
         {
             PRINTF("Unable to set time!\n");
             for(;;)
@@ -52,16 +52,16 @@ void M41T00_vTest(void)
             }
         }
         // See if a second has elapsed
-        if(xTime.sec != u8Sec)
+        if(time.sec != sec)
         {
             // Display the new date and time
             PRINTF("%02d/%02d/%02d %02dh%02d:%02d\n",
-                   xTime.year,
-                   xTime.month,
-                   xTime.day_of_month,
-                   xTime.hour,
-                   xTime.min,
-                   xTime.sec);
+                   time.year,
+                   time.month,
+                   time.day_of_month,
+                   time.hour,
+                   time.min,
+                   time.sec);
         }
     }    
 }

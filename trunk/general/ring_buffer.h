@@ -32,7 +32,7 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          8-bit ring buffer
+    Title:          FIFO ring buffer
     Author(s):      Pieter Conradie
     Creation Date:  2008/08/06
     Revision Info:  $Id$
@@ -41,7 +41,7 @@
 
 /** 
  *  @ingroup GENERAL
- *  @defgroup RING_BUFFER ring_buffer.h : 8-bit ring buffer
+ *  @defgroup RING_BUFFER ring_buffer.h : FIFO ring buffer
  *
  *  A data structure that uses a single, fixed-size buffer as if it were
  *  connected end-to-end (circular).

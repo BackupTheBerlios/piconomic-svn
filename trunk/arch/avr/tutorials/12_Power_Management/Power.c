@@ -38,7 +38,10 @@
  *  
  * How to use the asynchronous timer 0 and the 32.768 kHz crystal to achieve a deeper sleep mode called "POWER-SAVE".
  * 
- * Files: Power.c general/common.h arch/avr/boards/piconomic_ab111-4/board.h
+ * Files: 
+ * - Power.c 
+ * - general/common.h 
+ * - arch/avr/boards/piconomic_ab111-4/board.h
  * 
  * The AVR wakes up every 50 ms and "mirrors" the state of the push button to 
  * the LED. The AVR will also wake up asynchronously on a rising or falling edge

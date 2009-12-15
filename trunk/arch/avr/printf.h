@@ -44,7 +44,9 @@
  *
  *  Initialises the stdout stream to output to UART0.
  *
- *  Files: printf.h & printf.c
+ *  Files:
+ *  - avr/printf.h
+ *  - avr/printf.c
  *
  *  This component initialises the @b stdout stream to output over UART0. A macro
  *  #PRINTF is provided that will store the format string in program memory (as
@@ -89,12 +91,13 @@ extern void printf_init(void);
 
 /* _____MACROS_______________________________________________________________ */
 /**
- *  Variable argument macro that calls @b printf_P with program memory format string.
+ *  Variable argument macro that calls @b printf_P with format string stored in
+ *  program memory.
  *
  *  @note This macro is specific to the GCC preprocessor.
  *
  *  @param[in] format   format string that will be stored in program memory
- *  @param[in] ...      optional, variable number, arguments
+ *  @param[in] ...      optional, variable number of arguments
  */
 #define PRINTF(format, ...) printf_P(PSTR(format), ## __VA_ARGS__)
 

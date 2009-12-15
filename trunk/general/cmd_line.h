@@ -41,15 +41,15 @@
 
 /** 
  *  @ingroup GENERAL
- *  @defgroup CMD_LINE cmd_line.h : Command line parser.
+ *  @defgroup CMD_LINE cmd_line.h : Command line parser
  *
  *  Implements a command line parser using the ANSI/VT100 terminal protocol.
  *  
  *  Files: cmd_line.h & cmd_line.c
  *  
  *  @see
- *  http://en.wikipedia.org/wiki/ANSI_escape_code
- *  http://www.termsys.demon.co.uk/vtansi.htm
+ *  - http://en.wikipedia.org/wiki/ANSI_escape_code
+ *  - http://www.termsys.demon.co.uk/vtansi.htm
  *  
  *  @{
  */

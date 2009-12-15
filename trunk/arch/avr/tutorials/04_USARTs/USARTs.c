@@ -38,12 +38,14 @@
  *  
  * How to configure and use a USART in a polled fashion.
  * 
+ * Files: USARTs.c 
+ *  
  * USART0 (RS-232 port) is configured to 115200 Baud, 8 Data Bits, No Parity 
  * and 1 Stop Bit. The string "AVR\r\n" is sent upon start up. Thereafter all 
  * received characters are echoed back to the sender.
  * 
  * The clock rate of the AVR is defined in the Makefile with the macro name 
- * "F_CPU". It is a good programming practice to calculate values at compile 
+ * @b F_CPU. It is a good programming practice to calculate values at compile 
  * time, in stead of using "magic values", e.g. the value of UBBR, which is set
  * with the following macro:
  * 

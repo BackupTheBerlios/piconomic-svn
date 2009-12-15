@@ -131,8 +131,7 @@ static bool_t m41t00_read_data(void)
     // See if transfer was successful
     if(!twi_success())
     {
-        DBG_TRACE(DBG_ERR,"TWI Write transfer not successful. TWI STATUS = %d\n",
-                  twi_get_status());
+        DBG_ERR("TWI Write transfer not successful. TWI STATUS = %d\n",twi_get_status());
         return FALSE;
     }
 
@@ -150,8 +149,7 @@ static bool_t m41t00_read_data(void)
     // See if transfer was successful
     if(!twi_success())
     {
-        DBG_TRACE(DBG_ERR,"TWI Read transfer not successful. TWI STATUS = %d\n",
-                  twi_get_status());
+        DBG_ERR("TWI Read transfer not successful. TWI STATUS = %d\n",twi_get_status());
         return FALSE;
     }    
 
@@ -180,8 +178,7 @@ static bool_t m41t00_write_data(void)
     // See if transfer was successful
     if(!twi_success())
     {
-        DBG_TRACE(DBG_ERR,"TWI Write transfer not successful. TWI STATUS = %d\n",
-                  twi_get_status());
+        DBG_ERR("TWI Write transfer not successful. TWI STATUS = %d\n",twi_get_status());
         return FALSE;
     }
 
@@ -216,7 +213,7 @@ bool_t m41t00_get_time(m41t00_time_t *rtc_time)
     // See if timer has been stopped
     if(((u8_t*)(&m41t00_data.bcd_time))[M41T00_ST_ADR]  & M41T00_ST_BIT)
     {
-        DBG_TRACE(DBG_PROG, "RTC has been stopped!\n");
+        DBG_PROG("RTC has been stopped!\n");
         return FALSE;
     }
 

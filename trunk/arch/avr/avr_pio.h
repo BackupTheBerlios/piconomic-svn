@@ -56,7 +56,7 @@
  *  #define LED_ON() BIT_SET_LO(PORT(PIO_LED),BIT(PIO_LED))
  * 
  *  // Macro to disable LED (set PORTA, pin 3 to zero)
- *  #define LED_ON() BIT_SET_HI(PORT(PIO_LED),BIT(PIO_LED))
+ *  #define LED_OFF() BIT_SET_HI(PORT(PIO_LED),BIT(PIO_LED))
  *  
  *  // Configure pin
  *  DDR(PIO_LED) &= ~BIT_MASK(PIO_LED);

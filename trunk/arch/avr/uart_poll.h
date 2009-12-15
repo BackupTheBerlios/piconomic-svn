@@ -41,8 +41,7 @@
 
 /** 
  *  @ingroup AVR
- *  @defgroup UART_POLL uart_poll.h : Basic polled UART module with no
- *            buffering
+ *  @defgroup UART_POLL uart_poll.h : Basic polled UART module with no buffering
  *
  *  Simple polled serial communication facilities over UART0 or UART1.
  *

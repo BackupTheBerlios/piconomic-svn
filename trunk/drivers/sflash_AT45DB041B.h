@@ -48,7 +48,7 @@
  *  Files: sflash_AT45DB041B.h & sflash_AT45DB041B.c
  *
  *  @par Reference:
- *  Atmel 4-megabit 2.5-volt or 2.7-volt DataFlash AT45DB041B Revision 3443C-DFLASH-5/05.pdf
+ *  - <a href="http://www.atmel.com/dyn/resources/prod_documents/doc3443.pdf">Atmel 4-megabit 2.5-volt or 2.7-volt DataFlash AT45DB041B datasheet</a>
  *  
  *  @note This driver is also compatible with the Atmel AT45DB041D.
  *  

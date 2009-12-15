@@ -45,7 +45,7 @@
  * second. 
  *  
  * The following modules are exercised: 
- * - @ref PIT_TMR1 
+ * - @ref AVR_PIT_TMR1 
  * - @ref PRINTF_MODULE 
  * - @ref UART0 
  * - @ref TMR 

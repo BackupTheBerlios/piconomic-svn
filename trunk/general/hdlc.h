@@ -46,37 +46,50 @@
  *
  *  Files: hdlc.h & hdlc.c
  *
- *  The purpose of this module is to detect errors in received packets
- *  using a 16-bit CRC appended to the data and to synchronise to the start and
- *  end of a packet by adding a @b unique start and end marker (byte 0x7E or 
- *  ASCII character '~'). This allows a receiver to detect the start of a new 
- *  packet, without using a timeout mechanism (no timers). This is very useful 
- *  when communicating with a non real-time operating system, e.g. Windows.
+ *  The purpose of this module is detect the start and end of a data packet and
+ *  if any errors occured during transmission.
+ * 
+ *  This is accomplished appending a 16-bit CRC to the data and by adding a
+ *  unique start and end marker to the packet (byte 0x7E or ASCII character '~').
+ *  This allows a receiver to detect the start of a new packet, without using a
+ *  timeout mechanism (no timers). This is very useful when communicating with
+ *  a non real-time operating system, e.g. Windows.
  *
  *  To make sure that 0x7E only occurs to mark the valid start and end of a 
- *  packet, any 0x7E bytes in the data is replaced with a 0x7D, @b 0x5E sequence
- *  (known as "escaping"). @b 0x5E = 0x7E xor 0x20. Any data byte 0x7D must also 
- *  be "escaped", meaning it must be replaced with a 0x7D, @b 0x5D sequence. 
- *  @b 0x5D = 0x7D xor 0x20.
+ *  packet, any 0x7E bytes in the data is replaced with a [0x7D, 0x5E] sequence
+ *  (known as "escaping"). 0x5E = 0x7E xor 0x20. Any data byte 0x7D must also 
+ *  be "escaped", meaning it must be replaced with a [0x7D, 0x5D] sequence. 
+ *  0x5D = 0x7D xor 0x20.
  *
+ *  For example, to transmit the following data:
+ *  @code
+ *         [0x01] [0x02] [0x7e]         [0x03]
+ *  @endcode
+ *  The following packet will be generated:
+ *  @code
+ *  [0x7e] [0x01] [0x02] [0x07d] [0x5e] [0x03] [CRC-LO] [CRC-HI] [0x7e]
+ *  @endcode
+ * 
  *  In general any data byte can be escaped by replacing it with 0x7D and the 
  *  original data byte xor'd with 0x20 (toggling bit 5). This is useful if 
  *  software flow control is used with XON and XOFF characters and these 
- *  characters should not occur accidently in the data.
+ *  characters must not occur accidently in the data.
  *
- *  @par Reference:
- *  RFC 1662 "PPP in HDLC-like Framing"
+ *  @par
+ *  The overhead with escaping may mean that a packet may be up to 
+ *  double in size if all of the data bytes is 0x7D or 0x7E, but the 
+ *  probability of this sequency occuring is low.
  *
- *  @note The overhead with escaping may mean that a packet will be more than 
- *        doubled in size if all of the data bytes is 0x7D or 0x7E, but the 
- *        probability of this sequency occuring is low.
+ *  @par
+ *  Linking dependency to the higher communication layer is avoided by 
+ *  passing a pointer to the function hdlc_init(). The pointer function 
+ *  call overhead can be avoided by replacing a direct call to the 
+ *  function handler if it is known at compile time. This means that 
+ *  hdlc.c must be modifed to avoid a small processing overhead.
  *
- *  @note Linking dependency on the higher communication layer is avoided by 
- *        passing a pointer to the function hdlc_init(). The pointer function 
- *        call overhead can be avoided by replacing a direct call to the 
- *        function handler if it is known at compile time. This means that 
- *        hdlc.c must be modifed to avoid a small processing overhead.
- *
+ * @par Reference:
+ *  - <a href="http://tools.ietf.org/html/rfc1662">RFC 1662 "PPP in HDLC-like Framing"</a>
+ * 
  * @note  This module is dependant on @ref UART1. This is very easy to change 
  *        in hdlc.c
  *  
@@ -92,8 +105,10 @@
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+#ifndef HDLC_MRU
 /// Receive Packet size (Maximum Receive Unit)
-#define HDLC_MRU    64  
+#define HDLC_MRU    64
+#endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /**

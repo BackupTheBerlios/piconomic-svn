@@ -41,18 +41,18 @@
 
 /** 
  *  @ingroup AVR
- *  @defgroup PIT_TMR1 pit_tmr1.h : Periodic Interval Timer using Timer 1
+ *  @defgroup AVR_PIT_TMR1 pit_tmr1.h : Periodic Interval Timer using Timer 1
  *
  *  Driver to initalise 16-bit TMR1 so that a periodic interrupt is generated.
  *
  *  Files: pit_tmr1.h & pit_tmr1.c
  *
- *  PIT_vInit() configures TMR1 to expire every 1/PIT_TICKS_PER_SEC second and
- *  generate an interrupt during which the internal counter PIT_tsTickCounter is 
- *  incremented. PIT_tsGetCounter() must be called to fetch a copy of 
- *  PIT_tsTickCounter in an interrupt safe way.
+ *  pit_init() configures TMR1 to expire every 1/PIT_TICKS_PER_SEC second and
+ *  generate an interrupt during which the internal counter @b pit_tick_counter
+ *  is incremented. pit_get_counter() must be called to fetch a copy of 
+ *  @b pit_tick_counter in an interrupt safe way.
  * 
- *  See @ref TMR which builds on @ref PIT_TMR1 to provide multiple software
+ *  See @ref TMR which builds on @ref AVR_PIT_TMR1 to provide multiple software
  *  timers.
  *  
  *  @par Example:
@@ -65,8 +65,10 @@
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+#ifndef PIT_TICKS_PER_SEC
 /// The number of timer ticks per second
 #define PIT_TICKS_PER_SEC 100ul
+#endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /// Size definition of the tick counter

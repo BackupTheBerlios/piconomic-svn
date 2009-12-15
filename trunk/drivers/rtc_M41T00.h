@@ -47,7 +47,7 @@
  *  Files: rtc_m41t00.h & rtc_m41t00.c
  *
  *  @par Reference:
- *  ST M41T00M6E Serial real-time clock December 2006.pdf
+ *  - <a href="http://us1.st.com/stonline/products/literature/ds/6100.pdf">ST M41T00M6E datasheet</a>
  *  
  *  @par Example:
  *  @include rtc_M41T00_test.c

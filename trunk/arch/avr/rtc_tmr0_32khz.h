@@ -40,8 +40,7 @@
 ============================================================================= */
 /** 
  *  @ingroup AVR
- *  @defgroup RTC_TMR0_32KHZ rtc_tmr0_32khz.h : Real Time Clock using 32.768 kHz
- *                                              crystal and Timer 0
+ *  @defgroup RTC_TMR0_32KHZ rtc_tmr0_32khz.h : Real Time Clock using 32.768 kHz crystal and Timer 0
  *
  *  This component provides basic time & calender functionality.
  *

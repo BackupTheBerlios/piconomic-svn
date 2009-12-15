@@ -41,11 +41,11 @@
 
 /** 
  *  @ingroup AT91
- *  @defgroup TMR_GLUE tmr_glue.h : Polled software timers glue functionality
+ *  @defgroup AT91_TMR_GLUE tmr_glue.h : Polled software timers glue functionality
  *
  *  Linkage between general/tmr.h and AT91/pitd.h
  *  
- *  Files: tmr_glue.h
+ *  Files: AT91/tmr_glue.h
  * 
  *  @see TMR
  * 

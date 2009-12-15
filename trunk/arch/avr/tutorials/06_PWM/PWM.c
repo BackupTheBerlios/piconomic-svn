@@ -41,7 +41,7 @@
  * Files: PWM.c
  * 
  * The LED flashes at a rate of 450 Hz with a 1% duty cycle. This will not be 
- * observable by the human eye.
+ * observable by the human eye :)
  * 
  * @note
  * An undesirable side-effect effect of the flexibility and power of the timer 

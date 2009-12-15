@@ -38,13 +38,14 @@
  *  
  *  Demonstrates assembler start up code that calls a low level C hardware initialisation function.
  * 
- *  The DS1 LED output pin on PA0 is enabled. This tutorial illustrates the
- *  initial assembler start sequence during C run time initialisation. The
- *  concept of sections is introduced, which have to be organised with a linker
- *  script. Please note that the linker script is an example for this tutorial
- *  only and does not provide for all the sections of a proper C program. The
- *  linker script also assumes that the C function is compiled in ARM mode, not
- *  Thumb mode.
+ *  The DS1 LED output pin on PA0 is enabled.
+ *  
+ *  This tutorial illustrates the initial assembler start sequence during C run
+ *  time initialisation. The concept of sections is introduced, which have to be
+ *  organised with a linker script. Please note that the linker script is an
+ *  example for this tutorial only and does not provide for all the sections of
+ *  a proper C program. The linker script also assumes that the C function is
+ *  compiled in ARM mode, not Thumb mode.
  *  
  *  The assembler start up code provides stack space for the low level C function,
  *  but does not clear C variables in the BSS section, or initialise C variables

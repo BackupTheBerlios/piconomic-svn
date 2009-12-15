@@ -65,7 +65,7 @@
  *  @par Example: 
  *  Extract from @ref M41T00
  *  @dontinclude rtc_M41T00.c
- *  @skip static bool_t M41T00_bWriteData(void)
+ *  @skip static bool_t m41t00_write_data(void)
  *  @until } // Doxygen end of example
  *
  *  @{

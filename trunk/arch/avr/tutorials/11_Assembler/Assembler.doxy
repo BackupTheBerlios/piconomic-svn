@@ -41,7 +41,7 @@
  * Files: Assembler.asm
  * 
  * The LED output pin is toggled every 250 ms in the timer interrupt. 
- * It is a recreation of @ref AVR_TUT03_INTERRUPTS in assembler.
+ * It is a recreation of the tutorial @ref AVR_TUT03_INTERRUPTS in assembler.
  * 
  * The aim of the project is to simulate the code in AVR Studio. The project 
  * creates a "Assembler.hex" file and this needs to be converted to 

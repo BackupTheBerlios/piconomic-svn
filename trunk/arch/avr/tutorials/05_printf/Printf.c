@@ -38,10 +38,12 @@
  *  
  * How to direct the AVR-LIBC stdout stream to send characters using a USART.
  * 
+ * Files: 05_printf/Printf.c 
+ *  
  * USART0 (RS-232 port) is configured to 115200B, 8D, NP, 1S. The following 
  * strings are sent upon start up:
  * - "printf - String in data memory (RAM)"
- * - "printf_P - String in data memory (RAM)"
+ * - "printf_P - String in program memory (FLASH)"
  * - "PRINTF - String in program memory (FLASH)"
  * 
  * A custom handler "usart0_put_char(...)" is linked to the stdout stream to 
@@ -49,8 +51,9 @@
  * 
  * This example draws attention to the handling of the Harvard architecture by 
  * the GCC compiler and the AVR-LIBC library. The 8-bit AVRs have a small amount
- * of SRAM (data memory) and therefor it is desirable to store constant strings 
- * in FLASH (program memory). The recommended solution is to use the macros in 
+ * of SRAM (data memory) and therefore it is desirable to store constant strings 
+ * in FLASH (program memory) and access it from there, not using a copy in SRAM. 
+ * The recommended solution is to use the macros in 
  * "C:\WinAVR\avr\include\avr\pgmspace.h" and string handling functions with the
  * suffix "_P", e.g. "printf_P(...)" in stead of "printf(...)". This handling has
  * been encapsulated with the following variable argument macro:
@@ -124,7 +127,7 @@ int main(void)
     // Send strings
     printf("printf - String in data memory (RAM)\n");
 
-    printf_P(PSTR("printf_P - String in data memory (RAM)\n"));
+    printf_P(PSTR("printf_P - String in program memory (FLASH)\n"));
 
     PRINTF("PRINTF - String in program memory (FLASH)\n");
 

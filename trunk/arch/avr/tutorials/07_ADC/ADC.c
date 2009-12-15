@@ -38,7 +38,7 @@
  *  
  * How to configure and use one channel of the ADC converter in a polled fashion.
  * 
- * Files: ADC.c
+ * Files: 07_ADC/ADC.c
  * 
  * The analogue voltage of AD1 (Pin 60 - PF1) is measured once a second and 
  * reported via USART0 @ 115200B, 8D, NP, 1S (RS-232 port). A voltage between 
