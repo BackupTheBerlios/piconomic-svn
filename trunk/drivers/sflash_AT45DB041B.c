@@ -105,9 +105,6 @@ void at45db041b_init(void)
 
 void at45db041b_read_page(u16_t page, u8_t* buffer)
 {
-    u8_t  data;
-    u16_t counter;
-
     // Wait until Flash is not busy
     while(!at45db041b_ready())
     {
@@ -143,8 +140,6 @@ void at45db041b_read_data(u16_t page,
                           u8_t *buffer,
                           u16_t number_of_bytes)
 {
-    u8_t data;
-
     // Wait until Flash is not busy
     while(!at45db041b_ready())
     {
@@ -177,9 +172,6 @@ void at45db041b_read_data(u16_t page,
 
 void at45db041b_write_page(u16_t page, const u8_t* buffer)
 {
-    u8_t  data;
-    u16_t counter;
-
     // Wait until Flash is not busy
     while(!at45db041b_ready())
     {
@@ -212,8 +204,6 @@ void at45db041b_write_data(u16_t       page,
                            const u8_t* buffer,
                            u16_t       number_of_bytes)
 {
-    u8_t data;
-
     // Wait until Flash is not busy
     while(!at45db041b_ready())
     {

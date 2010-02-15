@@ -122,7 +122,7 @@ u8_t spi_transfer_byte(u8_t tx_data)
     return rx_data;
 }
 
-void spi_tx_data(u8_t *tx_data, size_t bytes_to_transmit)
+void spi_tx_data(const u8_t *tx_data, size_t bytes_to_transmit)
 {
     u8_t data;
 
@@ -165,7 +165,7 @@ void spi_rx_data(u8_t *rx_data, size_t bytes_to_receive)
     }
 }
 
-void spi_transfer_data(u8_t *tx_data, u8_t *rx_data, size_t bytes_to_transfer)
+void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_transfer)
 {
     u8_t data;
 

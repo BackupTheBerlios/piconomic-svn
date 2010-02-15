@@ -134,7 +134,7 @@ extern u8_t spi_transfer_byte(u8_t tx_data);
  * @param tx_data           Pointer to a buffer containing data to be transmitted
  * @param bytes_to_transmit Number of bytes to send
  */
-extern void spi_tx_data(u8_t *tx_data, size_t bytes_to_transmit);
+extern void spi_tx_data(const u8_t *tx_data, size_t bytes_to_transmit);
 
 /** 
  * Receives a number of bytes over SPI.
@@ -157,7 +157,7 @@ extern void spi_rx_data(u8_t *rx_data, size_t bytes_to_receive);
  * @param rx_data           Pointer to a buffer where the received data must be stored
  * @param bytes_to_transfer Number of bytes to transfer
  */
-extern void spi_transfer_data(u8_t *tx_data, u8_t *rx_data, size_t bytes_to_transfer);
+extern void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_transfer);
 
 /* _____MACROS_______________________________________________________________ */
 
