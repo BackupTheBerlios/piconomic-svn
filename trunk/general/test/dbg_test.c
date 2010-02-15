@@ -4,17 +4,10 @@
 #include "printf.h"
 #include "dbg.h"
 
-// See if "dbg.h" is included
-#ifdef  DBG
-
-// Explicitely enable debug output for this file
-#undef  DBG
-#define DBG 1
-
-// Change debug level to display progress, warnings and errors
+// Change debug level to display errors, warnings and progress
+#ifdef  DBG_LEVEL
 #undef  DBG_LEVEL
-#define DBG_LEVEL DBG_PROG
-
+#define DBG_LEVEL (DBG_LEVEL_ERR|DBG_LEVEL_WARN|DBG_LEVEL_PROG)
 #endif
 
 void dbg_test(void)
@@ -26,10 +19,10 @@ void dbg_test(void)
     printf_init();
 
     // Enable global interrupts
-    sei();
+    sei();    
 
     DBG_TRACE("\nDBG Test\n\n");
-  
+
     DBG_ERR("This is an error msg\n");
     DBG_WARN("This is a warning msg\n");
     DBG_PROG("This is a progress msg\n");
@@ -37,6 +30,6 @@ void dbg_test(void)
     for(counter = 0; counter<16; counter++)
     {
         DBG_ASSERT(counter <= 7); // Counter may not exceed the value 7
-        DBG_LOG(DBG_PROG, "Counter = %d\n", counter);
+        DBG_LOG(DBG_LEVEL_PROG, "Counter = %d\n", counter);
     }
 }

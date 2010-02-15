@@ -40,17 +40,17 @@
 ============================================================================= */
 /** 
  *  @ingroup GENERAL
- *  @defgroup DEBUG debug.h : Debug module
+ *  @defgroup DBG dbg.h : Debug module
  *
  *  Outputs debug information via @ref PRINTF_MODULE
  *
  *  Files: dbg.h
  *
- *  A recommended coding practice is to add debug print statements in the source code
- *  to track program flow and check for coding mistakes during development. 
- *  These debug statements can be removed from the release build (after debugging) 
- *  by defining #DBG as 0. The output level can also be changed globally 
- *  (by editing dbg.h) or on a per file basis by changing #DBG_LEVEL.
+ *  A recommended coding practice is to add debug print statements in the source
+ *  code to track program flow and check for coding mistakes during development. 
+ *  These debug statements can be enabled for the debug build by defining
+ *  #DBG_LEVEL with the required output level globally
+ *  (e.g. -DDBG_LEVEL=DBG_LEVEL_ERR in the Makefile) or on a per file basis.
  *  
  *  @par Example:
  *  @include "dbg_test.c"
@@ -63,33 +63,34 @@
 #include "printf.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
-/// Flag to disable (0) or enable (1) debug output.
-#ifndef DBG
-#define DBG 1
-#endif
+/// @name Debug level bitmask definitions
+//@{
+/// None
+#define DBG_LEVEL_NONE    0
+/// Errors
+#define DBG_LEVEL_ERR     (1<<0)
+/// Warnings
+#define DBG_LEVEL_WARN    (1<<1)
+/// Progress
+#define DBG_LEVEL_PROG    (1<<2)
+//@}
 
-/**
- * Global debug output level which is of type #dbg_level_t.
- *
- * - #DBG_LEVEL = DBG_ERR  : Report errors only
- * - #DBG_LEVEL = DBG_WARN : Report errors + warnings
- * - #DBG_LEVEL = DBG_PROG : Report errors + warnings + progress 
- */
 #ifndef DBG_LEVEL
-#define DBG_LEVEL DBG_WARN
+/**
+ * Global debug output level.
+ *
+ * It is a bitmask that sets which debug info will be emmitted. E.g.
+ * - #DBG_LEVEL = DBG_LEVEL_NONE : No debug output
+ * - #DBG_LEVEL = DBG_LEVEL_NONE  : Report errors only
+ * - #DBG_LEVEL = (DBG_LEVEL_NONE|DBG_LEVEL_WARN) : Report errors + warnings
+ * - #DBG_LEVEL = (DBG_LEVEL_NONE|DBG_LEVEL_WARN|DBG_LEVEL_PROG) : Report errors + warnings + progress 
+ */
+#define DBG_LEVEL DBG_LEVEL_NONE
 #endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
-/// Debug levels listed in increasing amount of info.
-typedef enum
-{
-    DBG_ERR  = 0, ///< Error
-    DBG_WARN = 1, ///< Warning
-    DBG_PROG = 2, ///< Progress
-} dbg_level_t;
 
 /* _____MACROS_______________________________________________________________ */
-#if DBG
 ///@cond
 // 1st part macro to convert a number to a string (GCC specific)
 #define _DBG_STRINGIFY(number) #number
@@ -98,7 +99,7 @@ typedef enum
 ///@endcond
 
 /**
- *  Macro that will output debug output if #DBG is defined as 1 (TRUE)
+ *  Macro that will output debug output if #DBG_LEVEL is defined as non zero.
  *
  *  @note The format of this macro is specific to the GCC preprocessor.
  * 
@@ -107,11 +108,12 @@ typedef enum
  */
 #define DBG_TRACE(format, ...) \
             { \
-                PRINTF(format, ## __VA_ARGS__); \
+                if(DBG_LEVEL != 0) \
+                    PRINTF(format, ## __VA_ARGS__); \
             }
 
 /**
- *  Macro that will output debug output if the specified level is equal or less than #DBG_LEVEL.
+ *  Macro that will output debug output if the specified level bit is set in #DBG_LEVEL.
  *
  *  The file name and line number is prepended to the format string to form one string.
  *  @note The format of this macro is specific to the GCC preprocessor.
@@ -121,9 +123,9 @@ typedef enum
  *  
  */
 #define DBG_LOG(level, format, ...) \
-            if(level <= DBG_LEVEL) \
             { \
-                DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
+                if(level & DBG_LEVEL) \
+                    DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : " format, ## __VA_ARGS__); \
             }
 
 /**
@@ -135,38 +137,34 @@ typedef enum
  *  @param[in] expression Expression that evaluates to a boolean value (TRUE or FALSE)
  */
 #define DBG_ASSERT(expression) \
-            if(!(expression)) \
             { \
-                DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
-                for(;;) {;} \
+                if((DBG_LEVEL != 0) && (!(expression))) \
+                { \
+                    DBG_TRACE(__FILE__ " " _DBG_NR_TO_STR(__LINE__) " : ASSERT " #expression); \
+                    for(;;) {;} \
+                } \
             }
-
-#else
-#define DBG_TRACE(format, ...)
-#define DBG_LOG(level, format, ...)
-#define DBG_ASSERT(expression)
-#endif
 
 /**
  * Shortcut macro to display an error message. 
  *  
  * @see DBG_LOG
  */
-#define DBG_ERR(format, ...)  DBG_LOG(DBG_ERR,  format, ## __VA_ARGS__)
+#define DBG_ERR(format, ...)  DBG_LOG(DBG_LEVEL_ERR,  format, ## __VA_ARGS__)
 
 /**
  * Shortcut macro to display a warning message. 
  *  
  * @see DBG_LOG
  */
-#define DBG_WARN(format, ...) DBG_LOG(DBG_WARN, format, ## __VA_ARGS__)
+#define DBG_WARN(format, ...) DBG_LOG(DBG_LEVEL_WARN, format, ## __VA_ARGS__)
 
 /**
  * Shortcut macro to display a progress message. 
  *  
  * @see DBG_LOG
  */
-#define DBG_PROG(format, ...) DBG_LOG(DBG_PROG, format, ## __VA_ARGS__)
+#define DBG_PROG(format, ...) DBG_LOG(DBG_LEVEL_PROG, format, ## __VA_ARGS__)
 
 /**
  *  @}
