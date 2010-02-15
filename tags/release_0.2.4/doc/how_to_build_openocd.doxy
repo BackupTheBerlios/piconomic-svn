@@ -1,0 +1,317 @@
+_/* =============================================================================
+
+   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+ * @page BUILD_OPENOCD How to build OpenOCD with FTDI's FTD2XX driver for Windows
+ * 
+ * @par Introduction: 
+ * I have decided to create a step by step guide to build OpenOCD 0.2.0 for Windows 
+ * using Cygwin (a Linux-like environment for Windows). It is linked against FTDI's 
+ * proprietary (non-GPL) FTD2XX Driver to support FT2232x based JTAG interfaces. 
+ * This is to (respectfully) protest against a 
+ * <a href="http://en.wikipedia.org/wiki/Fundamentalism">fundamentalist</a>
+ * enforcement of the GPL license (as opposed to being 
+ * <a href="http://en.wikipedia.org/wiki/Pragmatism">pragmatic</a>) that has stopped 
+ * the distribution of OpenOCD executables linked to ftd2xx.lib :( 
+ *  
+ * @par Background: 
+ * - https://lists.berlios.de/pipermail/openocd-development/2009-July/009518.html 
+ * - http://www.mail-archive.com/openocd-development@lists.berlios.de/msg05900.html 
+ *  
+ * @par Sections: 
+ * - @ref OPENOCD_CYGWIN 
+ * - @ref OPENOCD_DOWNLOAD 
+ * - @ref OPENOCD_FTDI 
+ * - @ref OPENOCD_BUILD_PROCESS 
+ * - @ref OPENOCD_BUILD_SVN
+ *  
+ * @par Reference(s): 
+ * - [1] <a href="http://forum.sparkfun.com/viewtopic.php?t=11221&sid=93ef057ff3c292635d3f3a452547a0ce">Sparkfun Forum: How to build OpenOCD for windows</a>; Michael Fischer
+ * - [2] <a href="http://forum.sparkfun.com/viewtopic.php?p=78705&sid=35c9cd4afb7dc454deeef8615e9a46bb">Sparkfun Forum: OpenOCD and building on windows</a>; Freddie Chopin
+ *  
+ * <hr> 
+ * @section OPENOCD_CYGWIN 1. Download and install Cygwin + required packages
+ *  
+ * @par 1.1 - Download and run Cygwin installer 
+ * - Cygwin <a href ="http://www.cygwin.com/setup.exe">setup.exe</a> (release 2.573.2.3) 
+ *  
+ * @par
+ * Take note that this installer is used for initial installation and subsequent updates. 
+ * Therefore you should create and run this executable from a permanent location, e.g. 
+ * @code
+ * C:\Archive\cygwin>setup.exe
+ * @endcode 
+ *  
+ * @par 
+ * The installer will download additional files in a sub directory, which can be 
+ * reused in the future.
+ *  
+ * @par 1.2 - installation wizard part 1
+ * The initial configuration is best described with a series of screenshots: 
+ *  
+ * @image html cygwin01.png 
+ *  
+ * @image html cygwin02.png 
+ *  
+ * @image html cygwin03.png 
+ *  
+ * @image html cygwin04.png 
+ *  
+ * @image html cygwin05.png 
+ *  
+ * @par 1.3 - installation wizard part 2 : selection of packages
+ * The default is to sort the packages by category. A package is selected by 
+ * clicking once on the circular arrow as indicated by the following two screenshots:
+ *  
+ * @image html cygwin06.png 
+ *  
+ * @image html cygwin07.png 
+ *  
+ * @par 
+ * Please note that the installer will automatically select dependancy packages 
+ * (if required).
+ *  
+ * @par 
+ * The following packages @b must be explicitly selected to build OpenOCD:
+ * - All>Archive>@b unzip: Info-ZIP decompression utility; for FTDI driver ZIP file
+ * - All>Devel>@b autoconf: Wrapper scripts for autoconf commands
+ * - All>Devel>@b automake: Wrapper scripts for automake and aclocals
+ * - All>Devel>@b gcc: C compiler upgrade helper
+ * - All>Devel>@b libtool: A shared library generation tool
+ * - All>Devel>@b make: The GNU version of the 'make' utility
+ * - All>Devel>@b subversion: A version control system; optional, but handy to build against SVN head)
+ *   
+ * @par 
+ * If you find that some packages are missing, you can always run @b "setup.exe" again 
+ * and select the packages that you need. The download size is about 68 MB.
+ *  
+ * @par 
+ * You can now proceed by clicking @b "Next >" and Cygwin + required packages will be 
+ * downloaded. At the end you can select if you want to create a desktop icon (recommended). 
+ *  
+ * @par 1.4 Specify path and start a Cygwin BASH shell session
+ * A conflict can occur when running Cygwin and other unix utilities are in the 
+ * same @b path, e.g. when WinAVR is installed. Therefore I recommend that 
+ * "C:\cygwin\Cygwin.bat" be edited so that no other command line tools will be run 
+ * accidently, e.g.: 
+ * @code 
+ * @echo off 
+ *  
+ * C:
+ * chdir C:\cygwin\bin 
+ * path ;
+ *  
+ * bash --login -i
+ * @endcode 
+ *  
+ * @par 
+ * You can now start a Cygwin BASH shell session (run "C:\cygwin\Cygwin.bat" or use the desktop icon):
+ *  
+ * @image html cygwin08.png 
+ * 
+ * <hr> 
+ * @section OPENOCD_DOWNLOAD 2. Download and extract OpenOCD 0.2.0 source
+ * @par 2.1 Download to "C:\cygwin\tmp":
+ * - <a href="http://developer.berlios.de/project/showfiles.php?group_id=4148&release_id=16455">openocd-0.2.0.tar.gz</a> 
+ *  
+ * @par 2.2 Start a Cygwin BASH Shell session 
+ * Change directory (you can use TAB to autocomplete directories or filenames)
+ * @code 
+ * $ cd /tmp
+ * @endcode 
+ *  
+ * @par 2.3 Extract the source code 
+ * @code 
+ * $ tar -xzvf openocd-0.2.0.tar.gz 
+ * @endcode 
+ *  
+ * @par 
+ * The source code will now be extracted to "C:\cygwin\tmp\openocd-0.2.0"
+ *  
+ * <hr> 
+ * @section OPENOCD_FTDI 3. Download, modify and install FTDI's D2XX Driver
+ * @par 3.1 Download to "C:\cygwin\tmp": 
+ * - <a href="http://www.ftdichip.com/Drivers/CDM/CDM%202.04.16%20WHQL%20Certified.zip">FTDI CDM 2.04.16 (WHQL Certified) Driver</a> 
+ *  
+ * @par 3.2 Extract the driver (Cygwin BASH Shell; changed to directory "/tmp")
+ * @code 
+ * $ unzip "CDM 2.04.16 WHQL Certified.zip" 
+ * @endcode 
+ *  
+ * @par 3.3 Rename long directory name with spaces to short name
+ * @code 
+ * $ mv "CDM 2.04.16 WHQL Certified.zip" ftd2xx
+ * @endcode 
+ *  
+ * @par 3.4 Uninstall old FTDI Driver 
+ * FTDI has created a utility to forcibly remove all FTDI drivers. These steps are 
+ * optional, but it will ensure that you have the correct/latest driver installed 
+ * and therefore it is recommended that you follow it.
+ *  
+ * @par 
+ * Download and run (with your interface @b not plugged into your PC): 
+ * -  <a href="http://www.ftdichip.com/Resources/Utilities/FTClean.zip">FTClean - Driver Removal Utility</a> 
+ *  
+ * @par 
+ * You must specify the Vendor ID (VID) and Product ID (PID) of your interface, 
+ * e.g. for the <a href="http://www.sparkfun.com/commerce/product_info.php?products_id=8278">Olimex ARM-USB-TINY</a> 
+ * the VID is 15BA and the PID is 0004. Select @b "Clean System", jump through all 
+ * the hoops and the driver should be removed. 
+ *  
+ * @image html Ftclean.png 
+ *  
+ * @par 3.5 Modify standard FTDI Driver INF files to support your JTAG interface 
+ *  
+ * "C:\cygwin\tmp\ftd2xx\ftdibus.inf":
+ * @code 
+ * ... 
+ * [FtdiHw]
+ * %USB\VID_15BA&PID_0004&MI_00.DeviceDesc%=FtdiBus.NT,USB\VID_15BA&PID_0004&MI_00
+ * %USB\VID_15BA&PID_0004&MI_01.DeviceDesc%=FtdiBus.NT,USB\VID_15BA&PID_0004&MI_01
+ *
+ * [FtdiHw.NTamd64]
+ * %USB\VID_15BA&PID_0004&MI_00.DeviceDesc%=FtdiBus.NTamd64,USB\VID_15BA&PID_0004&MI_00
+ * %USB\VID_15BA&PID_0004&MI_01.DeviceDesc%=FtdiBus.NTamd64,USB\VID_15BA&PID_0004&MI_01
+ * ... 
+ * [Strings]
+ * Ftdi="FTDI"
+ * DESC="CDM Driver Package"
+ * DriversDisk="FTDI USB Drivers Disk"
+ * USB\VID_15BA&PID_0004&MI_00.DeviceDesc="Olimex USB Serial Converter A"
+ * USB\VID_15BA&PID_0004&MI_01.DeviceDesc="Olimex USB Serial Converter B"
+ * SvcDesc="USB Serial Converter Driver"
+ * ClassName="USB" 
+ * @endcode 
+ *  
+ * "C:\cygwin\tmp\ftd2xx\ftdiport.inf": 
+ * @code 
+ * ... 
+ * [FtdiHw]
+ * %VID_15BA&PID_0004.DeviceDesc%=FtdiPort2232.NT,FTDIBUS\COMPORT&VID_15BA&PID_0004
+ * 
+ * [FtdiHw.NTamd64]
+ * %VID_15BA&PID_0004.DeviceDesc%=FtdiPort2232.NTamd64,FTDIBUS\COMPORT&VID_15BA&PID_0004 
+ * ...
+ * [Strings]
+ * FTDI="FTDI"
+ * DESC="CDM Driver Package"
+ * DriversDisk="FTDI USB Drivers Disk"
+ * PortsClassName = "Ports (COM & LPT)"
+ * VID_15BA&PID_0004.DeviceDesc="Olimex USB Serial Port"
+ * SvcDesc="USB Serial Port Driver"
+ * SerEnum.SvcDesc="Serenum Filter Driver"
+ * @endcode 
+ *  
+ * @par 3.6 Install new FTDI Driver 
+ * - Insert your JTAG interface 
+ * - Select "Install from  a list or specific location (Advanced)"
+ * - Specify "C:\cygwin\tmp\ftd2xx" as the location 
+ * - Repeat installation for each USB composite device (3 times for Olimex ARM-USB-TINY).
+ *  
+ * <hr> 
+ * @section OPENOCD_BUILD_PROCESS 4. Build OpenOCD 
+ *  
+ * @par 4.1 Change directory 
+ * @code 
+ * $ cd /tmp/openocd-0.2.0 
+ * @endcode 
+ *  
+ * @par 4.3 Run the configure script
+ * @code 
+ * $ ./configure --enable-maintainer-mode --disable-werror --disable-shared 
+ *   --enable-ft2232_ftd2xx
+ *   --with-ftd2xx-win32-zipdir=/tmp/ftd2xx CC="gcc -mno-cygwin"
+ * @endcode 
+ *  
+ * @par 
+ * A number of options are specified: 
+ * - --enable-maintainer-mode : enable make rules and dependencies not useful (and sometimes confusing) to the casual installer
+ * - --disable-werror : do not treat warnings as errors
+ * - --disable-shared : disable shared libraries
+ * - --enable-ft2232_ftd2xx : enable building support for FT2232 based devices using the FTD2XX driver from ftdichip.com
+ * - --with-ftd2xx-win32-zipdir=/tmp/ftd2xx : where (CYGWIN/MINGW) the zip file from ftdichip.com was unpacked
+ * - CC="gcc -mno-cygwin" : specify that executable must not be dependant on Cygwin DLLs 
+ *  
+ * @par 
+ * If successful, the script will create a "Makefile" and a "config.h" file. 
+ *  
+ * @par 4.4 Build the configured OpenOCD source code using the Makefile
+ * @code 
+ * $ make 
+ * @endcode 
+ *  
+ * @par 
+ * Voila! You know have a working OpenOCD executable 
+ * "C:\cygwin\tmp\openocd-0.2.0\src\openocd.exe". 
+ *  
+ * @par 
+ * The following steps are optional... 
+ *  
+ * @par 4.5 Strip the executable to decrease the size
+ * @code 
+ * $ strip -s src/openocd.exe
+ * @endcode 
+ *  
+ * @par 4.6 Create HTML documentation in "C:\cygwin\tmp\openocd-0.2.0\doc\openocd.html"
+ * @code 
+ * $ make html
+ * @endcode 
+ *  
+ * <hr> 
+ * @section OPENOCD_BUILD_SVN 5. How to build latest OpenOCD in SVN 
+ * This section assumes that you are familiar with Cygwin and have followed the 
+ * steps in: 
+ * - @ref OPENOCD_CYGWIN 
+ * - @ref OPENOCD_FTDI 
+ *  
+ * Here is a build script that fetches the latest source code from SVN and 
+ * builds it. Please observe that the "/tmp/openocd/trunk/bootstrap" script is 
+ * executed as part of the build process. 
+ *  
+ * @code 
+ * mkdir /tmp/openocd
+ * cd /tmp/openocd
+ * svn checkout http://svn.berlios.de/svnroot/repos/openocd/trunk
+ * cd trunk
+ * ./bootstrap
+ * ./configure --enable-maintainer-mode --disable-werror --disable-shared --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=/tmp/ftd2xx CC="gcc -mno-cygwin"
+ * make
+ * strip -s src/openocd.exe
+ * make html
+ * svn_rev=`svn info . | grep '^Revision' | cut -f2 -d " "`
+ * cp src/openocd.exe /tmp/openocd_SVN$svn_rev.exe
+ * @endcode 
+ *    
+ */
+
