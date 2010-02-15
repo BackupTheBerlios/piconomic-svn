@@ -29,7 +29,7 @@
    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
    POSSIBILITY OF SUCH DAMAGE. */
 
-/* $Id: gcrt1.S,v 1.12.2.2 2008/10/07 20:34:58 arcanum Exp $ */
+/* $Id: gcrt1.S,v 1.12.2.4 2009/03/02 23:36:16 arcanum Exp $ */
 
 #if (__GNUC__ < 3) || (__GNUC__ == 3 && __GNUC_MINOR__ < 3)
 #error "GCC version >= 3.3 required"
@@ -68,6 +68,13 @@ __init:
 	ldi	r16, hh8(pm(__vectors))
 	out	_SFR_IO_ADDR(EIND), r16
 #endif	/* __AVR_3_BYTE_PC__ */
+
+#ifdef __AVR_HAVE_RAMPD__
+	out	AVR_RAMPD_ADDR, __zero_reg__
+	out	AVR_RAMPX_ADDR, __zero_reg__
+	out	AVR_RAMPY_ADDR, __zero_reg__
+	out	AVR_RAMPZ_ADDR, __zero_reg__
+#endif
 
 #if BIG_CODE
 	/* Only for >64K devices with RAMPZ, replaces the default code
@@ -109,7 +116,10 @@ __do_copy_data:
 	cpi	r26, lo8(__data_end)
 	cpc	r27, r17
 	brne	.L__do_copy_data_loop
-    out	AVR_RAMPZ_ADDR, __zero_reg__
+#ifdef __AVR_HAVE_RAMPD__
+	out	AVR_RAMPZ_ADDR, __zero_reg__
+#endif /* __AVR_HAVE_RAMPD__*/
+
 #endif /* BIG_CODE */
 
 	.set	__stack, RAMEND
