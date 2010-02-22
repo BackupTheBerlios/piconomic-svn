@@ -1,5 +1,5 @@
-#ifndef __CMDLINE_H__
-#define __CMDLINE_H__
+#ifndef __CMD_LINE_H__
+#define __CMD_LINE_H__
 /* =============================================================================
 
     Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
@@ -72,7 +72,7 @@ typedef const char* (*cmd_line_handler_t)(int argc, char* argv[]);
  * Definition for a pointer to a function that will be called to 
  * send a character
  */
-typedef void (*cmd_line_put_char)(char data);
+typedef void (*cmd_line_put_char_t)(char data);
 
 /*
  * Definition of a command handler structure
@@ -95,7 +95,7 @@ typedef struct cmd_line_s
  * 
  * @param put_char  Function to call to send a character
  */
-extern void cmd_line_init(cmd_line_put_char  put_char);
+extern void cmd_line_init(cmd_line_put_char_t put_char);
 
 /** 
  * Add a command to the list of commands.

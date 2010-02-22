@@ -42,7 +42,7 @@
 #include <stdlib.h>
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
-#include "cmdline.h"
+#include "cmd_line.h"
 #include "vt100.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
@@ -78,7 +78,7 @@ static u8_t cmd_line_hist_index;
 static char cmd_line_hist[CMDL_HISTORY_SIZE];
 
 /// Function to call to output a character
-static cmd_line_put_char  cmd_line_put_char;
+static cmd_line_put_char_t cmd_line_put_char;
 
 /// Help command structure
 static cmd_line_t   cmd_line_help;
@@ -185,7 +185,7 @@ static void cmd_line_invoke(char *cmd_str)
     while(cmd != NULL)
     {
         // See if string matches command
-        if(strcmp(cmd_line_argv[arg_index],cmd->cmd) == 0)
+        if(strcmp(cmd_line_argv[arg_index],cmd->name) == 0)
         {
             // See if this is a parent command and there are more strings (for child command(s))
             if((cmd->child_cmd != NULL)&&((arg_index+1) < argc))
@@ -224,7 +224,7 @@ static void cmd_line_invoke(char *cmd_str)
     return;
 }
 
-static void cmd_line_add(cmd_line_t** first_cmd, cmd_line_t* new_cmd)
+static void cmd_line_add_to_list(cmd_line_t** first_cmd, cmd_line_t* new_cmd)
 {
     // Start at the first item in the linked list
     cmd_line_t** cmd = first_cmd;
@@ -254,7 +254,7 @@ static const char* cmd_line_help_handler(int argc, char* argv[])
     while(cmd != NULL)
     {
         // Display hierarchy level
-        indent = CMDL_HELP_TEXT_COLUMN - strlen(cmd->cmd);
+        indent = CMDL_HELP_TEXT_COLUMN - strlen(cmd->name);
         if(level != 0)
         {
             for(i=level; i>0; i--)
@@ -269,7 +269,7 @@ static const char* cmd_line_help_handler(int argc, char* argv[])
         }
 
         // Display command string
-        cmd_line_send_str(cmd->cmd);
+        cmd_line_send_str(cmd->name);
 
         // Indent help text
         for(i=indent; i>0; i--)
@@ -318,7 +318,7 @@ static void cmd_line_disp_prompt(void)
 }
 
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
-void cmd_line_init(cmd_line_put_char put_char)
+void cmd_line_init(cmd_line_put_char_t put_char)
 {
     int i;
 
@@ -358,7 +358,7 @@ void cmd_line_add(cmd_line_t*         cmd,
     cmd->child_cmd  = NULL;
 
     // Add to linked list
-    cmd_line_add(&cmd_line_first_cmd, cmd);
+    cmd_line_add_to_list(&cmd_line_first_cmd, cmd);
 }
 
 void cmd_line_add_child(cmd_line_t*        parent_cmd,
@@ -376,7 +376,7 @@ void cmd_line_add_child(cmd_line_t*        parent_cmd,
     cmd->child_cmd  = NULL;
 
     // Add to linked list of parent
-    cmd_line_add(&(parent_cmd->child_cmd), cmd);
+    cmd_line_add_to_list(&(parent_cmd->child_cmd), cmd);
 }
 
 void cmd_line_process(char rx_char)

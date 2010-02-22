@@ -73,6 +73,8 @@
 #define DBG_LEVEL_WARN    (1<<1)
 /// Progress
 #define DBG_LEVEL_PROG    (1<<2)
+/// All
+#define DBG_LEVEL_ALL    (DBG_LEVEL_ERR|DBG_LEVEL_WARN|DBG_LEVEL_PROG)
 //@}
 
 #ifndef DBG_LEVEL
