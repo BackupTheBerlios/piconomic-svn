@@ -51,6 +51,9 @@
  *  - http://en.wikipedia.org/wiki/ANSI_escape_code
  *  - http://www.termsys.demon.co.uk/vtansi.htm
  *  
+ *  Example:
+ *  @include test/cmd_line_test.c
+ *  
  *  @{
  */
 
