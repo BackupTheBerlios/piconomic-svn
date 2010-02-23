@@ -60,6 +60,7 @@
 #define AT45DB041B_CMD_BUF2_TO_MAIN_PAGE_PROGRAM    0x86
 #define AT45DB041B_CMD_MAIN_MEM_PROG_THROUGH_BUF1   0x82
 #define AT45DB041B_CMD_MAIN_MEM_PROG_THROUGH_BUF2   0x85
+#define AT45DB041B_CMD_PAGE_ERASE                   0x81
 //@}
 
 /// \name Additional commands
@@ -246,6 +247,32 @@ void at45db041b_write_data(u16_t       page,
 
     // Send data to be written
     spi_tx_data(buffer, number_of_bytes);    
+
+    // Deselect serial Flash
+    AT45DB041B_CS_HI();
+
+    // Set flag to busy
+    at45db041b_ready_flag = FALSE;
+}
+
+void at45db041b_erase_page(u16_t page)
+{
+    // Wait until Flash is not busy
+    while(!at45db041b_ready())
+    {
+        ;
+    }
+
+    // Select serial Flash
+    AT45DB041B_CS_LO();
+
+    // Send command
+    spi_tx_byte(AT45DB041B_CMD_PAGE_ERASE);
+
+    // Send address
+    spi_tx_byte((u8_t)(page>>7)&0xFF);
+    spi_tx_byte((u8_t)(page<<1)&0xFF);
+    spi_tx_byte(0x00);
 
     // Deselect serial Flash
     AT45DB041B_CS_HI();

@@ -165,6 +165,16 @@ extern void at45db041b_write_data(u16_t      page,
                                   u16_t      number_of_bytes);
 
 /**
+ *  Erase a page of Serial Flash.
+ *  
+ *  This function erases a page of Serial Flash. The Serial Flash has
+ *  #AT45DB041B_PAGES pages.
+ * 
+ *  @param[in]  page   0 to (#AT45DB041B_PAGES-1)
+ */
+extern void at45db041b_erase_page(u16_t page);
+
+/**
  *  Check if Serial Flash is ready for the next read or write access.
  * 
  *  When data is written to Serial Flash, the microcontroller must wait
