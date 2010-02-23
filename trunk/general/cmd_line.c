@@ -201,7 +201,7 @@ static void cmd_line_invoke(char *cmd_str)
                 // Invoke command with extra parameters (command string(s) removed)
                 if(cmd->handler)
                 {
-                    display_str = (*(cmd->handler))(argc-arg_index-1, &cmd_line_argv[argc-arg_index]);
+                    display_str = (*(cmd->handler))(argc-arg_index-1, &cmd_line_argv[arg_index+1]);
                     if(display_str != NULL)
                     {
                         // Display returned string from command handler
@@ -463,5 +463,9 @@ bool_t cmd_line_strtol(const char* str, long* val, long min, long max)
 
  2008/08/01 : Pieter.Conradie
  - Created
+ 
+ 2010/02/23 : Neels Kruger
+ - Fixed bug in cmd_line_invoke(...) where incorrect arguments where passed
+   to handler function in argv[].
    
 */
