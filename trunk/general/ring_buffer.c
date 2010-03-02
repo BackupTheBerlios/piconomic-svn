@@ -202,7 +202,7 @@ u16_t ring_buffer_read_data(ring_buffer_t *ring_buffer,
                             u16_t         bytes_to_read)
 {
     u8_t  *next_pos;
-    u16_t u16BytesRead = 0;    
+    u16_t bytes_read = 0;    
 
     while (bytes_to_read)
     {
@@ -232,11 +232,11 @@ u16_t ring_buffer_read_data(ring_buffer_t *ring_buffer,
         ring_buffer->out = next_pos;
 
         // Next byte
-        u16BytesRead++;
+        bytes_read++;
         bytes_to_read--;
     }
 
-    return u16BytesRead;
+    return bytes_read;
 }
 
 /* _____LOG__________________________________________________________________ */
