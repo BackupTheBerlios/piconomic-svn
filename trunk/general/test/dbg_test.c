@@ -4,11 +4,13 @@
 #include "printf.h"
 #include "dbg.h"
 
+// Explicitely enable debug (overide global setting)
+#undef DBG
+#define DBG 1
+
 // Change debug level to display errors, warnings and progress
-#ifdef  DBG_LEVEL
 #undef  DBG_LEVEL
-#define DBG_LEVEL (DBG_LEVEL_ERR|DBG_LEVEL_WARN|DBG_LEVEL_PROG)
-#endif
+#define DBG_LEVEL DBG_LEVEL_ALL
 
 void dbg_test(void)
 {
@@ -27,9 +29,20 @@ void dbg_test(void)
     DBG_WARN("This is a warning msg\n");
     DBG_PROG("This is a progress msg\n");
 
+#ifdef DBG
+    // Enable debugging LED to indicate that operation has started
+    LED_ON();
+#endif
+
     for(counter = 0; counter<16; counter++)
     {
         DBG_ASSERT(counter <= 7); // Counter may not exceed the value 7
         DBG_LOG(DBG_LEVEL_PROG, "Counter = %d\n", counter);
+
     }
+
+#ifdef DBG
+    // Disable debugging LED to indicate that operation has finished
+    LED_OFF();
+#endif
 }

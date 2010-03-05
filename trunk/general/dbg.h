@@ -46,11 +46,12 @@
  *
  *  Files: dbg.h
  *
- *  A recommended coding practice is to add debug print statements in the source
+ *  An old school debugging practice is to add debug print statements in the source
  *  code to track program flow and check for coding mistakes during development. 
  *  These debug statements can be enabled for the debug build by defining
- *  #DBG_LEVEL with the required output level globally
- *  (e.g. -DDBG_LEVEL=DBG_LEVEL_ERR in the Makefile) or on a per file basis.
+ *  #DBG to 1 and #DBG_LEVEL with the required output level globally
+ *  (e.g. -DDBG=1 -DDBG_LEVEL=DBG_LEVEL_ALL in the Makefile) or on a per file
+ *  basis.
  *  
  *  @par Example:
  *  @include "dbg_test.c"
@@ -63,6 +64,11 @@
 #include "printf.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+/// Flag to disable (0) or enable (1) debug.
+#ifndef DBG
+#define DBG 0
+#endif
+
 /// @name Debug level bitmask definitions
 //@{
 /// None
@@ -87,12 +93,13 @@
  * - #DBG_LEVEL = (DBG_LEVEL_NONE|DBG_LEVEL_WARN) : Report errors + warnings
  * - #DBG_LEVEL = (DBG_LEVEL_NONE|DBG_LEVEL_WARN|DBG_LEVEL_PROG) : Report errors + warnings + progress 
  */
-#define DBG_LEVEL DBG_LEVEL_NONE
+#define DBG_LEVEL DBG_LEVEL_ERR
 #endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 
 /* _____MACROS_______________________________________________________________ */
+#if DBG
 ///@cond
 // 1st part macro to convert a number to a string (GCC specific)
 #define _DBG_STRINGIFY(number) #number
@@ -146,6 +153,11 @@
                     for(;;) {;} \
                 } \
             }
+#else
+#define DBG_TRACE(format, ...)
+#define DBG_LOG(level, format, ...)
+#define DBG_ASSERT(expression)
+#endif
 
 /**
  * Shortcut macro to display an error message. 
