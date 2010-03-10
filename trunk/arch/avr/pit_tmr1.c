@@ -90,18 +90,18 @@ void pit_init(void)
 
 pit_ticks_t pit_get_counter(void)
 {
-    pit_ticks_t tsTickCounter;
+    pit_ticks_t counter;
 
     // Disable timer interrupt to perform atomic access
     BIT_SET_LO(TIMSK,OCIE1A);
 
     // Fetch current time
-    tsTickCounter = pit_tick_counter;
+    counter = pit_tick_counter;
 
     // Enable timer interrupt
     BIT_SET_HI(TIMSK,OCIE1A);
 
-    return tsTickCounter;
+    return counter;
 }
 
 /**
