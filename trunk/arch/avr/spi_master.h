@@ -88,15 +88,21 @@
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
 
-/* _____FUNCTION DECLARATIONS_________________________________________ */
+/* _____DEFINITIONS _________________________________________________________ */
+
+/* _____TYPE DEFINITIONS_____________________________________________________ */
+typedef enum
+{
+    SPI_DATA_ORDER_LSB,
+    SPI_DATA_ORDER_MSB,
+} spi_dord_t;
+
+/* _____GLOBAL VARIABLES_____________________________________________________ */
+
+/* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
 /**
  *  Initialise SPI peripheral.
  * 
- *  - SPI IO pins initialisation:
- *      - SS (input with pull-up enabled)
- *      - SCK (output)
- *      - MOSI (output)
- *      - MISO (input) 
  *  - SPI peripheral settings:
  *      - Master mode (as opposed to slave mode)
  *      - Data order is Most Significant Bit first (MSB: D7, D6, ..., D0)
@@ -105,6 +111,20 @@
  * 
  */
 extern void spi_init(void);
+
+/**
+ * Initialise SPI peripheral.
+ * 
+ * @param bit_rate       Desired rate in Hz that SCK is clocked
+ * @param spi_mode       0 : CPOL=0, CPHA=0; Set data on rising edge, sample data on falling edge 
+ *                       1 : CPOL=0, CPHA=1; Set data on rising edge, sample data on falling edge
+ *                       2 : CPOL=1, CPHA=0; Set data on rising edge, sample data on falling edge
+ *                       3 : CPOL=1, CPHA=1; Set data on rising edge, sample data on falling edge  
+ * @param data_order_lsb TRUE Data order is Least Significant Bit first (MSB: D0, D1, ..., D7) 
+ *                       FALSE Data order is Most Significant Bit first (MSB: D7, D6, ..., D0) 
+ *                       
+ */
+extern void spi_init2(u32_t bit_rate, u8_t spi_mode, bool_t data_order_lsb);
 
 /**
  *  Send 8 bits of data over SPI

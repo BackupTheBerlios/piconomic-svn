@@ -43,6 +43,15 @@
 #include "spi_master.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
+// Define default value for SPI Control Register (overridable)
+#ifndef SPI_SPCR
+#define SPI_SPCR  (0<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0)
+#endif
+
+// Define default value for SPI Status Register (overridable)
+#ifndef SPI_SPSR
+#define SPI_SPSR  (0<<SPI2X)
+#endif
 
 /* _____MACROS_______________________________________________________________ */
 
@@ -71,9 +80,85 @@ void spi_init(void)
     BIT_SET_LO(DDR_SPI,    BIT_SPI_MISO);
 
     // Configure and enable SPI peripheral
-    SPCR =  (0<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)
+    SPCR = SPI_SPCR;
+    SPSR = SPI_SPSR;
+}
+
+void spi_init2(u32_t bit_rate, u8_t spi_mode, bool_t data_order_lsb)
+{
+    u8_t spcr;
+    u32_t actual_bit_rate;
+    u8_t  divisor;    
+
+    // Enable SPI pins
+    BIT_SET_HI(PORT_SPI,   BIT_SPI_SS);
+    BIT_SET_LO(DDR_SPI,    BIT_SPI_SS);
+
+    BIT_SET_HI(PORT_SPI,   BIT_SPI_SCK);
+    BIT_SET_HI(DDR_SPI,    BIT_SPI_SCK);
+
+    BIT_SET_HI(PORT_SPI,   BIT_SPI_MOSI);
+    BIT_SET_HI(DDR_SPI,    BIT_SPI_MOSI);
+
+    BIT_SET_LO(PORT_SPI,   BIT_SPI_MISO);
+    BIT_SET_LO(DDR_SPI,    BIT_SPI_MISO);
+
+    // Default values for SPCR
+    spcr =  (0<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)
            |(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0);
-    SPSR =  (0<<SPI2X);
+
+    // Set data order
+    if(data_order_lsb == TRUE)
+    {
+        BIT_SET_HI(spcr, DORD);
+    }
+
+    // Set SPI Mode (0,1,2 or 3)
+    spcr |= (spi_mode&3) << CPHA;
+
+    // Select clock divisor that generates a bit rate closest to the desired bit rate (equal or less)
+    actual_bit_rate = F_CPU;
+    divisor = 1;
+    do
+    {
+        actual_bit_rate >>= 1;
+        divisor         <<= 1;
+        // Stop if divisor reaches maximum
+        if(divisor == 128)
+        {
+            break;
+        }
+    }
+    while (actual_bit_rate > bit_rate);
+
+    switch(divisor)
+    {
+    case 2 : spcr |= (0<<SPR1)|(0<<SPR0);
+             BIT_SET_HI(SPSR, SPI2X);
+             break;
+    case 4 : spcr |= (0<<SPR1)|(0<<SPR0);
+             BIT_SET_LO(SPSR, SPI2X);
+             break;
+    case 8 : spcr |= (0<<SPR1)|(1<<SPR0);
+             BIT_SET_HI(SPSR, SPI2X);
+             break;
+    case 16 : spcr |= (0<<SPR1)|(1<<SPR0);
+             BIT_SET_LO(SPSR, SPI2X);
+             break;
+    case 32 : spcr |= (1<<SPR1)|(0<<SPR0);
+             BIT_SET_HI(SPSR, SPI2X);
+             break;
+    case 64 : spcr |= (1<<SPR1)|(0<<SPR0);
+             BIT_SET_LO(SPSR, SPI2X);
+             break;
+    case 128 : spcr |= (1<<SPR1)|(1<<SPR0);
+             BIT_SET_LO(SPSR, SPI2X);
+             break;
+    default:
+             break;
+    }
+
+    SPCR = spcr;
 }
 
 void spi_tx_byte(u8_t tx_data)
@@ -191,7 +276,11 @@ void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_trans
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter.Conradie
  - First release
+ 
+ 2010-03-13 : Pieter.Conradie
+ - Made SPCR and SPSR overridable with #defines
+ - Added spi_init2(...)
    
 */
