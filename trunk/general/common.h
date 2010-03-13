@@ -60,7 +60,11 @@
 /* _____DEFINITIONS _________________________________________________________ */
 #ifndef NULL
 /// NULL pointer
+#ifdef __cplusplus
+#define NULL 0
+#else
 #define NULL ((void*)0)
+#endif
 #endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
