@@ -207,14 +207,15 @@ u8_t spi_transfer_byte(u8_t tx_data)
     return rx_data;
 }
 
-void spi_tx_data(const u8_t *tx_data, size_t bytes_to_transmit)
+void spi_tx_data(const void *tx_data, size_t bytes_to_transmit)
 {
     u8_t data;
+    const u8_t *tx_data_byte = (u8_t *)tx_data;
 
     while(bytes_to_transmit)
     {
         // Buffer transmit data
-        SPDR = *tx_data++;
+        SPDR = *tx_data_byte++;
     
         // Wait until data has been transfered
         LOOP_UNTIL_BIT_IS_HI(SPSR,SPIF);
@@ -227,9 +228,10 @@ void spi_tx_data(const u8_t *tx_data, size_t bytes_to_transmit)
     }
 }
 
-void spi_rx_data(u8_t *rx_data, size_t bytes_to_receive)
+void spi_rx_data(void *rx_data, size_t bytes_to_receive)
 {
     u8_t data;
+    u8_t *rx_data_byte = (u8_t *)rx_data;
 
     while(bytes_to_receive)
     {
@@ -243,21 +245,23 @@ void spi_rx_data(u8_t *rx_data, size_t bytes_to_receive)
         data = SPDR;
 
         // Buffer received data
-        *rx_data++ = data;
+        *rx_data_byte++ = data;
 
         // Next byte
         bytes_to_receive--;
     }
 }
 
-void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_transfer)
+void spi_transfer_data(const void *tx_data, void *rx_data, size_t bytes_to_transfer)
 {
     u8_t data;
+    const u8_t *tx_data_byte = (u8_t *)tx_data;
+    u8_t *rx_data_byte       = (u8_t *)rx_data;
 
     while(bytes_to_transfer)
     {
         // Buffer transmit data
-        SPDR = *tx_data++;
+        SPDR = *tx_data_byte++;
     
         // Wait until data has been transfered
         LOOP_UNTIL_BIT_IS_HI(SPSR,SPIF);
@@ -266,7 +270,7 @@ void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_trans
         data = SPDR;
 
         // Buffer received data
-        *rx_data++ = data;
+        *rx_data_byte++ = data;
 
         // Next byte
         bytes_to_transfer--;
@@ -282,5 +286,10 @@ void spi_transfer_data(const u8_t *tx_data, u8_t *rx_data, size_t bytes_to_trans
  2010-03-13 : Pieter.Conradie
  - Made SPCR and SPSR overridable with #defines
  - Added spi_init2(...)
+ 
+ 2010-03-15 : Alexandr Litjagin
+ - Changed parameters of spi_tx_data(), spi_rx_data() and spi_transfer_data()
+   from (u8_t *) to (void *) to ease the use of other types (e.g. structures)
+   without having to resort to casting.
    
 */
