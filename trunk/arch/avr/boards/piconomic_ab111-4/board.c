@@ -58,15 +58,33 @@
 void board_lowlevel_init(void)
 {
     // Initialise Programmable IO pins
-    PORTB =  (1<<BIT_SFLASH_CS_O)|(1<<BIT_SW_IP)
-            |(0<<BIT_LED_O)|(1<<BIT_BUZZER_O);
-    DDRB  =  (1<<BIT_SFLASH_CS_O)|(0<<BIT_SW_IP)
-            |(1<<BIT_LED_O)|(1<<BIT_BUZZER_O);
+    PORTB =   (1<<BIT_SPI_SS) 
+            | (1<<BIT_SPI_SCK)
+            | (1<<BIT_SPI_MOSI)
+            | (0<<BIT_SPI_MISO)
+            | (1<<BIT_SFLASH_CS_O)
+            | (1<<BIT_SW_IP)
+            | (0<<BIT_LED_O)
+            | (1<<BIT_BUZZER_O);
 
-    PORTD =  (0<<BIT_RS485_TX_EN_O)|(1<<BIT_RS485_RX_EN_O)
-            |(0<<BIT_RTS_I)|(0<<BIT_CTS_O);
-    DDRD  =  (1<<BIT_RS485_TX_EN_O)|(1<<BIT_RS485_RX_EN_O)
-            |(0<<BIT_RTS_I)|(1<<BIT_CTS_O);
+    DDRB  =   (0<<BIT_SPI_SS) 
+            | (1<<BIT_SPI_SCK)
+            | (1<<BIT_SPI_MOSI)
+            | (0<<BIT_SPI_MISO)
+            | (1<<BIT_SFLASH_CS_O)
+            | (0<<BIT_SW_IP)
+            | (1<<BIT_LED_O)
+            | (1<<BIT_BUZZER_O);
+
+    PORTD =   (0<<BIT_RS485_TX_EN_O)
+            | (1<<BIT_RS485_RX_EN_O)
+            | (0<<BIT_RTS_I)
+            | (0<<BIT_CTS_O);
+
+    DDRD  =   (1<<BIT_RS485_TX_EN_O)
+            | (1<<BIT_RS485_RX_EN_O)
+            | (0<<BIT_RTS_I)
+            | (1<<BIT_CTS_O);    
 }
 
 /* _____LOG__________________________________________________________________ */
@@ -74,5 +92,8 @@ void board_lowlevel_init(void)
 
  2009/02/17 : Pieter.Conradie
  - Created
+ 
+ 2010-03-16 : Pieter.Conradie
+ - Initialise SPI pins too.
    
 */

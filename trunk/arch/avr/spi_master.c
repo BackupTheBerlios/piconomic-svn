@@ -66,19 +66,6 @@
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
 void spi_init(void)
 {
-    // Enable SPI pins
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_SS);
-    BIT_SET_LO(DDR_SPI,    BIT_SPI_SS);
-
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_SCK);
-    BIT_SET_HI(DDR_SPI,    BIT_SPI_SCK);
-
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_MOSI);
-    BIT_SET_HI(DDR_SPI,    BIT_SPI_MOSI);
-
-    BIT_SET_LO(PORT_SPI,   BIT_SPI_MISO);
-    BIT_SET_LO(DDR_SPI,    BIT_SPI_MISO);
-
     // Configure and enable SPI peripheral
     SPCR = SPI_SPCR;
     SPSR = SPI_SPSR;
@@ -86,22 +73,9 @@ void spi_init(void)
 
 void spi_init2(u32_t bit_rate, u8_t spi_mode, bool_t data_order_lsb)
 {
-    u8_t spcr;
+    u8_t  spcr;
     u32_t actual_bit_rate;
-    u8_t  divisor;    
-
-    // Enable SPI pins
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_SS);
-    BIT_SET_LO(DDR_SPI,    BIT_SPI_SS);
-
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_SCK);
-    BIT_SET_HI(DDR_SPI,    BIT_SPI_SCK);
-
-    BIT_SET_HI(PORT_SPI,   BIT_SPI_MOSI);
-    BIT_SET_HI(DDR_SPI,    BIT_SPI_MOSI);
-
-    BIT_SET_LO(PORT_SPI,   BIT_SPI_MISO);
-    BIT_SET_LO(DDR_SPI,    BIT_SPI_MISO);
+    u8_t  divisor;
 
     // Default values for SPCR
     spcr =  (0<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)
@@ -291,5 +265,8 @@ void spi_transfer_data(const void *tx_data, void *rx_data, size_t bytes_to_trans
  - Changed parameters of spi_tx_data(), spi_rx_data() and spi_transfer_data()
    from (u8_t *) to (void *) to ease the use of other types (e.g. structures)
    without having to resort to casting.
+ 
+ 2010-03-16 : Pieter.Conradie
+ - Moved initialisation of SPI pins to board.c
    
 */
