@@ -64,6 +64,8 @@
 /* _____LOCAL FUNCTIONS______________________________________________________ */
 
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
+#warning "There is a caveat with the SS pin when using the SPI in master mode!"
+
 void spi_init(void)
 {
     // Configure and enable SPI peripheral
@@ -268,5 +270,8 @@ void spi_transfer_data(const void *tx_data, void *rx_data, size_t bytes_to_trans
  
  2010-03-16 : Pieter.Conradie
  - Moved initialisation of SPI pins to board.c
+ 
+ 2010-03-17 : Pieter.Conradie
+ - Added #warning regarding SS pin. See documentation in spi_master.h
    
 */
