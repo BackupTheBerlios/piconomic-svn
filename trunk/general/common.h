@@ -58,6 +58,7 @@
 #include "board.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+/*
 #ifndef NULL
 /// NULL pointer
 #ifdef __cplusplus
@@ -65,7 +66,13 @@
 #else
 #define NULL ((void*)0)
 #endif
+#endif 
+*/
+#ifndef NULL
+/// NULL pointer
+#define NULL 0
 #endif
+ 
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /// @name Standard types
