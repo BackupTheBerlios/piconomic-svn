@@ -64,7 +64,7 @@
 /* _____LOCAL FUNCTIONS______________________________________________________ */
 
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
-#warning "There is a caveat with the SS pin when using the SPI in master mode!"
+#warning "There is a caveat with the SS pin when using the SPI in master mode!. See documentation in spi_master.h"
 
 void spi_init(void)
 {
