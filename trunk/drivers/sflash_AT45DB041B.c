@@ -205,29 +205,6 @@ void at45db041b_write_data(u16_t       page,
                            const u8_t* buffer,
                            u16_t       number_of_bytes)
 {
-    // Wait until Flash is not busy
-    while(!at45db041b_ready())
-    {
-        ;
-    }   
-
-    // Select serial Flash
-    AT45DB041B_CS_LO();
-
-    // Send command
-    spi_tx_byte(AT45DB041B_CMD_MAIN_MEM_PAGE_TO_BUF1);
-
-    // Send address
-    spi_tx_byte((page>>7)&0xFF);
-    spi_tx_byte((page<<1)&0xFF);
-    spi_tx_byte(0x00);
-
-    // Deselect serial Flash
-    AT45DB041B_CS_HI();
-
-    // Set flag to busy
-    at45db041b_ready_flag = FALSE;
-
     // Wait for transfer to finish
     while(!at45db041b_ready())
     {
@@ -333,7 +310,10 @@ u8_t at45db041b_get_status(void)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter.Conradie
  - First release
+ 
+ 2010-04-21 : Pieter.Conradie
+ - Removed unnecessary code from "at45db041b_write_data(...)"
    
 */
