@@ -438,7 +438,7 @@ bool_t cmd_line_strtol(const char* str, long* val, long min, long max)
     long  i;
     char* end;
 
-    i = strtol(str,&end,10);
+    i = strtol(str,&end,0);
 
     if(  (end == str) || (*end != '\0')  )
     {
@@ -467,5 +467,9 @@ bool_t cmd_line_strtol(const char* str, long* val, long min, long max)
  2010/02/23 : Neels Kruger
  - Fixed bug in cmd_line_invoke(...) where incorrect arguments where passed
    to handler function in argv[].
+ 
+ 2010/04/16 : Pieter.Conradie
+ - Changed base in cmd_line_strtol(...) to 0 to support hexidecimal and octal
+   numbers.
    
 */

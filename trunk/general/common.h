@@ -51,9 +51,7 @@
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
-#ifndef STDINT_ABSENT
 #include <stdint.h>
-#endif
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 // Include board specific definitions, e.g. processor frequency
@@ -77,14 +75,6 @@
  
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
-#ifdef STDINT_ABSENT
-typedef unsigned char   u8_t;     ///< unsigned 8-bit value (0 to 255)
-typedef signed char     s8_t;     ///< signed 8-bit value (-128 to +127)
-typedef unsigned int    u16_t;    ///< unsigned 16-bit value (0 to 65535)
-typedef signed int      s16_t;    ///< signed 16-bit value (-32768 to 32767)
-typedef unsigned long   u32_t;    ///< unsigned 32-bit value (0 to 4294967296)
-typedef signed long     s32_t;    ///< signed 32-bit value (-2147483648 to +2147483647)
-#else
 /// @name Standard types
 //@{
 typedef uint8_t  u8_t;     ///< unsigned 8-bit value (0 to 255)
@@ -94,24 +84,14 @@ typedef int16_t  s16_t;    ///< signed 16-bit value (-32768 to 32767)
 typedef uint32_t u32_t;    ///< unsigned 32-bit value (0 to 4294967296)
 typedef int32_t  s32_t;    ///< signed 32-bit value (-2147483648 to +2147483647)
 //@}
-#endif
 
 /// @name Boolean type
 //@{
-/*
-typedef enum 
+typedef enum
 {
     FALSE = 0,
     TRUE  = !FALSE,
-} bool_t; 
-*/ 
-typedef _Bool bool_t;
-#ifndef FALSE
-#define FALSE  0
-#endif
-#ifndef TRUE
-#define TRUE   1
-#endif
+} bool_t;
 //@}
 
 /* _____MACROS_______________________________________________________________ */
@@ -212,6 +192,9 @@ typedef _Bool bool_t;
 /// Macro to calculate the length of an array
 #define ARRAY_LENGTH(array)             (sizeof(array)/sizeof((array)[0]))
 //@}
+
+/// Macro to see if a value is a power of two
+#define VAL_IS_PWR_OF_TWO(value)        (((value)&((value)-1)) == 0)
 
 /**
  *  @}

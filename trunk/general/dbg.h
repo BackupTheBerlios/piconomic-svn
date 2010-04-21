@@ -42,7 +42,7 @@
  *  @ingroup GENERAL
  *  @defgroup DBG dbg.h : Debug module
  *
- *  Outputs debug information via @ref PRINTF_MODULE
+ *  Outputs debug information via printf
  *
  *  Files: dbg.h
  *
@@ -61,10 +61,14 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
+#ifdef __AVR__
 #include "printf.h"
+#else
+#include <stdio.h>
+#endif
 
 /* _____DEFINITIONS _________________________________________________________ */
-/// Flag to disable (0) or enable (1) debug.
+/// Flag to disable (DBG=0) or enable (DBG=1) debug.
 #ifndef DBG
 #define DBG 0
 #endif
@@ -115,11 +119,13 @@
  *  @param[in] format Format string following by a variable list of arguments.
  *  
  */
+#ifdef __AVR__
 #define DBG_TRACE(format, ...) \
-            { \
-                if(DBG_LEVEL != 0) \
-                    PRINTF(format, ## __VA_ARGS__); \
-            }
+            { if(DBG_LEVEL != 0) PRINTF(format, ## __VA_ARGS__); }
+#else
+#define DBG_TRACE(format, ...) \
+            { if(DBG_LEVEL != 0) printf(format, ## __VA_ARGS__); }
+#endif
 
 /**
  *  Macro that will output debug output if the specified level bit is set in #DBG_LEVEL.
