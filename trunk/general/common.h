@@ -51,11 +51,9 @@
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
+#ifndef SDINT_ABSENT
 #include <stdint.h>
-
-/* _____PROJECT INCLUDES_____________________________________________________ */
-// Include board specific definitions, e.g. processor frequency
-#include "board.h"
+#endif
 
 /* _____DEFINITIONS _________________________________________________________ */
 /*
@@ -75,6 +73,14 @@
  
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
+#ifdef SDINT_ABSENT
+typedef unsigned char   u8_t;     ///< unsigned 8-bit value (0 to 255)
+typedef signed char     s8_t;     ///< signed 8-bit value (-128 to +127)
+typedef unsigned int    u16_t;    ///< unsigned 16-bit value (0 to 65535)
+typedef signed int      s16_t;    ///< signed 16-bit value (-32768 to 32767)
+typedef unsigned long   u32_t;    ///< unsigned 32-bit value (0 to 4294967296)
+typedef signed long     s32_t;    ///< signed 32-bit value (-2147483648 to +2147483647)
+#else
 /// @name Standard types
 //@{
 typedef uint8_t  u8_t;     ///< unsigned 8-bit value (0 to 255)
@@ -84,14 +90,24 @@ typedef int16_t  s16_t;    ///< signed 16-bit value (-32768 to 32767)
 typedef uint32_t u32_t;    ///< unsigned 32-bit value (0 to 4294967296)
 typedef int32_t  s32_t;    ///< signed 32-bit value (-2147483648 to +2147483647)
 //@}
+#endif
 
 /// @name Boolean type
 //@{
-typedef enum
+/*
+typedef enum 
 {
     FALSE = 0,
     TRUE  = !FALSE,
-} bool_t;
+} bool_t; 
+*/ 
+typedef _Bool bool_t;
+#ifndef FALSE
+#define FALSE  0
+#endif
+#ifndef TRUE
+#define TRUE   (!FALSE)
+#endif
 //@}
 
 /* _____MACROS_______________________________________________________________ */
@@ -176,14 +192,34 @@ typedef enum
 
 /// Macro to extract the low 8 bits of a 16-bit value (Least Significant Byte)
 #define U16_LO8(data) ((u8_t)(data&0xff))
+
+/// Macro to extract the high 8 bits of a 32-bit value (Most Significant Byte)
+#define U32_HI8(data) ((u8_t)((data>>24)&0xff))
+
+/// Macro to extract the medium high 8 bits (bits 23-16) of a 32-bit value
+#define U32_MH8(data) ((u8_t)((data>>16)&0xff))
+
+/// Macro to extract the medium low 8 bits (bits 15-8) of a 32-bit value
+#define U32_ML8(data) ((u8_t)((data>>8)&0xff))
+
+/// Macro to extract the low 8 bits of a 32-bit value (Least Significant Byte)
+#define U32_LO8(data) ((u8_t)(data&0xff))
 //@}
 
 /// @name General utility macros
 //@{
-/// Macro to calculate division with rounding to nearest integer value
+/**
+ * Macro to calculate division with rounding to nearest integer value
+ *
+ * Warning: This macro will only work correctly if (dividend >= 0)
+ */
 #define DIV_ROUND(dividend,divisor)     (((dividend+((divisor)>>1))/(divisor)))
 
-/// Macro to calculate division with rounding to nearest integer value
+/**
+ * Macro to calculate division with rounding to nearest integer value
+ * 
+ * Warning: This macro will only work correctly if (dividend >= 0)
+ */
 #define DIV_ROUNDUP(dividend,divisor)   (((dividend+((divisor)-1))/(divisor)))
 
 /// Macro to check if a value is within bounds (min <= value <= max ?)
@@ -191,10 +227,21 @@ typedef enum
 
 /// Macro to calculate the length of an array
 #define ARRAY_LENGTH(array)             (sizeof(array)/sizeof((array)[0]))
-//@}
 
 /// Macro to see if a value is a power of two
 #define VAL_IS_PWR_OF_TWO(value)        (((value)&((value)-1)) == 0)
+
+/* _____PROJECT INCLUDES_____________________________________________________ */
+/* 
+ * Include board specific definitions, e.g. processor frequency.
+ *
+ * Note: This file is included at the end of "common.h", because "board.h"
+ *       may need definitions like "u8_t", etc. which are defined at the top
+ *       of this file.
+ */
+#include "board.h"
+
+//@}
 
 /**
  *  @}
