@@ -51,7 +51,7 @@
  */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
-#ifndef SDINT_ABSENT
+#ifndef STDINT_H_ABSENT
 #include <stdint.h>
 #endif
 
@@ -73,7 +73,7 @@
  
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
-#ifdef SDINT_ABSENT
+#ifdef STDINT_H_ABSENT
 typedef unsigned char   u8_t;     ///< unsigned 8-bit value (0 to 255)
 typedef signed char     s8_t;     ///< signed 8-bit value (-128 to +127)
 typedef unsigned int    u16_t;    ///< unsigned 16-bit value (0 to 65535)
