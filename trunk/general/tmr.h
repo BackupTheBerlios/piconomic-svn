@@ -55,13 +55,9 @@
  *  roll-over.
  *  
  *  @par
- *  An architecture specific timer support file must be provided (tmr_glue.h)
- *  that defines a macro to return the current counter value
- *  (#TMR_GLUE_GET_COUNTER) and the type returned (tmr_glue_t). In addition
- *  the number of ticks per second must also be defined
- *  (#TMR_GLUE_TICKS_PER_SEC).
- * 
- *  @see TMR_GLUE
+ *  This module depends on a system timer module, e.g. @ref AVR_SYSTMR to
+ *  return a counter that is incremented with every system tick. The number of
+ *  ticks per second (Hz) is defined in #TMR_TICKS_PER_SEC.
  *  
  *  Example:
  *  @include test/tmr_test.c
@@ -73,23 +69,15 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
-#include "tmr_glue.h"
+#include "systmr.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
-#ifndef TMR_GLUE_GET_COUNTER
-#error "A macro that returns the current counter value must be defined in 'timer_glue.h'"
-#endif
-
-#ifndef TMR_GLUE_TICKS_PER_SEC
-#error "TMR_GLUE_TICKS_PER_SEC must be defined in 'timer_glue.h'"
-#endif
-
 /// The number of timer ticks per second
-#define TMR_TICKS_PER_SEC   TMR_GLUE_TICKS_PER_SEC
+#define TMR_TICKS_PER_SEC   SYSTMR_TICKS_PER_SEC
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /// Size definition of the tick counter
-typedef tmr_glue_t tmr_ticks_t;
+typedef systmr_ticks_t tmr_ticks_t;
 
 /// Timer state
 typedef enum
@@ -177,6 +165,15 @@ extern void tmr_reset(tmr_t *tmr);
  *  @param[in]  delay_in_ticks    Delay in timer ticks
  */ 
 extern void tmr_wait(const tmr_ticks_t delay_in_ticks);
+
+/** 
+ *  Return the number of ticks that have elapsed sinced the timer has been started.
+ *  
+ *  @param[in,out]  tmr   Pointer to a timer object
+ *  
+ *  @return tmr_ticks_t Number of ticks elapsed
+ */ 
+extern tmr_ticks_t tmr_ticks_elapsed(tmr_t *tmr);
 
 /* _____MACROS_______________________________________________________________ */
 /** 

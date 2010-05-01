@@ -30,7 +30,7 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          Periodic Interval Timer
+    Title:          System Timer using the PIT peripheral 
     Author(s):      Pieter Conradie
     Creation Date:  2008/02/11
     Revision Info:  $Id$
@@ -42,8 +42,7 @@
 #include <aic/aic.h>
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
-#include "pitd.h"
-#include "board.h"
+#include "systmr.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 
@@ -52,12 +51,12 @@
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____LOCAL VARIABLES______________________________________________________ */
-static volatile pit_ticks_t pit_tick_counter;
+static volatile systmr_ticks_t systmr_tick_counter;
 
 /* _____LOCAL FUNCTION DECLARATIONS__________________________________________ */
 
 /* _____LOCAL FUNCTIONS______________________________________________________ */
-static void pit_interrupt(void)
+static void systmr_interrupt(void)
 {
     u32_t u32Pivr = 0;
     u32_t u32Pisr = 0;
@@ -71,26 +70,26 @@ static void pit_interrupt(void)
 
         // Add to counter the number of occurrences of periodic intervals 
         // since the last read of PITD_PIVR
-        pit_tick_counter += (u32Pivr >> 20);
+        systmr_tick_counter += (u32Pivr >> 20);
     }
 }
 
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
-void pit_init(void)
+void systmr_init(void)
 {
     // Set counter to 0
-    pit_tick_counter  = 0;    
+    systmr_tick_counter  = 0;    
 
     // Initialize and enable the PIT
     AT91C_BASE_PITC->PITC_PIMR  = (  AT91C_PITC_PIV 
-                                   & (DIV_ROUND(DIV_ROUND(BOARD_MCK,16),PIT_TICKS_PER_SEC)-1));
+                                   & (DIV_ROUND(DIV_ROUND(BOARD_MCK,16),SYSTMR_TICKS_PER_SEC)-1));
     AT91C_BASE_PITC->PITC_PIMR |= AT91C_PITC_PITEN;    
 
     // Disable the interrupt on the interrupt controller
     AIC_DisableIT(AT91C_ID_SYS);
 
     // Configure the AIC for PIT interrupts
-    AIC_ConfigureIT(AT91C_ID_SYS, AT91C_AIC_PRIOR_LOWEST | AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, pit_interrupt);
+    AIC_ConfigureIT(AT91C_ID_SYS, AT91C_AIC_PRIOR_LOWEST | AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, systmr_interrupt);
 
     // Enable the interrupt on the interrupt controller
     AIC_EnableIT(AT91C_ID_SYS);
@@ -102,12 +101,12 @@ void pit_init(void)
     PIT_Enable();    
 }
 
-pit_ticks_t pit_get_counter(void)
+systmr_ticks_t systmr_get_counter(void)
 {
-    pit_ticks_t counter;
+    systmr_ticks_t counter;
 
     // Fetch current time
-    counter = pit_tick_counter;
+    counter = systmr_tick_counter;
 
     return counter;
 }
@@ -117,5 +116,8 @@ pit_ticks_t pit_get_counter(void)
 
  2008/02/06 : Pieter.Conradie
  - Created
+ 
+ 2010/04/21 : Pieter.Conradie
+ - Renamed from pitd to systmr
    
 */

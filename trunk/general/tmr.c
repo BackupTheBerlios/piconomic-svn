@@ -51,7 +51,7 @@ void tmr_start(tmr_t *tmr, const tmr_ticks_t delay_in_ticks)
     tmr->delay_in_ticks = delay_in_ticks;
 
     // Store start tick
-    tmr->start_tick = TMR_GLUE_GET_COUNTER();
+    tmr->start_tick = systmr_get_counter();
 
     // Set state to indicate that timer has started
     tmr->state = TMR_STARTED;
@@ -68,7 +68,7 @@ bool_t tmr_has_expired(tmr_t* tmr)
     if (tmr->state == TMR_EXPIRED) return TRUE;
 
     // Fetch current time
-    tick = TMR_GLUE_GET_COUNTER();
+    tick = systmr_get_counter();
 
     // Timer expire test
     if( (tick - tmr->start_tick) < tmr->delay_in_ticks )
@@ -91,7 +91,7 @@ void tmr_stop(tmr_t *tmr)
 void tmr_restart(tmr_t *tmr)
 {
     // Store start tick
-    tmr->start_tick = TMR_GLUE_GET_COUNTER();
+    tmr->start_tick = systmr_get_counter();
 
     // Set state to indicate that timer has started
     tmr->state = TMR_STARTED;
@@ -117,11 +117,22 @@ void tmr_wait(const tmr_ticks_t delay_in_ticks)
         ;
     }
 }
+tmr_ticks_t tmr_ticks_elapsed(tmr_t *tmr)
+{
+    // Fetch current time
+    tmr_ticks_t tick = systmr_get_counter();
+
+    return (tick - tmr->start_tick);
+}
 
 /* _____LOG__________________________________________________________________ */
 /*
 
  2008-02-11 : Pieter.Conradie
  - Creation
+ 
+ 2010-04-21 : Pieter.Conradie
+ - Moved from "tmr_glue.h" to "systmr.h"
+ - Added tmr_ticks_elapsed(...)
    
 */

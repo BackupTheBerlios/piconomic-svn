@@ -1,8 +1,8 @@
-#ifndef __PITD_H__
-#define __PITD_H__
+#ifndef __SYSTMR_H__
+#define __SYSTMR_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -32,41 +32,47 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          Periodic Interval Timer
+    Title:          System Timer using a TMRx peripheral 
     Author(s):      Pieter Conradie
-    Creation Date:  2008/02/11
+    Creation Date:  2007-03-31
     Revision Info:  $Id$
-    
+
 =========================================================================== */
 
-/**
- *  @ingroup AT91
- *  @defgroup AT91_PITD pitd.h : Periodic Interval Timer
+/** 
+ *  @ingroup AVR
+ *  @defgroup AVR_SYSTMR systmr.h : System Timer using a TMR peripheral
  *
- *  Driver to initalise PIT so that a periodic interrupt is
- *  generated and a counter is incremented.
- *  
- *  Files: pitd.h & pitd.c
+ *  Driver to initalise TMRx so that a periodic interrupt is generated.
  *
- *  pit_init() configures PIT to expire every
- *  1/PIT_TICKS_PER_SEC second and generate an interrupt during
- *  which the internal counter is incremented. pit_get_counter() must be
- *  called to fetch a copy of the counter value in an interrupt safe way (atomic
- *  fetch).
+ *  Files: systmr.h & systmr.c
+ *
+ *  systmr_init() configures TMRx to expire every 1/SYSTMR_TICKS_PER_SEC second
+ *  generate an interrupt during which the internal counter @b systmr_tick_counter
+ *  is incremented. systmr_get_counter() must be called to fetch a copy of 
+ *  @b systmr_tick_counter in an interrupt safe way.
  * 
- *
+ *  See @ref TMR which builds on @ref AVR_SYSTMR to provide multiple software
+ *  timers.
+ *  
+ *  @par Example:
+ *  @include tmr_test.c
+ * 
+ *  @{
  */
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+#ifndef SYSTMR_TICKS_PER_SEC
 /// The number of timer ticks per second
-#define PIT_TICKS_PER_SEC 1000ul
+#define SYSTMR_TICKS_PER_SEC 100ul
+#endif
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /// Size definition of the tick counter
-typedef u32_t pit_ticks_t;
+typedef u16_t systmr_ticks_t;
 
 /* _____DEFINITIONS _________________________________________________________ */
 
@@ -76,17 +82,18 @@ typedef u32_t pit_ticks_t;
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
 /** 
- *  Initalise PIT to generate an interrupt every 1/PITD_TICKS_PER_SEC second.
+ *  Initalise TMRx to generate an interrupt every 1/SYSTMR_TICKS_PER_SEC second.
  */ 
-extern void pit_init(void);
+extern void systmr_init(void);
 
-/** 
- *  Return counter value
- * 
- * @return pit_ticks_t  Counter value
+/**
+ *  Fetch counter value atomically (disable interrupt during copy).
  */
-extern pit_ticks_t pit_get_counter(void);
+extern systmr_ticks_t systmr_get_counter(void);
 
 /* _____MACROS_______________________________________________________________ */
 
+/**
+ *  @}
+ */
 #endif

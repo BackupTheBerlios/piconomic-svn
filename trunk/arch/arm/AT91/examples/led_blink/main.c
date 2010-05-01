@@ -82,7 +82,7 @@
  * - /piconomic_fwlib/arch/arm/arm_crt0.S
  * - /piconomic_fwlib/arch/arm/arm.c
  * - /piconomic_fwlib/arch/arm/AT91/arm_irq.S
- * - /piconomic_fwlib/arch/arm/AT91/pitd.c
+ * - /piconomic_fwlib/arch/arm/AT91/systmr.c
  * - /piconomic_fwlib/general/tmr.c
  * - /atmel_at91lib/boards/at91sam7s-ek/board_lowlevel.c
  * - /atmel_at91lib/boards/at91sam7s-ek/board_memories.c
@@ -94,7 +94,7 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
-#include "pitd.h"
+#include "systmr.h"
 #include "tmr.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
@@ -160,7 +160,7 @@ int main(void)
 
     // Initialise modules
     led_init();
-    pit_init();
+    systmr_init();
 
     // Initialise timer to expire once a second
     tmr_start(&tmr, TMR_TICKS_PER_SEC);
@@ -185,5 +185,8 @@ int main(void)
 
  2009-02-17 : Pieter.Conradie
  - First release
+ 
+ 2010-05-01 : Pieter.Conradie
+ - Changed from pitd.c to systmr.c
    
 */

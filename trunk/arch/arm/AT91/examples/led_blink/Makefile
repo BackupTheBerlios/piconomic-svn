@@ -60,7 +60,7 @@ VPATH += $(PICLIB)/arch/arm/AT91
 SRC  = main.c board.c
 
 # Piconomic LIB
-SRC += pitd.c tmr.c
+SRC += systmr.c tmr.c
 
 # Atmel AT91LIB
 SRC += aic.c pit.c

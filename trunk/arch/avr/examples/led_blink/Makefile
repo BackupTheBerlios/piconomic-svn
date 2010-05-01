@@ -51,7 +51,7 @@ FORMAT = ihex
 TARGET = led_blink
 
 # Directories where source files can be found
-PICLIB = ../../../../../piconomic_fwlib
+PICLIB = ../../../..
 BSP    = piconomic_ab111-4
 
 VPATH += $(PICLIB)/general
@@ -68,7 +68,7 @@ OBJDIR = DEBUG
 # List C source files here. (C dependencies are automatically generated.)
 SRC  =  main.c
 
-SRC += pit_tmr1.c printf.c uart0.c tmr.c board.c
+SRC += systmr.c printf.c uart0.c tmr.c board.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)

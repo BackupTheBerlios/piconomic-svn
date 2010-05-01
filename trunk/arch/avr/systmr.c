@@ -30,7 +30,7 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          Periodic Interval Timer using Timer 1
+    Title:          System Timer using a TMRx peripheral 
     Author(s):      Pieter Conradie
     Creation Date:  2007-03-31
     Revision Info:  $Id$
@@ -42,7 +42,7 @@
 #include <avr/interrupt.h>
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
-#include "pit_tmr1.h"
+#include "systmr.h"
 
 /* _____LOCAL DEFINITIONS____________________________________________________ */
 
@@ -51,7 +51,7 @@
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____LOCAL VARIABLES______________________________________________________ */
-static volatile pit_ticks_t pit_tick_counter;
+static volatile systmr_ticks_t systmr_tick_counter;
 
 /* _____LOCAL FUNCTION DECLARATIONS__________________________________________ */
 
@@ -62,11 +62,11 @@ static volatile pit_ticks_t pit_tick_counter;
 ISR(TIMER1_COMPA_vect)
 {
     // Increment counter
-    pit_tick_counter++;
+    systmr_tick_counter++;
 }
 
 /* _____GLOBAL FUNCTIONS_____________________________________________________ */
-void pit_init(void)
+void systmr_init(void)
 {
     // Initialise timer 1 interrupt @ CLK/8 in CTC mode ("Clear Timer on Compare")
     // Resolution is 1.085 us
@@ -82,21 +82,21 @@ void pit_init(void)
     // Calculate and set maximum 16-bit TMR1 counter value.
     // When TCNT1 reaches this value, an interrupt is generated
     // and TCNT1 is reset to 0.
-    OCR1A  = DIV_ROUND(F_CPU/8, PIT_TICKS_PER_SEC)-1;
+    OCR1A  = DIV_ROUND(F_CPU/8, SYSTMR_TICKS_PER_SEC)-1;
 
     // Enable Timer compare match interrupt
     BIT_SET_HI(TIMSK, OCIE1A);
 }
 
-pit_ticks_t pit_get_counter(void)
+systmr_ticks_t systmr_get_counter(void)
 {
-    pit_ticks_t counter;
+    systmr_ticks_t counter;
 
     // Disable timer interrupt to perform atomic access
     BIT_SET_LO(TIMSK,OCIE1A);
 
     // Fetch current time
-    counter = pit_tick_counter;
+    counter = systmr_tick_counter;
 
     // Enable timer interrupt
     BIT_SET_HI(TIMSK,OCIE1A);
@@ -111,7 +111,10 @@ pit_ticks_t pit_get_counter(void)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter.Conradie
  - First release
+ 
+ 2010-04-21 : Pieter.Conradie
+ - Renamed to "systmr"
    
 */

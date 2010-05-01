@@ -1,8 +1,8 @@
-#ifndef __PIT_TMR1_H__
-#define __PIT_TMR1_H__
+#ifndef __SYSTMR_H__
+#define __SYSTMR_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -31,28 +31,28 @@
     CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
-    
-    Title:          Periodic Interval Timer using Timer 1
+ 
+    Title:          System Timer using the PIT peripheral 
     Author(s):      Pieter Conradie
-    Creation Date:  2007-03-31
+    Creation Date:  2008/02/11
     Revision Info:  $Id$
 
 =========================================================================== */
 
 /** 
- *  @ingroup AVR
- *  @defgroup AVR_PIT_TMR1 pit_tmr1.h : Periodic Interval Timer using Timer 1
+ *  @ingroup AT91
+ *  @defgroup AT91_SYSTMR systmr.h : System Timer using the PIT peripheral
  *
- *  Driver to initalise 16-bit TMR1 so that a periodic interrupt is generated.
+ *  Driver to initalise PIT so that a periodic interrupt is generated.
  *
- *  Files: pit_tmr1.h & pit_tmr1.c
+ *  Files: systmr.h & systmr.c
  *
- *  pit_init() configures TMR1 to expire every 1/PIT_TICKS_PER_SEC second and
- *  generate an interrupt during which the internal counter @b pit_tick_counter
- *  is incremented. pit_get_counter() must be called to fetch a copy of 
- *  @b pit_tick_counter in an interrupt safe way.
+ *  systmr_init() configures TMRx to expire every 1/SYSTMR_TICKS_PER_SEC second
+ *  generate an interrupt during which the internal counter @b systmr_tick_counter
+ *  is incremented. systmr_get_counter() must be called to fetch a copy of 
+ *  @b systmr_tick_counter in an interrupt safe way.
  * 
- *  See @ref TMR which builds on @ref AVR_PIT_TMR1 to provide multiple software
+ *  See @ref TMR which builds on @ref AT91_SYSTMR to provide multiple software
  *  timers.
  *  
  *  @par Example:
@@ -65,15 +65,12 @@
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
-#ifndef PIT_TICKS_PER_SEC
 /// The number of timer ticks per second
-#define PIT_TICKS_PER_SEC 100ul
-#endif
+#define SYSTMR_TICKS_PER_SEC 1000ul
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /// Size definition of the tick counter
-typedef u16_t pit_ticks_t;
-
+typedef u32_t systmr_ticks_t;
 
 /* _____DEFINITIONS _________________________________________________________ */
 
@@ -83,18 +80,17 @@ typedef u16_t pit_ticks_t;
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
 /** 
- *  Initalise TMR1 to generate an interrupt every 1/PIT_TICKS_PER_SEC second.
+ *  Initalise PIT to generate an interrupt every 1/SYSTMR_TICKS_PER_SEC second.
  */ 
-extern void pit_init(void);
+extern void systmr_init(void);
 
-/**
- *  Fetch counter value atomically (disable interrupt during copy).
+/** 
+ *  Return counter value
+ * 
+ * @return systmr_ticks_t  Counter value
  */
-extern pit_ticks_t pit_get_counter(void);
+extern systmr_ticks_t systmr_get_counter(void);
 
 /* _____MACROS_______________________________________________________________ */
 
-/**
- *  @}
- */
 #endif

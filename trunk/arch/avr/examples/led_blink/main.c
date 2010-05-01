@@ -45,7 +45,7 @@
  * second. 
  *  
  * The following modules are exercised: 
- * - @ref AVR_PIT_TMR1 
+ * - @ref AVR_SYSTMR 
  * - @ref PRINTF_MODULE 
  * - @ref UART0 
  * - @ref TMR 
@@ -58,7 +58,7 @@
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
 #include "common.h"
-#include "pit_tmr1.h"
+#include "systmr.h"
 #include "printf.h"
 #include "uart0.h"
 #include "tmr.h"
@@ -89,7 +89,7 @@ int main(void)
     // Initialise modules
     uart0_init(115200, 8, UART0_NO_PARITY, 1);
     printf_init();
-    pit_init();
+    systmr_init();
 
     // Enable interrupt
     sei();
