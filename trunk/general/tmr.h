@@ -182,7 +182,7 @@ extern tmr_ticks_t tmr_ticks_elapsed(tmr_t *tmr);
  *  @return    Delay in timer ticks
  */
 #define TMR_MS_TO_TICKS(delay_in_ms)    \
-     DIV_ROUND(delay_in_ms*TMR_TICKS_PER_SEC,1000ul)
+     DIV_ROUND((delay_in_ms)*TMR_TICKS_PER_SEC,1000ul)
 
 /**
  *  @}
