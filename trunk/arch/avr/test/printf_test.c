@@ -3,7 +3,7 @@
 #include "uart0.h"
 #include "printf.h"
 
-void PRINTF_vTest(void)
+void printf_test(void)
 {
     u8_t counter;
  

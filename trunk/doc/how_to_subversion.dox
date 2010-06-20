@@ -1,0 +1,119 @@
+/* =============================================================================
+
+   Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+    @page SUBVERSION Using Subversion version control system
+  
+    This page provides a quick cheat cheat to get started with Subversion.
+   
+    @par Introduction
+    <a href="http://subversion.tigris.org">Subversion</a> is a free version 
+    control system that manages files and directories over time. Files are 
+    stored in a central repository. The repository is much like an ordinary 
+    file server, except that it remembers every change ever made to your files 
+    and directories. This allows you to recover older versions of your files 
+    and examine the history of how and when your data changed, and who changed 
+    it.\n
+    -- paraphrased from "Version Control with Subversion" and "TortoiseSVN
+    A Subversion client for Windows"\n
+   
+    Everyone that develops source code should use it (in a team environment
+    and as a single developer). For Windows users there is a brilliant
+    subversion client called
+    <a href="http://tortoisesvn.tigris.org/">Tortoise SVN</a>.
+    It integrates into Windows Explorer and is accessed with the right-click
+    context menu. It also displays the status of a versioned file or directory
+    by overlaying an icon.
+   
+    @par Optional installation step:
+    Subversion can automatically insert version information in your files if
+    enabled and if it finds a specific tag in the file, e.g. "$Id $". This
+    feature can be enabled automatically by editing the following file:
+    @code
+    c:\Documents and Settings\<username>\Application Data\Subversion\config
+    @endcode
+    
+    The following lines should change to:
+    @code
+    ...
+    enable-auto-props = yes
+    ...
+    *.c = svn:eol-style=native; svn:keywords=Id
+    *.cpp = svn:eol-style=native; svn:keywords=Id
+    *.h = svn:eol-style=native; svn:keywords=Id
+    ...
+    @endcode
+    
+    <hr>
+    @section SVN_COOKBOOK Subversion cheat sheet:
+    
+    @par 1. Create repository
+    For this example, lets say that the repository location should be:
+    @code
+    C:\Repositories\piconomic_fwlib>
+    @endcode
+    Change directory to the root of the repository and issue the command to
+    create a new repository:
+    @code
+    C:\Repositories>svnadmin create piconomic_fwlib
+    @endcode
+    
+    @par 2. Import project
+    For this example, lets say that a copy of the directories and files to be 
+    imported is located at (without extra or temporary files!):
+    @code
+    C:\Temp\piconomic_fwlib>
+    @endcode
+    To import the project, issue the following command:
+    @code
+    C:\Temp\piconomic_fwlib>svn import c:/Temp/piconomic_fwlib file:///c:/Repositories/piconomic_fwlib -m "Initial import"
+    @endcode
+    
+    @par 3. Checkout a working copy
+    For this example, lets say that your personal working copy of the project
+    should reside in:
+    @code
+    C:\Projects\piconomic_fwlib>
+    @endcode
+    To checkout the project to your working folder, issue the following command:
+    @code
+    C:\Projects>svn checkout file:///c:/Repositories/piconomic_fwlib piconomic_fwlib
+    @endcode
+   
+    @par TortoiseSVN screenshot:
+    
+    Of course, you do not have to use the command line if you have <a href="http://tortoisesvn.tigris.org/">Tortoise SVN</a>:
+    
+    @image html TortoiseSVN.png
+ */ 

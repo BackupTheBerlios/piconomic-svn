@@ -2,7 +2,7 @@
 #define __USART0_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -41,12 +41,11 @@
 
 /** 
  *  @ingroup AT91
- *  @defgroup AT91_USART0 usart0.h : Interrupt-driven, ring buffered USART0
- *            module
+ *  @defgroup AT91_USART0 usart0.h : Interrupt-driven, ring buffered USART0 module
  *
  *  Driver that initialises USART0 and allows buffered communication.
  *
- *  Files: usart0.h & usart0.c
+ *  Files: AT91\usart0.h & AT91\usart0.c
  *
  *  This is a driver for the USART0 peripheral that provides buffered serial 
  *  communication facilities. It uses two ring (circular) buffers for 

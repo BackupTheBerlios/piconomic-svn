@@ -1,8 +1,8 @@
-#ifndef __VT100_H__
-#define __VT100_H__
+#ifndef __CRC16_CCITT_H__
+#define __CRC16_CCITT_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,27 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          VT100 Terminal Support
-    Author(s):      Pieter Conradie
-    Creation Date:  2008/08/04
+    Title:          16-bit CRC calculator
+    Author(s):      Pieter.Conradie
+    Creation Date:  2008/11/06
     Revision Info:  $Id$
 
 ============================================================================= */
+
+/** 
+ *  @ingroup PROTOCOL
+ *  @defgroup CRC16_CCITT crc16_ccitt.h : 16-bit CRC calculator
+ *
+ *  16-bit Cyclic Redundancy Check calculator for checksums.
+ *  
+ *  Files: crc16_ccitt.h & crc16_ccitt.h
+ *  
+ *  A CRC is an error-detecting code that is used for data integrity checks.
+ *  
+ *  @see http://en.wikipedia.org/wiki/Cyclic_redundancy_check
+ *  
+ *  @{
+ */
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 
@@ -45,40 +60,53 @@
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
+/** 
+ *   The generator polynomial.
+ *  
+ *   CRC16-CCITT: x^16 + x^12 + x^5 + x^0
+ */
+#define CRC16_CCITT_POLYNOMIAL  0x8408
+
+/// Initial CRC value
+#define CRC16_CCITT_INIT_VAL    0xffff
+
+/// Magic CRC value
+#define CRC16_CCITT_MAGIC_VAL   0xf0b8
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
-/*
- * Definition for a pointer to a function that will be called to 
- * send a character
- */
-typedef void (*vt100_put_char_t)(char data);
-
-
-// Special ASCII values
-#define VT100_NONE          0
-#define VT100_BEL           0x07
-#define VT100_BS            0x08
-#define VT100_TAB           0x09
-#define VT100_CR            0x0D
-#define VT100_LF            0x0A
-#define VT100_ESC           0x1B
-#define VT100_DEL           0x7F
-#define VT100_ARROW_UP      0x80
-#define VT100_ARROW_DN      0x81
-#define VT100_ARROW_LEFT    0x82
-#define VT100_ARROW_RIGHT   0x83
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
-extern void vt100_init(vt100_put_char_t put_char);
+/** 
+ *  Initialise CRC lookup table.
+ */
+extern void  crc16_ccitt_init(void);
 
-extern char vt100_process_rx_char(char data);
+/** 
+ * Calculate the CRC over one byte.
+ * 
+ * @param crc       The initial CRC to start the calculation with
+ * @param data      The value to calculate the CRC over
+ * 
+ * @return u16_t    The resultant CRC
+ */
+extern u16_t crc16_ccitt_calc_byte(u16_t crc, u8_t data);
 
-extern void vt100_clear_screen(void);
-
-extern void vt100_erase_line(void);
+/** 
+ * Calculate the CRC over a number of bytes.
+ * 
+ * @param crc           The initial CRC to start the calculation with
+ * @param data          Pointer to the data to calculate the CRC over
+ * @param data_length   The amount of bytes to calculate the CRC over
+ * 
+ * @return u16_t        The resultant CRC over the group of bytes
+ */
+extern u16_t crc16_ccitt_calc_data(u16_t crc, u8_t* data, u16_t data_length);
 
 /* _____MACROS_______________________________________________________________ */
 
+/**
+ *  @}
+ */
 #endif

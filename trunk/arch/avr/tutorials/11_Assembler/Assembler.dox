@@ -1,6 +1,6 @@
 /* ==========================================================================
 
-   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
@@ -33,26 +33,27 @@
 ========================================================================== */
 
 /**
- *  @ingroup ARM_AT91_TUTORIALS
- *  @defgroup ARM_AT91_TUT02_ASM_ADVANCED /01_Assembler_Advanced
- *  
- *  Demonstrates a slightly more advanced ARM assembler program for the Atmel AT91SAM7S-EK (AT91SAM7S256).
- * 
- *  The DS1 LED output pin on PA0 is toggled close to the maximum IO rate. This
- *  tutorial builds on @ref ARM_AT91_TUT01_ASM_BASIC. It demonstrates how
- *  an H file (AT91SAM7S256.h) can be included and used to define and access
- *  hardware specific registers.
- *  
- *  The literal pool (constants) is collected at the end using the statement
- *  ".ltorg" and not defined explicitely (as in @ref ARM_AT91_TUT01_ASM_BASIC).
- *  
- *  @par File: AsmAdvanced.S
- *  @include AsmAdvanced.S
- *  
- *  The extended assembly listing file should always be examined to verify that
- *  the code has been generated correctly.
- *  
- *  @par File: AsmAdvanced.lss
- *  @include AsmAdvanced.lss
- *  
+   @ingroup AVR_TUTORIALS
+   @defgroup AVR_TUT11_ASSEMBLER /11_Assembler
+    
+   Demonstrates how to create a complete assembler project in AVR Studio.
+   
+   Files: Assembler.asm
+   
+   The LED output pin is toggled every 250 ms in the timer interrupt. 
+   It is a recreation of the tutorial @ref AVR_TUT03_INTERRUPTS in assembler.
+   
+   The aim of the project is to simulate the code in AVR Studio. The project 
+   creates a "Assembler.hex" file and this needs to be converted to 
+   "Assembler.bin", before it can be uploaded via the XMODEM-CRC bootloader.
+   
+   Here are the steps to build and simulate the project:
+   
+   1. Open the project in AVR Studio: "Project > Open Project" and select the 
+   AVR Studio project, "..\Tutorials\11_Assembler\Assembler.aps"
+   
+   2. Build and run the project: "Build > Build and Run"
+   
+   3. Use the "Debug" menu to start and stop debugging, single-stepping, etc. 
+   
  */

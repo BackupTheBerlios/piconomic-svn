@@ -2,7 +2,7 @@
 #define __SYSTMR_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
  *
  *  Driver to initalise TMRx so that a periodic interrupt is generated.
  *
- *  Files: systmr.h & systmr.c
+ *  Files: avr\systmr.h & avr\systmr.c
  *
  *  systmr_init() configures TMRx to expire every 1/SYSTMR_TICKS_PER_SEC second
  *  generate an interrupt during which the internal counter @b systmr_tick_counter

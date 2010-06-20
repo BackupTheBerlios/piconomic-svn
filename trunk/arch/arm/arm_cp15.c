@@ -1,6 +1,6 @@
 /* =============================================================================
 
-    Copyright (c) 2008 Piconomic Design [www.piconomic.co.za]
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

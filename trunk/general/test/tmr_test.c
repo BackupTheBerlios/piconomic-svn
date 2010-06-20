@@ -1,6 +1,6 @@
 #include <avr/interrupt.h>
 
-#include "pit_tmr1.h"
+#include "systmr.h"
 #include "tmr.h"
 
 void tmr_test(void)
@@ -13,13 +13,13 @@ void tmr_test(void)
     BIT_SET_HI(DDR_LED_O,  BIT_LED_O);
  
     // Initialise module
-    pit_init();
+    systmr_init();
 
     // Enable global interrupts
     sei();
   
-    // Start timer with a 1s timeout
-    tmr_start(&tmr, TMR_MS_TO_TICKS(1000));
+    // Start timer with a 250 ms timeout
+    tmr_start(&tmr, TMR_MS_TO_TICKS(250));
     
     for(;;)
     {

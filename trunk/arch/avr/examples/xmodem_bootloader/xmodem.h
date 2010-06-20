@@ -2,7 +2,7 @@
 #define __XMODEM_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@
 
 /** 
  *  @ingroup AVR_XMODEM_BOOTLOADER
- *  @defgroup XMODEM xmodem.h : XMODEM-CRC receive module
+ *  @defgroup AVR_XMODEM xmodem.h : XMODEM-CRC receive module
  *
  *  Receive a file via the XMODEM-CRC protocol. 
  *

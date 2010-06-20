@@ -2,7 +2,7 @@
 #define __BOARD_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

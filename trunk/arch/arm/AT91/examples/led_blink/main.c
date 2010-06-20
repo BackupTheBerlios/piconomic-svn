@@ -1,6 +1,6 @@
 /* =============================================================================
 
-    Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2009 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@
  * specific low level initialisation and nested IRQ exception handler. 
  *  
  * The following modules are exercised:
- * - @ref AT91_PITD 
+ * - @ref AT91_SYSTMR 
  * - @ref TMR 
  *  
  * The <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343"> 

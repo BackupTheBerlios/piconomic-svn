@@ -587,7 +587,7 @@ INPUT_ENCODING         = UTF-8
 
 FILE_PATTERNS          = *.h \
                          *.c \
-                         *.doxy
+                         *.dox
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories
 # should be searched for input files as well. Possible values are YES and NO.
@@ -616,7 +616,7 @@ EXCLUDE_SYMLINKS       = NO
 # for example use the pattern */test/*
 
 EXCLUDE_PATTERNS       = */test/* \
-                         *.svn/* \
+                         */.svn/* \
                          */AT91/boards/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
@@ -636,6 +636,7 @@ EXAMPLE_PATH           = ../arch/avr/test \
                          ../drivers \
                          ../drivers/test \
                          ../general/test \
+                         ../protocol/test \
                          ../arch/arm \
                          ../arch/arm/AT91 \
                          ../arch/arm/AT91/boards/linker_scripts \

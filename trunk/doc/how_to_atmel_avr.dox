@@ -1,0 +1,259 @@
+/* =============================================================================
+
+   Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/**
+   @page AVR_QUICK_START_GUIDE Atmel AVR quick start guide
+   
+   This is a quick start guide for the person who wants to switch to the 
+   brilliant 8-bit Atmel AVR microcontroller and learns by example.
+   
+   @par The following free software tools are needed:
+   - <a href="http://winavr.sourceforge.net">WinAVR 20080610</a> : a suite of executable, open source software development tools for Atmel AVR microcontrollers hosted on the Windows platform. It includes the GNU GCC compiler for C and C++.
+   - <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=2725">Atmel AVR Studio 4.16 (build 628)</a> : the Integrated Development Environment (IDE) for writing and debugging AVR applications on Windows.
+   - <a href="avr_hyperterminal.jpg">HyperTerminal</a> : communication software packaged with Windows.
+   
+   @par Reference documentation:
+   - <a href="http://www.atmel.com/dyn/products/product_card.asp?part_id=2018">Atmel ATmega128 datasheet</a>
+   - <a href="http://www.atmel.com/dyn/resources/prod_documents/doc0856.pdf">8-bit AVR Instruction set</a>
+   - <a href="file:///D:/WinAVR/doc/avr-libc/avr-libc-user-manual/index.html">AVR Libc Reference Manual</a>
+  
+   @par Sections:
+   - @ref AVR_INSTRUCTION_SET
+   - @ref AVR_PERIPHERAL_ACCESS
+   - @ref AVR_STUDIO_EXISTING_PROJECT
+   - @ref AVR_STUDIO_NEW_PROJECT
+   - @ref AVR_STUDIO_SIMULATE
+   - @ref AVR_MAKEFILE
+   
+   @par Tutorials:
+   @ref AVR_TUTORIALS
+   - @ref AVR_TUT01_PORTIO
+   - @ref AVR_TUT02_TIMERS
+   - @ref AVR_TUT03_INTERRUPTS
+   - @ref AVR_TUT04_USARTS
+   - @ref AVR_TUT05_PRINTF
+   - @ref AVR_TUT06_PWM
+   - @ref AVR_TUT07_ADC
+   - @ref AVR_TUT08_SLEEP_MODE
+   - @ref AVR_TUT09_EEPROM
+   - @ref AVR_TUT10_RTC
+   - @ref AVR_TUT11_ASSEMBLER
+   - @ref AVR_TUT12_POWER_MANAGEMENT
+   - @ref AVR_TUT13_XMEM 
+    
+   @par Examples:
+   @ref AVR_EXAMPLES 
+   - @ref AVR_LED_BLINK 
+   - @ref AVR_XMODEM_BOOTLOADER 
+    
+   <hr>
+   @section AVR_INSTRUCTION_SET Short introduction to AVR instruction set
+   
+   The AVR core has an advanced RISC architecture with most of the instructions 
+   being executed in a single clock cycle. The AVR uses a Harvard architecture 
+   with separated access to program and data. A load/store assembler instruction 
+   set is implemented with 32 general purpose registers (R0 to R31). The 
+   instructions are divided into the following categories:
+   
+   @par Arithmetic and Logic Instructions
+   e.g. add Rd,Rr (Add without Carry : Rd = Rd + Rr)
+   
+   @par Branch Instructions
+   e.g. rjmp k (Relative Jump : PC = PC + k + 1)
+   
+   @par Data Transfer Instructions
+   e.g. mov Rd,Rr (Copy register : Rd = Rr)
+   
+   @par Bit and Bit-test Instructions
+   e.g. sbi P,b (Set bit in I/O register : I/O(P,b) = 1)
+   
+   <em>The quickest way to learn the assembler instruction set is to refer to the 
+   Compiled Help file of Atmel AVR Studio:\n
+   Help > AVR Tools User Guide > AVR Assembler > Parts > ATmega128/1280/1281 and AT90CAN128 Instruction Set</em>
+   
+   The <b>Status Register(SREG)</b> contains flags that convey information about the 
+   most recently executed arithmetic instruction. Bit 7 (I) is different, as it 
+   is the flag that enables/disables interrupts globally:
+   
+   @image html avr_sreg.png "AVR SREG Register"
+   - Bit 7 @b I: <b>Global Interrupt Enable</b>
+   - Bit 6 @b T: Bit Copy Storage
+   - Bit 5 @b H: Half Carry Flag
+   - Bit 4 @b S: Sign Bit
+   - Bit 3 @b V: Two's Complement Overflow Flag
+   - Bit 2 @b N: Negative Flag
+   - Bit 1 @b Z: Zero Flag
+   - Bit 0 @b C: Carry Flag
+   
+   <hr>
+   @section AVR_PERIPHERAL_ACCESS Introduction to AVR peripheral access
+   
+   <em>Tip: this section appears daunting, but will become essential knowledge on 
+   your way to master the AVR. Skim through it now, and return to read it in 
+   depth after working through @ref AVR_TUT01_PORTIO.</em>
+   
+   All of the AVR peripherals are manipulated by writing to and reading from 
+   the Peripheral Control Registers. Refer to "Register Summary" of the 
+   ATmega128 datasheet (p.365).
+   
+   Here is a condensed visual representation of the ATmega128 memory map to 
+   highlight the Harvard architecture and access to the Peripheral Control Registers:
+   
+   @image html avr_memory.png "AVR Memory Map"
+   
+   The memory map will make more sense after working through the tutorials, 
+   but it is displayed here to point out a specific mental stumbling block on 
+   the GCC / AVR-LIBC learning curve ("SFRs - Special Function Registers").
+   
+   The data memory load/store instructions provide a different method to access
+   the the general purpose registers (R0 to R31) and the I/O memory (0x00 to 0x3F).
+   Thus the following assembler instructions are equivalent, but not optimal:
+   
+   <b>mov R16,R17 <--> lds R16,0x0017</b> (R17 can be accessed at address 0x0017 in data space)
+   
+   and
+   
+   <b>in R19,0x00 <--> lds R19, 0x0020</b> ("PINF" is mapped to 0x00 in I/O space andaddress 0x0020 in data space).
+   
+   To access the other Peripheral Control Registers that do not fit into I/O 
+   space (which have optimal bit manipulation instructions), data space 
+   load/store instructions must be used.
+   
+   <em>Luckily, the compiler takes care of these details in the background.</em>
+   
+   Here are two examples:
+   
+   @par 1. I/O space (DDRB - 0x17)
+   @code
+   // C:
+   DDRB |= (1<<6); // Set I/O pin PB6 to output
+   
+   // Assembler:
+   __asm__ __volatile__("sbi 0x17,6 \r\n"::);
+   @endcode
+   
+   @par 2. Data space (DDRF - 0x61)
+   @code
+   // C:
+   
+   DDRF |= (1<<5); // Set I/O pin PF5 to output
+   
+   // Assembler:
+   __asm__ __volatile__("lds R24,0x61 \r\n"
+                        "ori R24,32   \r\n"
+                        "sts 0x61,R24 \r\n" ::);
+   @endcode
+   
+   <em>Access to Data memory mapped peripherals is not as efficient as I/O memory 
+   mapped peripherals.</em>
+   
+   <hr>
+   @section AVR_STUDIO_EXISTING_PROJECT How to open an existing project in AVR Studio
+   
+   <em>AVR Studio offers a complete integrated development environment: editor, 
+   build system, simulator, debugger, programmer,...</em>
+   
+   All of the tutorials, 
+   bootloader and firmware framework are provided with a pre-configured 
+   AVR Studio project. External Makefiles are referenced, in stead of AVR 
+   Studio's build system, to support non-Windows users.
+   
+   An existing project can be opened by navigating to the AVR Studio menu 
+   "Project>Open Project" and selecting the "*.aps" file, e.g. 
+   "tutorials\01 Port IO\PortIO.aps"
+   
+   @image html avr_studio_open_project.jpg "AVR Studio Open Project screen"
+   
+   <hr>
+   @section AVR_STUDIO_NEW_PROJECT How to create a new project in AVR Studio using the AVR GCC plugin
+   
+   Here are the steps to create a new AVR GCC project in AVR Studio:
+   
+   1. Navigate to the AVR Studio menu  "Project>New Project" and select "AVR GCC" as project type.
+   2. Type a project name, e.g. "PortIO" and create an inital C file, e.g. "PortIO.c"
+   3. Select a location, e.g. "C:\Tutorials" and create a folder.
+   
+   @image html avr_studio_new_project.jpg "AVR Studio New Project screen"
+   
+   4. Select "Next>" and choose "AVR Simulator" and "ATmega128" as the device.
+   
+   @image html avr_studio_simulator.jpg "AVR Studio Simulator setup screen"
+   
+   <em>You can change this choice at a later stage by navigating to 
+   "Debug>Select Platform and Device..."</em>
+   
+   5. Select Finish. Your new C file will now be created and open for editing.
+   
+   6. The build options, which changes an AVR Studio generated Makefile, is 
+   selected by navigating to "Project > Configuration Options". Set the frequency
+   to 7372800 (7.3728 MHz) and optimization to -Os (optimized for size) and select OK.
+   
+   @image html avr_studio_project_options.jpg "AVR Studio Project Options"
+   
+   7. The source code can be compiled by selecting "Build > Build"
+   
+   <hr>
+   @section AVR_STUDIO_SIMULATE How to simulate a project in AVR Studio
+   
+   <em>AVR Studio is an invaluable development tool that should be used vigorously 
+   to simulate the code and verify it's correctness, before downloading it to 
+   the target.</em>
+   
+   This section assumes that the code has been built successfully.
+   
+   First enable cycle accurate timing information with 
+   "Debug > AVR Simulator Options", set the clock frequency to "7.37 MHz" 
+   and "OK". This setting is saved with the project and needs only to be done once.
+   
+   Select "Debug > Start Debugging". You can now single-step, set breakpoints,...
+   
+   <em>Select and expand the I/O View in the right-hand pane to view the status of 
+   the processor and the peripherals.</em>
+   
+   @image html avr_studio.jpg "AVR Studio"
+   
+   <hr>
+   @section AVR_MAKEFILE How to create a new Makefile if not using AVR Studio
+   
+   A Makefile is used to automate the process of compiling and linking the source
+   code of a project.
+   
+   A TCL/Tk script called "Mfile" is bundled with WinAVR that automates the 
+   process of creating a new Makefile. The other option is to copy and modify an
+   existing Makefile.
+   
+   @image html avr_mfile.jpg "MFile"
+   
+ */
+

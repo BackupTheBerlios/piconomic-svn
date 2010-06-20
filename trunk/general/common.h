@@ -2,7 +2,7 @@
 #define __COMMON_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -56,21 +56,10 @@
 #endif
 
 /* _____DEFINITIONS _________________________________________________________ */
-/*
-#ifndef NULL
-/// NULL pointer
-#ifdef __cplusplus
-#define NULL 0
-#else
-#define NULL ((void*)0)
-#endif
-#endif 
-*/
 #ifndef NULL
 /// NULL pointer
 #define NULL 0
 #endif
- 
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 #ifdef STDINT_H_ABSENT
@@ -94,20 +83,29 @@ typedef int32_t  s32_t;    ///< signed 32-bit value (-2147483648 to +2147483647)
 
 /// @name Boolean type
 //@{
-/*
-typedef enum 
-{
-    FALSE = 0,
-    TRUE  = !FALSE,
-} bool_t; 
-*/ 
-typedef _Bool bool_t;
+#ifndef __cplusplus
+
+#define bool_t _Bool
 #ifndef FALSE
 #define FALSE  0
 #endif
 #ifndef TRUE
 #define TRUE   (!FALSE)
 #endif
+
+#else
+
+#define bool_t bool
+#ifndef FALSE
+#define FALSE  false
+#endif
+#ifndef TRUE
+#define TRUE   true
+#endif
+
+#endif
+
+
 //@}
 
 /* _____MACROS_______________________________________________________________ */
@@ -185,7 +183,7 @@ typedef _Bool bool_t;
 #define LOOP_UNTIL_BIT_IS_LO(var,bit) while(BIT_IS_HI(var,bit)) {;}
 //@}
 
-///  @name Byte macros
+/// @name Byte macros
 //@{
 /// Macro to extract the high 8 bits of a 16-bit value (Most Significant Byte)
 #define U16_HI8(data) ((u8_t)((data>>8)&0xff))
@@ -193,16 +191,16 @@ typedef _Bool bool_t;
 /// Macro to extract the low 8 bits of a 16-bit value (Least Significant Byte)
 #define U16_LO8(data) ((u8_t)(data&0xff))
 
-/// Macro to extract the high 8 bits of a 32-bit value (Most Significant Byte)
+/// Macro to extract the high 8 bits (bits 31..24) of a 32-bit value
 #define U32_HI8(data) ((u8_t)((data>>24)&0xff))
 
-/// Macro to extract the medium high 8 bits (bits 23-16) of a 32-bit value
+/// Macro to extract the medium high 8 bits (bits 23..16) of a 32-bit value
 #define U32_MH8(data) ((u8_t)((data>>16)&0xff))
 
-/// Macro to extract the medium low 8 bits (bits 15-8) of a 32-bit value
+/// Macro to extract the medium low 8 bits (bits 15..8) of a 32-bit value
 #define U32_ML8(data) ((u8_t)((data>>8)&0xff))
 
-/// Macro to extract the low 8 bits of a 32-bit value (Least Significant Byte)
+/// Macro to extract the low 8 bits (bits 7..0) of a 32-bit value
 #define U32_LO8(data) ((u8_t)(data&0xff))
 //@}
 

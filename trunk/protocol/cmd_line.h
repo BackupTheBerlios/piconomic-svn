@@ -2,7 +2,7 @@
 #define __CMD_LINE_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@
 ============================================================================= */
 
 /** 
- *  @ingroup GENERAL
+ *  @ingroup PROTOCOL
  *  @defgroup CMD_LINE cmd_line.h : Command line parser
  *
  *  Implements a command line parser using the ANSI/VT100 terminal protocol.

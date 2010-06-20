@@ -2,7 +2,7 @@
 #define __ARM_DEFS_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

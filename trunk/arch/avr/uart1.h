@@ -2,7 +2,7 @@
 #define __UART1_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
  *
  *  Driver that initialises UART1 and allows buffered communication.
  *
- *  Files: uart1.h & uart1.c
+ *  Files: avr\uart1.h & avr\uart1.c
  *
  *  This is a driver for the UART1 peripheral that provides buffered serial 
  *  communication facilities. It uses two ring (circular) buffers for 

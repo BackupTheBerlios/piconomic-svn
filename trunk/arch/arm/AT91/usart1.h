@@ -2,7 +2,7 @@
 #define __USART1_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2008 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
  *
  *  Driver that initialises USART1 and allows buffered communication.
  *
- *  Files: usart1.h & usart1.c
+ *  Files: AT91\usart1.h & AT91\usart1.c
  *
  *  This is a driver for the USART1 peripheral that provides buffered serial 
  *  communication facilities. It uses two ring (circular) buffers for 
@@ -125,13 +125,12 @@ extern bool_t usart1_get_rx_byte(u8_t *data);
  *  Copy received data from ring buffer into specified buffer.
  * 
  *  @param[out] buffer          Buffer to copy received data into
- *  @param[in] bytes_to_receive   Maximum number of received bytes to copy into
- *                                 buffer
+ *  @param[in] bytes_to_receive Maximum number of received bytes to copy into buffer
  * 
  *  @return u16_t Number of received bytes copied into buffer
  */
-extern u16_t  usart1_get_rx_data(u8_t *buffer, 
-                                  u16_t bytes_to_receive);
+extern u16_t usart1_get_rx_data(u8_t *buffer, 
+                                u16_t bytes_to_receive);
 
 /** 
  *  See if transmit ring buffer can accept more data.

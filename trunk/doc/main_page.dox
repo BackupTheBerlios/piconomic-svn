@@ -1,0 +1,179 @@
+/* =============================================================================
+
+   Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+============================================================================= */
+
+/** 
+    @mainpage
+    
+    This is a collection of firmware and documentation for 8-bit and 16/32-bit 
+    microcontrollers. <br>
+  
+    @par The aim is to:
+    - Share source code, knowledge and expertise between the community of engineers, scientists and enthusiasts.
+    - Provide quick start guides and tutorials to shorten the learning curve of new microcontrollers.
+    - Provide Board Support Packages (BSPs) for rapid code development.
+    - Create unified peripheral driver APIs so that code can be re-used on different microcontrollers.
+    - Recommend good firmware development practices.
+  
+    @par Supported microcontrollers:
+    - Atmel AVR
+    - Atmel AT91SAM (ARM7TDMI and ARM926EJ-S)
+    - ST STR91x (ARM966E-S)
+    - Microchip PIC24F
+    
+    @par Quick start guides (with tutorials and examples):
+    - @ref AVR_QUICK_START_GUIDE "Atmel AVR"
+    - @ref ARM_AT91_QUICK_START_GUIDE "Atmel AT91SAM"
+    
+    @par Step by step guides:
+    - @ref BUILD_OPENOCD "How to build OpenOCD with FTDI's D2XX driver for Windows"
+  
+    @par Recommended best practices:
+    - C coding style: 
+        - @ref CODING_STYLE "The Piconomic C coding style"
+    - Doxygen as source documention tool:
+        - @ref DOXYGEN "Using Doxygen source documentation system"
+    - Subversion for revision control:
+        - @ref SUBVERSION "Using Subversion version control system"
+    - Test function for each module
+    
+    @par Feedback:
+    Please send feedback to the mailing list (piconomic-developers@lists.berlios.de)
+    to improve the quality of the library. All criticism, bug reports, patches, 
+    praise, etc. are welcome!
+    
+    @par Collaboration:
+    This library started as an attempt to share and teach, but creating and 
+    maintaining embedded firmware is not part of my job description as an 
+    electronic hardware engineer and my free time is limited. My vision is 
+    to plant the seed and for one or more embedded firmware experts to take over 
+    the project and steer it for the good of the community.
+  
+    @par Home page:
+    - http://piconomic.berlios.de 
+    
+    @par berliOS hosting page:
+    - http://developer.berlios.de/projects/piconomic/ 
+    
+    @par Download page for file releases of the library:
+    - http://developer.berlios.de/project/showfiles.php?group_id=10550
+    
+    @par Changelog / History:
+    - http://svn.berlios.de/wsvn/piconomic/?op=log&rev=0&sc=0&isdir=1
+  
+    @par Mailing list:
+    - piconomic-developers@lists.berlios.de
+    - https://lists.berlios.de/mailman/listinfo/piconomic-developers
+  
+    @par Subversion repository:
+    - svn://svn.berlios.de/piconomic/trunk
+    - http://svn.berlios.de/wsvn/piconomic/trunk/#_trunk_
+    
+    @par Wish list:
+    - Unified initialisation code, BSPs and linker scripts for ARM7/9 and Cortex microcontrollers
+    - Support for more microcontrollers: MSP430, Cortex-M3, ...
+    - Embedded graphic LCD GUI Library with font converter, bitmap/image support, graphics (lines, circles,...), LCD controller drivers, widgets, WYSIWYG Editor
+  
+    @par Author(s):
+    @htmlonly 
+    <ul>
+    <li> <img src="SouthAfrica.png" alt="South Africa - "> Pieter Conradie
+    </ul>
+    @endhtmlonly
+    
+    @htmlonly
+    <a href="http://developer.berlios.de">
+    <img src="http://developer.berlios.de/bslogo.php?group_id=10550" width="124" height="32" border="0" alt="BerliOS Logo"/></a>
+    @endhtmlonly
+ */
+  
+/** 
+    @defgroup PICONOMIC_FWLIB /piconomic_fwlib
+    
+    @defgroup ARCH /arch : Architecture (CPU) specific code
+    @ingroup PICONOMIC_FWLIB
+    
+    @defgroup ARM /arm : ARM series
+    @ingroup ARCH
+    
+    @defgroup AT91 /AT91 : Atmel AT91SAM series
+    @ingroup ARM
+    
+    @defgroup ARM_AT91_TUTORIALS /tutorials : Atmel AT91SAM tutorials
+    @ingroup AT91
+    
+    @defgroup ARM_AT91_EXAMPLES /examples : Atmel AT91SAM examples
+    @ingroup AT91
+    
+    @defgroup STR91x /STR91x : ST STR91x series
+    @ingroup ARM
+    
+    @defgroup AVR /avr : Atmel AVR series
+    @ingroup ARCH
+    
+    @defgroup AVR_BOARDS /boards : Atmel AVR boards (hardware specific definitions)
+    @ingroup AVR
+  
+    @defgroup AVR_TUTORIALS /tutorials : Atmel AVR tutorials
+    @ingroup AVR
+    
+    @defgroup AVR_EXAMPLES /examples : Atmel AVR examples
+    @ingroup AVR
+    
+    @defgroup PIC /pic : Microchip PIC series
+    @ingroup ARCH
+    
+    @defgroup PIC24F /24F : Microchip PIC24F series
+    @ingroup PIC
+    
+    @defgroup PIC24F_BOARDS /boards : Microchip PIC24F boards (hardware specific definitions)
+    @ingroup PIC24F
+    
+    @defgroup DOC /doc : Library documentation
+    @ingroup PICONOMIC_FWLIB
+    This directory contains the neccessary files to generate Doxygen
+    documentation.
+    
+    @defgroup DRIVERS /drivers : Device drivers
+    @ingroup PICONOMIC_FWLIB
+    This is a collection of drivers for external devices.
+    
+    @defgroup GENERAL /general : General utility files & modules
+    @ingroup PICONOMIC_FWLIB
+    This is a collection of general architecture independant
+    utility modules.
+    
+    @defgroup PROTOCOL /protocol : Collection of protocol related modules
+    @ingroup PICONOMIC_FWLIB
+    
+ */

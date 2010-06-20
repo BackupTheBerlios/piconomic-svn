@@ -2,7 +2,7 @@
 #define __UART0_H__
 /* =============================================================================
 
-    Copyright (c) 2006 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2006 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
  *
  *  Driver that initialises UART0 and allows buffered communication.
  *
- *  Files: uart0.h & uart0.c
+ *  Files: avr\uart0.h & avr\uart0.c
  *
  *  This is a driver for the UART0 peripheral that provides buffered serial 
  *  communication facilities. It uses two ring (circular) buffers for 

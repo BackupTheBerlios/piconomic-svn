@@ -1,8 +1,8 @@
-#ifndef __CRC16_CCITT_H__
-#define __CRC16_CCITT_H__
+#ifndef __XTEA_H__
+#define __XTEA_H__
 /* =============================================================================
 
-    Copyright (c) 2008 Pieter Conradie <pieterconradie@users.berlios.de>
+    Copyright (c) 2010 Pieter Conradie [www.piconomic.co.za]
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -32,24 +32,22 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
     
-    Title:          16-bit CRC calculator
+    Title:          XTEA (eXtended Tiny Encryption Algorithm)
     Author(s):      Pieter.Conradie
-    Creation Date:  2008/11/06
-    Revision Info:  $Id$
+    Creation Date:  2010/05/03
+    Revision Info:  $Id: $
 
 ============================================================================= */
 
 /** 
- *  @ingroup GENERAL
- *  @defgroup CRC16_CCITT crc16_ccitt.h : 16-bit CRC calculator
+ *  @ingroup PROTOCOL
+ *  @defgroup XTEA xtea.h : XTEA (eXtended Tiny Encryption Algorithm)
  *
- *  16-bit Cyclic Redundancy Check calculator for checksums.
+ *  Block cipher encryption/decryption algorithm.
  *  
- *  Files: crc16_ccitt.h & crc16_ccitt.h
+ *  Files: xtea.h & xtea.c
  *  
- *  A CRC is an error-detecting code that is used for data integrity checks.
- *  
- *  @see http://en.wikipedia.org/wiki/Cyclic_redundancy_check
+ *  @see http://en.wikipedia.org/wiki/XTEA
  *  
  *  @{
  */
@@ -60,49 +58,32 @@
 #include "common.h"
 
 /* _____DEFINITIONS _________________________________________________________ */
-/** 
- *   The generator polynomial.
- *  
- *   CRC16-CCITT: x^16 + x^12 + x^5 + x^0
- */
-#define CRC16_CCITT_POLYNOMIAL  0x8408
-
-/// Initial CRC value
-#define CRC16_CCITT_INIT_VAL    0xffff
-
-/// Magic CRC value
-#define CRC16_CCITT_MAGIC_VAL   0xf0b8
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
-/** 
- *  Initialise CRC lookup table.
+/**
+ * Initialise 128-bit key for encryption/decryption.
+ * 
+ * @param key   4 x 32-bit values
  */
-extern void  crc16_ccitt_init(void);
+extern void xtea_init(const u32_t key[4]);
 
-/** 
- * Calculate the CRC over one byte.
+/**
+ * Encrypt 64-bit data with 128-bit key.
  * 
- * @param crc       The initial CRC to start the calculation with
- * @param data      The value to calculate the CRC over
- * 
- * @return u16_t    The resultant CRC
+ * @param data  2 x 32-bit values
  */
-extern u16_t crc16_ccitt_calc_byte(u16_t crc, u8_t data);
+extern void xtea_encrypt(u32_t data[2]);
 
-/** 
- * Calculate the CRC over a number of bytes.
- * 
- * @param crc           The initial CRC to start the calculation with
- * @param data          Pointer to the data to calculate the CRC over
- * @param data_length   The amount of bytes to calculate the CRC over
- * 
- * @return u16_t        The resultant CRC over the group of bytes
+/**
+ * Decrypt 64-bit data with 128-bit key. 
+ *  
+ * @param data  2 x 32-bit values 
  */
-extern u16_t crc16_ccitt_calc_data(u16_t crc, u8_t* data, u16_t data_length);
+extern void xtea_decrypt(u32_t data[2]);
 
 /* _____MACROS_______________________________________________________________ */
 

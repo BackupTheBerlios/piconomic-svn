@@ -1,6 +1,6 @@
 /* ==========================================================================
 
-   Copyright (c) 2009 Pieter Conradie <pieterconradie@users.berlios.de>
+   Copyright (c) 2009 Pieter Conradie [www.piconomic.co.za]
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
@@ -33,29 +33,26 @@
 ========================================================================== */
 
 /**
- *  @ingroup ARM_AT91_TUTORIALS
- *  @defgroup ARM_AT91_TUT03_C_BOARD_INIT /03_C_board_init
- *  
- *  Demonstrates assembler start up code that calls a low level C hardware initialisation function.
- * 
- *  The DS1 LED output pin on PA0 is enabled.
- *  
- *  This tutorial illustrates the initial assembler start sequence during C run
- *  time initialisation. The concept of sections is introduced, which have to be
- *  organised with a linker script. Please note that the linker script is an
- *  example for this tutorial only and does not provide for all the sections of
- *  a proper C program. The linker script also assumes that the C function is
- *  compiled in ARM mode, not Thumb mode.
- *  
- *  The assembler start up code provides stack space for the low level C function,
- *  but does not clear C variables in the BSS section, or initialise C variables
- *  in the DATA section. Care must be taken in how this C function is coded,
- *  otherwise it may not function as expected.
- *  
- *  The extended assembly listing file should always be examined to verify that
- *  the code has been generated correctly.
- *  
- *  @par File: C_board_init.lss
- *  @include C_board_init.lss
- *  
+    @ingroup ARM_AT91_TUTORIALS
+    @defgroup ARM_AT91_TUT02_ASM_ADVANCED /01_Assembler_Advanced
+    
+    Demonstrates a slightly more advanced ARM assembler program for the Atmel AT91SAM7S-EK (AT91SAM7S256).
+   
+    The DS1 LED output pin on PA0 is toggled close to the maximum IO rate. This
+    tutorial builds on @ref ARM_AT91_TUT01_ASM_BASIC. It demonstrates how
+    an H file (AT91SAM7S256.h) can be included and used to define and access
+    hardware specific registers.
+    
+    The literal pool (constants) is collected at the end using the statement
+    ".ltorg" and not defined explicitely (as in @ref ARM_AT91_TUT01_ASM_BASIC).
+    
+    @par File: AsmAdvanced.S
+    @include AsmAdvanced.S
+    
+    The extended assembly listing file should always be examined to verify that
+    the code has been generated correctly.
+    
+    @par File: AsmAdvanced.lss
+    @include AsmAdvanced.lss
+    
  */
