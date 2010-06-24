@@ -45,7 +45,7 @@
  *
  *  Receive a file via the XMODEM-CRC protocol. 
  *
- *  Files: xmodem.h & xmodem.c
+ *  Files: protocol\xmodem.h & protocol\xmodem.c
  *
  *  XMODEM-CRC is a simple file transfer protocol. The file is broken up into a 
  *  series of 128-byte data packets that are sent to the receiver. The packet 
@@ -59,8 +59,6 @@
  *  - ACK (0x06) : Acknowledge 
  *  - NAK (0x15) : Not Acknowledge
  *  - EOT (0x04) : End of Transmission 
- * 
- *  A callback function must be specified to handle the received data.
  *  
  *  @see http://en.wikipedia.org/wiki/XMODEM
  *  

@@ -60,17 +60,17 @@
 #endif
 
 /* _____MACROS_______________________________________________________________ */
-#if CRC16_CCITT_USE_RAM_TABLE
+#if defined(__AVR__) && !CRC16_CCITT_USE_RAM_TABLE
 
 /// Update 16-bit CRC macro
 #define CRC16_CCITT_UPDATE(crc, data) \
-    crc = (crc >> 8) ^ crc16_ccitt_table[(crc ^ (data)) & 0xff];
+    crc = (crc >> 8) ^ pgm_read_word_near(&crc16_ccitt_table[(crc ^ (data)) & 0xff]);
 
 #else
 
 /// Update 16-bit CRC macro
 #define CRC16_CCITT_UPDATE(crc, data) \
-    crc = (crc >> 8) ^ pgm_read_word_near(&crc16_ccitt_table[(crc ^ (data)) & 0xff]);
+    crc = (crc >> 8) ^ crc16_ccitt_table[(crc ^ (data)) & 0xff];
 
 #endif
 
@@ -83,7 +83,11 @@ static u16_t crc16_ccitt_table[256];
 
 #else
 
+#ifdef __AVR__
 static prog_uint16_t crc16_ccitt_table[256] = 
+#else
+static const uint16_t crc16_ccitt_table[256] = 
+#endif
 {
       0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
       0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,

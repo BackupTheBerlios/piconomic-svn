@@ -63,7 +63,7 @@
  *
  *  For example, to transmit the following data:
  *  @code
- *         [0x01] [0x02] [0x7e]         [0x03]
+ *         [0x01] [0x02] [0x7e] [0x03]
  *  @endcode
  *  The following packet will be generated:
  *  @code
@@ -89,9 +89,6 @@
  *
  * @par Reference:
  *  - <a href="http://tools.ietf.org/html/rfc1662">RFC 1662 "PPP in HDLC-like Framing"</a>
- * 
- * @note  This module is dependant on @ref UART1. This is very easy to change 
- *        in hdlc.c
  *  
  *  @par Example:
  *  @include hdlc_test.c
@@ -112,6 +109,12 @@
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
 /**
+ * Definition for a pointer to a function that will be called to 
+ * send a character
+ */
+typedef void (*hdlc_put_char_t)(char data);
+
+/**
  * Definition for a pointer to a function that will be called once a frame 
  * has been received.
  */
@@ -123,10 +126,13 @@ typedef void (*hdlc_on_rx_frame_t)(const u8_t *buffer, u16_t bytes_received);
 /**
  *  Initialise HDLC encapsulation layer.
  * 
+ * @param[in] put_char      Pointer to a function that will be called to 
+ *                          send a character.
  * @param[in] on_rx_frame   Pointer to function that is called when a correct 
  *                          frame is received.
  */
-extern void hdlc_init(hdlc_on_rx_frame_t on_rx_frame);
+extern void hdlc_init(hdlc_put_char_t    put_char,
+                      hdlc_on_rx_frame_t on_rx_frame);
 
 /**
  *  Function handler that is fed all raw received data.

@@ -404,7 +404,7 @@ u8_t uart0_tx_data(const u8_t* data, u8_t bytes_to_send)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

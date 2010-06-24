@@ -54,6 +54,9 @@ static u8_t   hdlc_rx_frame_index;
 static u16_t  hdlc_rx_frame_fcs;
 static bool_t hdlc_rx_char_esc;
 
+/// Pointer to the function that will be called to send a character
+static hdlc_put_char_t    hdlc_put_char;
+
 /// Pointer to the function that will be called to handle a received HDLC frame
 static hdlc_on_rx_frame_t hdlc_on_rx_frame;
 
@@ -65,18 +68,16 @@ static hdlc_on_rx_frame_t hdlc_on_rx_frame;
 /// Function to send a byte
 static void hdlc_tx_byte(u8_t data)
 {
-    while(!uart1_tx_byte(data))
-    {
-        ;
-    }
+    (*hdlc_put_char)(data);
 }
 /* _____FUNCTIONS_____________________________________________________ */
-void hdlc_init(hdlc_on_rx_frame_t on_rx_frame)
+void hdlc_init(hdlc_put_char_t    put_char,
+               hdlc_on_rx_frame_t on_rx_frame)
 {
     hdlc_rx_frame_index = 0;
     hdlc_rx_frame_fcs   = HDLC_INITFCS;
     hdlc_rx_char_esc    = FALSE;
-
+    hdlc_put_char       = put_char;
     hdlc_on_rx_frame    = on_rx_frame;
 }
 
@@ -194,7 +195,7 @@ void hdlc_tx_frame(const u8_t *buffer, u8_t bytes_to_send)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

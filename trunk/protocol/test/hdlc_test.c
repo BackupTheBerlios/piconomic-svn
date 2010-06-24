@@ -5,6 +5,14 @@
 #include "uart0.h"
 #include "uart1.h"
 
+static void rs485_put_char(char data)
+{
+    while(!uart1_tx_byte((u8_t)data))
+    {
+        ;
+    }
+}
+
 void hdlc_on_rx_frame(u8_t* buffer, u16_t bytes_received)
 {
     PRINTF("\nHDLC RX [%d]: ", bytes_received);
@@ -31,7 +39,7 @@ void hdlc_test(void)
     uart0_init();
     uart1_init();
     printf_init();
-    hdlc_init(&hdlc_on_rx_frame);
+    hdlc_init(&rs485_put_char, &hdlc_on_rx_frame);
 
     // Enable global interrupts
     sei();

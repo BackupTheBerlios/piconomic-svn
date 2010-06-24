@@ -121,7 +121,7 @@ u32_t adc_get_samples(const u8_t channel, u8_t nr_of_samples)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

@@ -102,7 +102,7 @@ void tmr_poll_wait(u16_t start_val)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

@@ -129,7 +129,7 @@ bool_t uart_poll_rx_data_available(void)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

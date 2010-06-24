@@ -55,9 +55,10 @@ void cmd_line_test(void)
     // Initialise command line parser and VT100 terminal helper
 	vt100_init(&main_put_char);
     cmd_line_init(&main_put_char);
-    cmd_line_add(&cmd_line_led,"led",&cmd_line_handler_led,"display status of led");
-    cmd_line_add_child(&cmd_line_led,&cmd_line_led_on,"on",&cmd_line_handler_led_on,"switch led on");
-    cmd_line_add_child(&cmd_line_led,&cmd_line_led_off,"off",&cmd_line_handler_led_off,"switch led off");
+
+    cmd_line_add      (&cmd_line_led,                  "led",&cmd_line_handler_led,    "display status of led");
+    cmd_line_add_child(&cmd_line_led,&cmd_line_led_on, "on", &cmd_line_handler_led_on, "switch led on"        );
+    cmd_line_add_child(&cmd_line_led,&cmd_line_led_off,"off",&cmd_line_handler_led_off,"switch led off"       );
 
     PRINTF("\nCommand Line test\n\n");
 

@@ -189,7 +189,7 @@ void rtc_set_time(const rtc_time_t* time)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

@@ -298,7 +298,7 @@ bool_t xmodem_rx_file(xmodem_on_rx_data_t on_rx_data)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

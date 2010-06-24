@@ -47,7 +47,7 @@
  *  
  *  Files: nmea.h & nmea.c
  *  
- *  @see http://en.wikipedia.org/wiki/NMEA
+ *  @see http://en.wikipedia.org/wiki/NMEA_0183
  *  
  *  @{
  */
@@ -114,12 +114,35 @@ typedef struct
 extern nmea_data_t nmea_data;
 
 /* _____GLOBAL FUNCTION DECLARATIONS_________________________________________ */
+/**
+ * Initialise NMEA parser module
+ * 
+ * @param tx_byte           Pointer to a function that will be called to 
+ *                          transmit a byte.
+ * @param on_valid_str      Pointer to a function that will be called when a 
+ *                          valid NMEA string has been received.
+ * @param on_valid_gps_data Pointer to a function that will be called when the 
+ *                          data structure has been completely polulated with
+ *                          valid data.
+ */
 extern void nmea_init      (nmea_tx_byte_t           tx_byte,
                             nmea_on_valid_str_t      on_valid_str,
                             nmea_on_valid_gps_data_t on_valid_gps_data);
 
+/**
+ *  Function handler that is fed all raw received data.
+ * 
+ *  @param[in] data     received 8-bit data
+ * 
+ */
 extern void nmea_on_rx_byte(u8_t data);
-extern void nmea_tx_frame  (char* frame);
+
+/**
+ * Function that is called to send an NMEA frame with the checksum appended.
+ * 
+ * @param frame     Pointer to zero terminated string.
+ */
+extern void nmea_tx_frame(char* frame);
 
 /* _____MACROS_______________________________________________________________ */
 

@@ -264,7 +264,7 @@ bool_t m41t00_set_time(const m41t00_time_t* rtc_time)
 /* _____LOG__________________________________________________________________ */
 /*
 
- 2007-03-31 : PJC
+ 2007-03-31 : Pieter Conradie
  - First release
    
 */

@@ -65,29 +65,29 @@
 /* _____DEFINITIONS _________________________________________________________ */
 
 /* _____TYPE DEFINITIONS_____________________________________________________ */
-/*
+/**
  * Definition for a pointer to a function that will be called to 
  * handle a command
  */
 typedef const char* (*cmd_line_handler_t)(int argc, char* argv[]);
 
-/*
+/**
  * Definition for a pointer to a function that will be called to 
  * send a character
  */
 typedef void (*cmd_line_put_char_t)(char data);
 
-/*
+/**
  * Definition of a command handler structure
  */
 typedef struct cmd_line_s
 {
-    const char*        name;
-    cmd_line_handler_t handler;
-    const char*        help;
-    struct cmd_line_s  *next_cmd;
-    struct cmd_line_s  *parent_cmd;
-    struct cmd_line_s  *child_cmd;
+    const char*        name;        ///< Command name
+    cmd_line_handler_t handler;     ///< Function to be called when command is invoked
+    const char*        help;        ///< Help string to be displayed when 'help' is invoked
+    struct cmd_line_s  *next_cmd;   ///< Linked list to next command structure
+    struct cmd_line_s  *parent_cmd; ///< Link to parent command
+    struct cmd_line_s  *child_cmd;  ///< Link to child command
 } cmd_line_t;
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

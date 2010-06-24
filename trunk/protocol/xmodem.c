@@ -56,11 +56,11 @@
 
 /// \name XMODEM flow control characters
 //@{
-#define XMODEM_SOH               0x01 // Start of Header
-#define XMODEM_EOT               0x04 // End of Transmission 
-#define XMODEM_ACK               0x06 // Acknowledge 
-#define XMODEM_NAK               0x15 // Not Acknowledge 
-#define XMODEM_C                 0x43 // ASCII “C”
+#define XMODEM_SOH               0x01 ///< Start of Header
+#define XMODEM_EOT               0x04 ///< End of Transmission 
+#define XMODEM_ACK               0x06 ///< Acknowledge 
+#define XMODEM_NAK               0x15 ///< Not Acknowledge 
+#define XMODEM_C                 0x43 ///< ASCII “C”
 //@}
 
 /// XMODEM error list
